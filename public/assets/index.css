@@ -174,11 +174,6 @@ nav .profile-details .admin_name{
     margin: 0 10px;
     white-space: nowrap;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> reservation-try
 
 .user_top
 {
@@ -202,12 +197,6 @@ nav .profile-details .admin_name{
     object-fit: cover;
 
 }
-<<<<<<< HEAD
->>>>>>> reservation-try
-=======
-=======
->>>>>>> forgot-try
->>>>>>> reservation-try
 nav .profile-details i{
     font-size: 25px;
     color: #333;
@@ -377,18 +366,7 @@ nav .profile-details i{
     text-decoration: none;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-.home-content .content-box .box1 .header .add-new-item2{
-=======
 /* .home-content .content-box .box1 .header .add-new-item2{
->>>>>>> reservation-try
-=======
-/* .home-content .content-box .box1 .header .add-new-item2{
-=======
-.home-content .content-box .box1 .header .add-new-item2{
->>>>>>> forgot-try
->>>>>>> reservation-try
 
     background-color: #0A2558;
     color: white;
@@ -399,18 +377,7 @@ nav .profile-details i{
     cursor: pointer;
     float: right;
     text-decoration: none;
-<<<<<<< HEAD
-<<<<<<< HEAD
-}
-=======
 } */
->>>>>>> reservation-try
-=======
-} */
-=======
-}
->>>>>>> forgot-try
->>>>>>> reservation-try
 
 .home-content .content-box .details{
     display: flex;
@@ -556,11 +523,6 @@ nav .profile-details i{
     text-align: center;
 
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> reservation-try
 
 
 
@@ -1204,12 +1166,6 @@ a{
 {
     margin-top: 15px;
 } */
-<<<<<<< HEAD
->>>>>>> reservation-try
-=======
-=======
->>>>>>> forgot-try
->>>>>>> reservation-try
 /* Responsive Media Query */
 @media (max-width: 1240px) {
     .sidebar{
