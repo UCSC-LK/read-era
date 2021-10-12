@@ -1,6 +1,6 @@
 <?php
 session_start();
 
-require("../private/core/autoload.php");
+require("../app/core/autoload.php");
 
 $app = new App();
