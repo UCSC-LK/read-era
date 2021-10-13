@@ -11,7 +11,7 @@ Class Patrons extends Controller
         {
             $this->redirect('landing');
         }
-        $patron = new Patron();
+        $patron = new User();
         $data = $patron ->findAll();
 
         $crumbs[] = ['Dashboard',''];
@@ -34,7 +34,7 @@ Class Patrons extends Controller
 
         if(count($_POST) > 0)
         {
-            $patron = new Patron();
+            $patron = new User();
             if($patron->validate($_POST))
             {
 
@@ -134,7 +134,7 @@ Class Patrons extends Controller
         {
             $this->redirect('landing');
         }
-        $patron = new Patron();
+        $patron = new User();
         $errors = array();
         if(count($_POST) > 0)
         {
@@ -169,7 +169,7 @@ Class Patrons extends Controller
         {
             $this->redirect('landing');
         }
-        $patron = new Patron();
+        $patron = new User();
         $errors = array();
         if(count($_POST) > 0)
         {
@@ -194,7 +194,7 @@ Class Patrons extends Controller
         {
             $this->redirect('landing');
         }
-        $patron = new Patron();
+        $patron = new User();
 
         $data = $patron->where('id',$id);
 
