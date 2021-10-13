@@ -90,15 +90,16 @@ Class Patrons extends Controller
                     // Parse data from CSV file line by line
                     while(($line = fgetcsv($csvFile)) !== FALSE){
                         // Get row data
-                        $patron = new Patron();
+                        $patron = new User();
                         $data['firstname']= $line[0];
-                        $data['middlename']= $line[1];
-                        $data['lastname']= $line[2];
-                        $data['email']= $line[3];
-                        $data['nic']= $line[4];
-                        $data['phone_num']= $line[5];
-                        $data['gender']= $line[6];
-                        $data['rank']= $line[7];
+                        //$data['middlename']= $line[1];
+                        $data['lastname']= $line[1];
+                        $data['email']= $line[2];
+                        //$data['nic']= $line[4];
+                        //$data['phone_num']= $line[5];
+                        $data['gender']= $line[3];
+                        $data['rank']= $line[4];
+                        $data['password']= $line[5];
                         $data['date']= date("Y-m-d H:i:s");
 
                         $patron->insert($data);
