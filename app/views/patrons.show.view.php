@@ -16,10 +16,10 @@
                             <th>First Name: </th>
                             <td><?=$row->firstname?></td>
                         </tr>
-                        <tr>
+                        <!--<tr>
                             <th>Middle Name: </th>
                             <td><?=$row->middlename?></td>
-                        </tr>
+                        </tr>-->
                         <tr>
                             <th>Last Name: </th>
                             <td><?=$row->lastname?></td>
@@ -33,14 +33,14 @@
                             <th>Rank: </th>
                             <td><?=$row->rank?></td>
                         </tr>
-                        <tr>
+                        <!--<tr>
                             <th>NIC: </th>
                             <td><?=$row->nic?></td>
                         </tr>
                         <tr>
                             <th>Phone Number: </th>
                             <td><?=$row->phone_num?></td>
-                        </tr>
+                        </tr>-->
                         <tr>
                             <th>Gender: </th>
                             <td><?=$row->gender?></td>

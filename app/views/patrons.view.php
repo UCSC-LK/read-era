@@ -8,10 +8,6 @@
                 <div class="right-side">
                     <div class="box-topic">Total Members</div>
                     <div class="number">1500</div>
-                    <div class="indicator">
-                        <i class='bx bx-up-arrow-alt'></i>
-                        <span class="text">Up from yesterday</span>
-                    </div>
                 </div>
                 <i class="fas fa-user cart two"></i>
             </div>
@@ -19,10 +15,6 @@
                 <div class="right-side">
                     <div class="box-topic">Total Library Staff</div>
                     <div class="number">10</div>
-                    <div class="indicator">
-                        <i class='bx bx-up-arrow-alt'></i>
-                        <span class="text">Up from yesterday</span>
-                    </div>
                 </div>
                 <i class="fas fa-user cart two"></i>
             </div>
@@ -30,10 +22,6 @@
                 <div class="right-side">
                     <div class="box-topic">Academic Staff</div>
                     <div class="number">100</div>
-                    <div class="indicator">
-                        <i class='bx bx-up-arrow-alt'></i>
-                        <span class="text">Up from yesterday</span>
-                    </div>
                 </div>
                 <i class="fas fa-user cart two"></i>
 
@@ -42,10 +30,6 @@
                 <div class="right-side">
                     <div class="box-topic">Undergraduates</div>
                     <div class="number">1000</div>
-                    <div class="indicator">
-                        <i class='bx bx-down-arrow-alt down'></i>
-                        <span class="text">Down From Today</span>
-                    </div>
                 </div>
                 <i class="fas fa-user cart two"></i>
             </div>
@@ -54,10 +38,6 @@
                 <div class="right-side">
                     <div class="box-topic">Postgraduates</div>
                     <div class="number">100</div>
-                    <div class="indicator">
-                        <i class='bx bx-down-arrow-alt down'></i>
-                        <span class="text">Down From Today</span>
-                    </div>
                 </div>
                 <i class="fas fa-user cart two"></i>
             </div>
@@ -69,7 +49,7 @@
                     <div class="title">Recent Details</div>
                     <div>
                     <a class="add-new-item1" href="<?=ROOT?>/patrons/add"><i class="fa fa-plus"></i> Add New Member</a>
-                    <a class="add-new-item1" href="<?=ROOT?>/patrons/csv"><i class="fa fa-plus"></i> CSV import</a>
+                    <a class="add-new-item1" href="<?=ROOT?>/patrons/csv"><i class="fa fa-plus"></i> CSV Import</a>
                     </div>
                 </div>
                 <form class="search-form">
@@ -81,7 +61,7 @@
 
                 
                     <table class="table table-striped table-hover">
-                        <tr><th>Patron Name</th><th>NIC Number</th><th>Email Address</th><th>Rank</th><th>Date</th>
+                        <tr><th>Patron Name</th><!--<th>NIC Number</th>--><th>Email Address</th><th>Rank</th><th>Date</th>
                             <th>
                                Actions
                             </th>
@@ -89,8 +69,8 @@
 
                         <?php if($rows):?>
                             <?php foreach ($rows as $row):?>
-                                <tr><td><?=$row->firstname?> <?=$row->middlename?>. <?=$row->lastname?>
-                                    <td><?=$row->nic?></td>
+                                <tr><td><?=$row->firstname?> <?=$row->lastname?>
+                                    <!--<td><?=$row->nic?></td>-->
                                     <td><?=$row->email?></td>
                                     <td><?=$row->rank?></td>
                                     <td><?=get_date($row->date)?></td>
