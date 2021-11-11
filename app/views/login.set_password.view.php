@@ -30,7 +30,7 @@
 
 <section class="main">
 
-  <div class="maind">
+  <div class="maindd">
     <p class="sign" align="center">Create New Password</p>
     <form class="form1" method="post">
     <span style="font-size: 12px;color:red;padding-left:47px;">

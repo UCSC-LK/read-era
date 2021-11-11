@@ -16,8 +16,7 @@ Class Profile extends Controller
         
         $data = $user->where('id',$id);
         $data = $data[0];
-        $crumbs[] = ['Dashboard',''];
-        $crumbs[] = ['Profile','profile'];
+        $crumbs[] = ['Profile',''];
 
         $this->view('profile',[
             'row'=>$data,
@@ -99,8 +98,7 @@ Class Profile extends Controller
           
         }
 
-        $crumbs[] = ['Dashboard',''];
-        $crumbs[] = ['Profile','profile'];
+        $crumbs[] = ['Profile',''];
         $crumbs[] = ['Edit','profile/edit'];
 
         //$data = $school ->findAll();
@@ -109,5 +107,56 @@ Class Profile extends Controller
             'errors'=>$errors,
             'crumbs'=>$crumbs,
         ]);
+    }
+
+    public function progress()
+    {
+        if(!Auth::logged_in())
+        {
+            $this->redirect('landing');
+        }
+
+
+        $user = new User();
+        $reservation = new Reservation();
+        $circulation = new Circulation();
+        $book = new Catalog();
+        $id = Auth::id();
+        $data1 = $reservation->query("select * from reservations where member_id=$id && state='reserved'");
+        if($data1)
+        {
+            foreach ($data1 as $row){
+                $bookid = $row->book_id;
+                $bookname = $book->query("select title from catalogs where id=$bookid");
+                $bookname = $bookname[0];
+                $row->book_id= $bookname->title;
+    
+            }
+
+        }
+    
+        
+        $data2 = $circulation->query("select * from circulations where member_id=$id");
+        if($data2)
+        {
+            foreach ($data2 as $row){
+                $bookid = $row->book_id;
+                $bookname = $book->query("select title from catalogs where id=$bookid");
+                $bookname = $bookname[0];
+                $row->book_id= $bookname->title;
+    
+            }
+
+        }
+      
+        $crumbs[] = ['Profile',''];
+        $crumbs[] = ['Progress','profile/progress'];
+
+        $this->view('profile.progress',[
+            'row1'=>$data1,
+            'row2'=>$data2,
+            'crumbs'=>$crumbs,
+        ]);
+
     }
 }

@@ -58,16 +58,19 @@
              
              <select class="un1" name="gender">
                  <option class="items" <?=get_select('gender','')?> value="">--Select a Gender--</option>
-                 <option class="items" <?=get_select('gender','male')?> value="male">Male</option>
-                 <option class="items" <?=get_select('gender','female')?> value="female">Female</option>
+                 <option class="items" <?=get_select('gender','Male')?> value="Male">Male</option>
+                 <option class="items" <?=get_select('gender','Female')?> value="Female">Female</option>
              </select>
              <select class="un1" name="rank">
                  <option class="items" <?=get_select('rank','')?> value="">--Select a Rank--</option>
-                 <option class="items" <?=get_select('rank','student')?> value="student">Student</option>
-                 <option class="items" <?=get_select('rank','lecturer')?> value="lecturer">Lecturer</option>
-                 <option class="items" <?=get_select('rank','librarian')?> value="librarian">Librarian</option>
-
-                 
+                 <option class="items" <?=get_select('rank','Senior Lecture')?> value="Senior Lecturer">Senior Lecturer</option>
+                <option class="items" <?=get_select('rank','Lecture')?> value="Lecturer">Lecturer</option>
+                <option class="items" <?=get_select('rank','Assistant Lecturer')?> value="Assistant Lecturer">Assistant Lecturer</option>
+                <option class="items" <?=get_select('rank','Instructor')?> value="Instructor">Instructor</option>
+                <option class="items" <?=get_select('rank','Undergraduate')?> value="Undergraduate">Undergraduate</option>
+                <option class="items" <?=get_select('rank','Postgraduate')?> value="Postgraduate">Postgraduate</option>
+                <option class="items" <?=get_select('rank','Non Academic')?> value="Non Academic">Non Academic</option>
+  
 
              </select>
             

@@ -224,6 +224,7 @@ nav .profile-details i{
     border-radius: 12px;
     box-shadow: 0 5px 10px rgba(0,0,0,0.1);
 }
+
 .home-content .overview-boxes2{
     display: flex;
     align-items: center;
@@ -242,9 +243,11 @@ nav .profile-details i{
     border-radius: 12px;
     box-shadow: 0 5px 10px rgba(0,0,0,0.1);
 }
+
 .overview-boxes .box-topic{
     font-size: 20px;
     font-weight: 500;
+    margin-right: 10px;
 }
 .home-content .box .number{
     display: inline-block;
@@ -735,10 +738,15 @@ button.cta:hover {
 }
 
 .user_img1{
+   
     height: 200px;
-    width: 40%;
+    width: 35%;
     margin-left: auto;
     margin-right: auto;
+    
+    border: solid thin rgb(3, 3, 3);
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
     margin-bottom: 50px;
 
 }
@@ -804,10 +812,40 @@ button.cta:hover {
     cursor: pointer;
     float: right;
     margin-top: 20px;
+    margin-left:20px;
+    text-decoration: none;
+}
+
+.generate_button{
+    background-color: #0A2558;
+    color: white;
+    font-size: 15px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+    margin-top: 20px;
+    margin-left:20px;
     text-decoration: none;
 }
 
 
+.crumbs
+{
+    padding-left: 20px;
+}
+
+.crumb_name{
+    color:#010307;
+}
+
+.crumb_last{
+    color:#010307;
+    font-size: 20px;
+
+
+}
 
 
 
@@ -975,6 +1013,17 @@ button.cta:hover {
     border-radius: 1.5em;
     box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
 }
+
+.maindd {
+    background-color: #0A2558;
+    width: 410px;
+    margin: 7em auto;
+    border-radius: 1.5em;
+    height: 520px;
+    box-shadow: 0px 11px 35px 2px rgba(0, 0, 0, 0.14);
+}
+
+
 .mains {
     background-color: #0A2558;
     width: 450px;
@@ -1259,3 +1308,80 @@ th, td {
 tr:nth-child(even) {
     background-color: #f2f2f2;
 }
+
+
+.cancel1{
+    background-color: #0A2558;
+    color: white;
+    font-size: 15px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+    margin-top: 20px;
+   
+    text-decoration: none;
+
+}
+
+
+
+.carta{
+    display: inline-block;
+    font-size: 20px;
+    height: 30px;
+    width: 30px;
+    background: #cce5ff;
+    line-height: 30px;
+    text-align: center;
+    color: #66b0ff;
+    border-radius: 12px;
+    margin: -15px 0 0 6px;
+    align-items: center;
+}
+.carta.two{
+    color: #2BD47D;
+    background: #C0F2D8;
+}
+.carta.three{
+    color: #ffc233;
+    background: #ffe8b3;
+}
+.carta.four{
+    color: #e05260;
+    background: #f7d4d7;
+}
+
+.profile_table
+{
+    margin-left: 30px;
+}
+
+@page { size: auto;  margin: 0mm; } /*this is for avoid the title when print or download page */
+
+
+.pagination {
+    display: inline-block;
+  }
+  
+  .pagination a {
+    border: 1px solid #ddd; 
+    border-radius: 5px;
+
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+  }
+  
+  .pagination a.active {
+    background-color: #2b60f3;
+    color: white;
+    border-radius: 5px;
+  }
+  
+  .pagination a:hover:not(.active) {
+    background-color: #ddd;
+    border-radius: 5px;
+  }

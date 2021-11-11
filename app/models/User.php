@@ -14,7 +14,6 @@ class User extends Model
     ];
 
     protected $beforeInsert = [
-        'make_user_id',
         
         'hash_password'
     ];
@@ -52,13 +51,13 @@ class User extends Model
         }
  
  
-        $genders  = ['female', 'male'];
+        $genders  = ['Female', 'Male'];
         if(empty($DATA['gender']) || !in_array($DATA['gender'], $genders))
         {
             $this->errors['gender'] = " Gender is not valid";
         }
 
-        $ranks  = ['student', 'librarian', 'lecturer', 'admin', 'super_admin'];
+        $ranks  = ['Undergraduate', 'Postgraduate', 'Senior Lecturer','Lecturer', 'Assistant Lecturer','Instructor','Non Academic'];
         if(empty($DATA['rank']) || !in_array($DATA['rank'], $ranks))
         {
             $this->errors['rank'] = " Rank is not valid";
@@ -85,6 +84,160 @@ class User extends Model
         return false;
     }
 
+
+    public function validate2($DATA)
+    {
+        $this->errors=array();
+        if(empty($DATA['firstname']) || !preg_match('/^[a-zA-Z]+$/', $DATA['firstname']))
+        {
+            $this->errors['firstname'] = "Only letters allowed in firstname";
+        }
+
+        // if($flag==1)
+        // {
+        //     $this->errors['firstname'] = "Your firstname is not matching";
+
+
+        // }
+
+        if(empty($DATA['lastname']) || !preg_match('/^[a-zA-Z]+$/', $DATA['lastname']))
+        {
+            $this->errors['lastname'] = " Only letters allowed in lastname";
+        }
+
+       
+ 
+ 
+        $genders  = ['Female', 'Male'];
+        if(empty($DATA['gender']) || !in_array($DATA['gender'], $genders))
+        {
+            $this->errors['gender'] = " Gender is not valid";
+        }
+
+        $ranks  = ['Undergraduate', 'Postgraduate', 'Senior Lecturer','Lecturer', 'Assistant Lecturer','Instructor','Non Academic'];
+        if(empty($DATA['rank']) || !in_array($DATA['rank'], $ranks))
+        {
+            $this->errors['rank'] = " Rank is not valid";
+        }
+
+
+        //check the password
+    
+        
+
+        if(count($this->errors) == 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
+
+    public function validate3($DATA)
+    {
+        $this->errors=array();
+        if(empty($DATA['firstname']) || !preg_match('/^[a-zA-Z]+$/', $DATA['firstname']))
+        {
+            $this->errors['firstname'] = "Only letters allowed in firstname";
+        }
+
+        // if($flag==1)
+        // {
+        //     $this->errors['firstname'] = "Your firstname is not matching";
+
+
+        // }
+
+        if(empty($DATA['lastname']) || !preg_match('/^[a-zA-Z]+$/', $DATA['lastname']))
+        {
+            $this->errors['lastname'] = " Only letters allowed in lastname";
+        }
+
+        if(empty($DATA['email']) || !filter_var($DATA['email'],FILTER_VALIDATE_EMAIL))
+        {
+            $this->errors['email'] = " The email is not valid";
+        }
+
+        if($this->where('email',$DATA['email']))
+        {
+            $this->errors['email'] = " That email is already in use";
+        }
+
+       
+ 
+ 
+        $genders  = ['Female', 'Male'];
+        if(empty($DATA['gender']) || !in_array($DATA['gender'], $genders))
+        {
+            $this->errors['gender'] = " Gender is not valid";
+        }
+
+        $ranks  = ['Librarian','Library Staff'];
+        if(empty($DATA['rank']) || !in_array($DATA['rank'], $ranks))
+        {
+            $this->errors['rank'] = " Rank is not valid";
+        }
+
+
+        //check the password
+    
+        
+
+        if(count($this->errors) == 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public function validate4($DATA)
+    {
+        $this->errors=array();
+        if(empty($DATA['firstname']) || !preg_match('/^[a-zA-Z]+$/', $DATA['firstname']))
+        {
+            $this->errors['firstname'] = "Only letters allowed in firstname";
+        }
+
+        // if($flag==1)
+        // {
+        //     $this->errors['firstname'] = "Your firstname is not matching";
+
+
+        // }
+
+        if(empty($DATA['lastname']) || !preg_match('/^[a-zA-Z]+$/', $DATA['lastname']))
+        {
+            $this->errors['lastname'] = " Only letters allowed in lastname";
+        }
+
+       
+ 
+ 
+        $genders  = ['Female', 'Male'];
+        if(empty($DATA['gender']) || !in_array($DATA['gender'], $genders))
+        {
+            $this->errors['gender'] = " Gender is not valid";
+        }
+
+        $ranks  = ['Librarian','Library Staff'];
+        if(empty($DATA['rank']) || !in_array($DATA['rank'], $ranks))
+        {
+            $this->errors['rank'] = " Rank is not valid";
+        }
+
+
+        //check the password
+    
+        
+
+        if(count($this->errors) == 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
+
     public function validate_pass($DATA){
         if(empty($DATA['password']) || $DATA['password'] != $DATA['password2'])
         {
@@ -110,12 +263,12 @@ class User extends Model
 
 
 
-    public function make_user_id($data)
-    {
-        $data['user_id'] = random_string(60);
-        return $data;
+    // public function make_user_id($data)
+    // {
+    //     $data['user_id'] = random_string(60);
+    //     return $data;
 
-    }
+    // }
 
    
 

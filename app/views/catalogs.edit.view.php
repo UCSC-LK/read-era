@@ -6,6 +6,22 @@
 
 
 <div class="home-content">
+<div class="crumbs">
+                
+                <?php if(isset($crumbs)):?>
+                <?php $length = count($crumbs);$x=1?>
+                <?php foreach ($crumbs as $crumb):?>
+                    <?php if($x==$length):?>
+                        <a class="crumb_last" href="<?=$crumb[1]?>"><?=$crumb[0]?></a>
+                    <?php else:?>
+                        <a class="crumb_name" href="<?=$crumb[1]?>"><?=$crumb[0]?>/</a>
+                    <?php endif;$x++;?>
+                    
+                <?php endforeach;?>
+                <?php endif;?>
+                
+            </div>
+
 
     <div class="content-box">
         <div class="box1 box">
@@ -17,9 +33,9 @@
             <form method="post">
                 <?php if(count($errors) > 0):?>
                 <div class="alert alert-warning alert-dismissible fade show p-1" role="alert">
-                    <strong>Errors</strong>
+                    <strong style="color:red;">Errors</strong>
                     <?php foreach($errors as $error):?>
-                        <br><?=$error?>
+                        <div style="color:red;"><?=$error?></div>
                     <?php endforeach;?>
                     
                 </div>
@@ -47,10 +63,15 @@
 
                 <div class="row">
                 <div class="col-25">
-                    <label for="fname">LanguageCode</label>
+                    <label for="fname">Language Code</label>
                 </div>
                 <div class="col-75">
-                <input autofocus class="form-control" value="<?=get_var('LanguageCode',$row[0]->LanguageCode)?>" type="text" name="LanguageCode" placeholder="LanguageCode"><br><br>
+                         <select class="my-2 form-control" name="LanguageCode">
+                            <option class="items" <?=get_select('LanguageCode','')?> value="<?=get_var('LanguageCode',$row[0]->LanguageCode)?>"><?=get_var('LanguageCode',$row[0]->LanguageCode)?></option>
+                            <option class="items" <?=get_select('LanguageCode','eng')?> value="eng">eng</option>
+                            <option class="items" <?=get_select('LanguageCode','snh')?> value="snh">snh</option>
+                            <option class="items" <?=get_select('LanguageCode','tam')?> value="tam">tam</option>
+                        </select>
                 </div>
                 <div class="col-25">
                     <label for="">Author</label>
@@ -73,7 +94,7 @@
                     <label for="">Sub Title</label>
                 </div>
                 <div class="col-75">
-                <input autofocus class="form-control" value="<?=get_var('SubTitle',$row[0]->SubTitle)?>" type="text" name="SubTitle" placeholder="SubTitle"><br><br>
+                <input autofocus class="form-control" value="<?=get_var('SubTitle',$row[0]->SubTitle)?>" type="text" name="SubTitle" placeholder="Subtitle"><br><br>
                 </div>
                 </div>
 
@@ -93,7 +114,7 @@
                     <label for="">Name of Publication</label>
                 </div>
                 <div class="col-75">
-                <input autofocus class="form-control" value="<?=get_var('NameOfPublisher',$row[0]->NameOfPublisher)?>" type="text" name="NameOfPublisher" placeholder="NameOfPublisher"><br><br>
+                <input autofocus class="form-control" value="<?=get_var('NameOfPublisher',$row[0]->NameOfPublisher)?>" type="text" name="NameOfPublisher" placeholder="Name of publisher"><br><br>
 
                 </div>
                 </div>
@@ -103,14 +124,14 @@
                     <label for="">Place of Publication</label>
                 </div>
                 <div class="col-75">
-                <input autofocus class="form-control" value="<?=get_var('PlaceOfPublication',$row[0]->PlaceOfPublication)?>" type="text" name="PlaceOfPublication" placeholder="PlaceOfPublication"><br><br>
+                <input autofocus class="form-control" value="<?=get_var('PlaceOfPublication',$row[0]->PlaceOfPublication)?>" type="text" name="PlaceOfPublication" placeholder="Place of publication"><br><br>
                 </div>
 
                 <div class="col-25">
                     <label for="">Year of Publication</label>
                 </div>
                 <div class="col-75">
-                <input autofocus class="form-control" value="<?=get_var('YearOfPublication',$row[0]->YearOfPublication)?>" type="text" name="YearOfPublication" placeholder="YearOfPublication"><br><br>
+                <input autofocus class="form-control" value="<?=get_var('YearOfPublication',$row[0]->YearOfPublication)?>" type="text" name="YearOfPublication" placeholder="Year of Publication"><br><br>
 
                 </div>
                 </div>
@@ -125,10 +146,10 @@
                 </div>
 
                 <div class="col-25">
-                    <label for="">General Code</label>
+                    <label for="">General Note</label>
                 </div>
                 <div class="col-75">
-                <input autofocus class="form-control" value="<?=get_var('GeneralNote',$row[0]->GeneralNote)?>" type="text" name="GeneralNote" placeholder="GeneralNote"><br><br>
+                <input autofocus class="form-control" value="<?=get_var('GeneralNote',$row[0]->GeneralNote)?>" type="text" name="GeneralNote" placeholder="General Note"><br><br>
 
 
                 </div>
@@ -158,7 +179,7 @@
                     <label for="">Added Entry</label>
                 </div>
                 <div class="col-75">
-                <input autofocus class="form-control" value="<?=get_var('AddedEntry',$row[0]->AddedEntry)?>" type="text" name="AddedEntry" placeholder="AddedEntry"><br><br>
+                <input autofocus class="form-control" value="<?=get_var('AddedEntry',$row[0]->AddedEntry)?>" type="text" name="AddedEntry" placeholder="Added Entry"><br><br>
 
                 </div>
 
@@ -173,10 +194,40 @@
 
                 <div class="row">
                 <div class="col-25">
+                    <label for="">Type</label>
+                </div>
+                <div class="col-75">
+                    <select class="my-2 form-control" name="Type">
+                        <option class="items" <?=get_select('Type','')?> value="<?=get_var('Type',$row[0]->Type)?>"><?=get_var('Type',$row[0]->Type)?></option>
+                        <option class="items" <?=get_select('Type','Textbook')?> value="Textbook">Text book</option>
+                        <option class="items" <?=get_select('Type','CD/DVD')?> value="CD/DVD">CD/DVD</option>
+                        <option class="items" <?=get_select('Type','Magazine')?> value="Magazine">Magazine</option>
+                    </select><br><br>
+                </div>
+
+                <div class="col-25">
+                    <label for="">Collection</label>
+                </div>
+                <div class="col-75">
+                    <select class="my-2 form-control" name="Collection">
+                        <option class="items" <?=get_select('Collection','')?> value="<?=get_var('Collection',$row[0]->Collection)?>"><?=get_var('Collection',$row[0]->Collection)?></option>
+                        <option class="items" <?=get_select('Collection','Lending')?> value="Lending">Lending</option>
+                        <option class="items" <?=get_select('Collection','Reference')?> value="Reference">Reference</option>
+                        <option class="items" <?=get_select('Collection','PermanentReference')?> value="Permanent Reference">Permanant Reference</option>
+                        <option class="items" <?=get_select('Collection','CD/DVD')?> value="Reference">CD/DVD</option>
+                        <option class="items" <?=get_select('Collection','Thesis')?> value="Thesis">Thesis</option>
+
+                    </select><br><br>
+                </div>
+                </div>
+
+
+                <div class="row">
+                <div class="col-25">
                     <label for="subject">Statement of Responsibility</label>
                 </div>
                 <div class="col-75">
-                <input autofocus class="form-control" value="<?=get_var('StatementOfResposiblity',$row[0]->StatementOfResposiblity)?>" type="text" name="StatementOfResposiblity" placeholder="StatementOfResposiblity"><br><br>
+                <input autofocus class="form-control" value="<?=get_var('StatementOfResposiblity',$row[0]->StatementOfResposiblity)?>" type="text" name="StatementOfResposiblity" placeholder="Statement of Resposiblity"><br><br>
 
             </div>
 
@@ -184,7 +235,7 @@
                     <label for="subject1">Physical Description</label>
                 </div>
                 <div class="col-75">
-                <input autofocus class="form-control" value="<?=get_var('PhysicalDescription',$row[0]->PhysicalDescription)?>" type="text" name="PhysicalDescription" placeholder="School Name"><br><br>
+                <input autofocus class="form-control" value="<?=get_var('PhysicalDescription',$row[0]->PhysicalDescription)?>" type="text" name="PhysicalDescription" placeholder="Physical Description"><br><br>
 
                 </div>
                 </div>

@@ -11,16 +11,57 @@ Class Patrons extends Controller
         {
             $this->redirect('landing');
         }
-        $patron = new User();
-        $data = $patron ->findAll();
 
-        $crumbs[] = ['Dashboard',''];
-        $crumbs[] = ['Patrons','patrons'];
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');
+        }
+
+        $patron = new User();
+        if(isset($_GET['find']))
+        {
+            
+            $searchkey =  $_GET['find'];
+            $query = "select * from users where firstname like '%".$searchkey."%' AND rank != 'Librarian' AND rank != 'Library Staff'";
+            $data = $patron->query($query);
+
+           
+
+        }
+        else{
+            $data = $patron->query("select * from users where rank='Undergraduate' OR rank='Postgraduate' OR rank='Senior Lecturer' OR rank='Lecturer' OR rank='Assistant Lecturer' OR rank='Instructor' OR rank='Non Academic'");
+
+        }
+        
+        $arr = array();
+
+        $data1 = $patron->query("select count(id) as count from users");
+        $data1 = $data1[0];
+        $data1 = $data1->count;
+        $arr[0] = $data1;
+        $data2 = $patron->query("select count(id) as count from users where rank='Librarian' || rank='Library Staff'");
+        $data2 = $data2[0];
+        $data2 = $data2->count;
+        $arr[1] = $data2;
+        $data3 = $patron->query("select count(id) as count from users where rank='Senior Lecturer' OR rank='Lecturer' OR rank='Assistant Lecturer' OR rank='Instructor'");
+        $data3 = $data3[0];
+        $data3 = $data3->count;
+        $arr[2] = $data3;
+        $data4 = $patron->query("select count(id) as count from users where rank='Undergraduate'");
+        $data4 = $data4[0];
+        $data4 = $data4->count;
+        $arr[3] = $data4;
+        $data4 = $patron->query("select count(id) as count from users where rank='Postgraduate'");
+        $data4 = $data4[0];
+        $data4 = $data4->count;
+        $arr[4] = $data4;
+        $crumbs[] = ['Patrons',''];
 
 
         $this->view('patrons',[
             'rows'=>$data,
             'crumbs'=>$crumbs,
+            'arr'=>$arr,
         ]);
     }
 
@@ -30,6 +71,22 @@ Class Patrons extends Controller
         {
             $this->redirect('landing');
         }
+
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');
+        }
+
+        if(isset($_SESSION['u_m']))
+        {
+            if($_SESSION['u_m'] != 'Yes')
+            {
+                $this->redirect('landing');
+
+
+            }
+        }
+
         $errors = array();
 
         if(count($_POST) > 0)
@@ -49,8 +106,7 @@ Class Patrons extends Controller
             }
         }
 
-        $crumbs[] = ['Dashboard',''];
-        $crumbs[] = ['Patrons','patrons'];
+        $crumbs[] = ['Patrons',''];
         $crumbs[] = ['Add','patrons/add'];
         //$data = $school ->findAll();
         $this->view('patrons.add',[
@@ -66,6 +122,21 @@ Class Patrons extends Controller
         if(!Auth::logged_in())
         {
             $this->redirect('landing');
+        }
+
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');
+        }
+
+        if(isset($_SESSION['u_m']))
+        {
+            if($_SESSION['u_m'] != 'Yes')
+            {
+                $this->redirect('landing');
+
+
+            }
         }
 
 
@@ -115,8 +186,7 @@ Class Patrons extends Controller
 
         }
 
-        $crumbs[] = ['Dashboard',''];
-        $crumbs[] = ['Patrons','patrons'];
+        $crumbs[] = ['Patrons',''];
         $crumbs[] = ['CSV','patrons/csv'];
 
 
@@ -135,11 +205,27 @@ Class Patrons extends Controller
         {
             $this->redirect('landing');
         }
+
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');
+        }
+
+        if(isset($_SESSION['u_m']))
+        {
+            if($_SESSION['u_m'] != 'Yes')
+            {
+                $this->redirect('landing');
+
+
+            }
+        }
+
         $patron = new User();
         $errors = array();
         if(count($_POST) > 0)
         {
-            if($patron->validate($_POST))
+            if($patron->validate2($_POST))
             {
                 //$_POST['date'] = date("Y-m-d H:i:s") ;
                 $patron->update($id,$_POST);
@@ -152,8 +238,7 @@ Class Patrons extends Controller
         }
         $row = $patron -> where('id',$id);
 
-        $crumbs[] = ['Dashboard',''];
-        $crumbs[] = ['Patrons','patrons'];
+        $crumbs[] = ['Patrons',''];
         $crumbs[] = ['Edit','patrons/edit'];
 
         //$data = $school ->findAll();
@@ -170,6 +255,22 @@ Class Patrons extends Controller
         {
             $this->redirect('landing');
         }
+
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');
+        }
+
+        if(isset($_SESSION['u_m']))
+        {
+            if($_SESSION['u_m'] != 'Yes')
+            {
+                $this->redirect('landing');
+
+
+            }
+        }
+
         $patron = new User();
         $errors = array();
         if(count($_POST) > 0)
@@ -179,9 +280,8 @@ Class Patrons extends Controller
         }
         $row = $patron -> where('id',$id);
 
-        $crumbs[] = ['Dashboard',''];
-        $crumbs[] = ['Patrons','patrons'];
-        $crumbs[] = ['Delete'];
+        $crumbs[] = ['Patrons',''];
+        $crumbs[] = ['Delete','patrons/delete'];
 
         $this->view('patrons.delete',[
             'errors'=>$errors,
@@ -195,13 +295,20 @@ Class Patrons extends Controller
         {
             $this->redirect('landing');
         }
+
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');
+        }
+
+       
+        
         $patron = new User();
 
         $data = $patron->where('id',$id);
 
 
-        $crumbs[] = ['Dashboard',''];
-        $crumbs[] = ['Patrons','patrons'];
+        $crumbs[] = ['Patrons',''];
         $crumbs[] = ['Show','patrons/show'];
 
 

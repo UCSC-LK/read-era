@@ -18,17 +18,16 @@ class Login extends Controller
                 {
                     Auth::authenticate($row);
                     $rank = Auth::rank();
-                    // if($rank == 'student' || $rank == "lecturer")
-                    // {
-                    //     $this->redirect('memberhome');
-
-
-                    // }
-
-                    // else if($rank == 'librarian' || $rank= 'library_staff')
-                    // {
+                    if($rank == 'Librarian' || $rank == 'Library Staff')
+                    {
                         $this->redirect('home');
-                    // }
+
+
+                    }
+                    else
+                    {
+                        $this->redirect('memberhome');
+                    }
                    
                 }
            

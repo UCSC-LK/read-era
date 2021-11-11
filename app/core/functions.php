@@ -58,13 +58,13 @@ function show($data)
 }
 
 
-function get_image($image, $gender = 'male')
+function get_image($image, $gender = 'Male')
 {
     if(!file_exists($image))
     {
         $image = ROOT.'/assets/user_female.jpg';
 
-        if($gender == 'male'){
+        if($gender == 'Male'){
             $image = ROOT.'/assets/user_male.jpg';
 
         }

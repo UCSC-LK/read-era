@@ -11,6 +11,11 @@ Class Circulations extends Controller
         {
             $this->redirect('landing');
         }
+        
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');
+        }
 
 
         $circulation = new Circulation();
@@ -29,7 +34,7 @@ Class Circulations extends Controller
             $data = $book->query($query);
             // print_r($data);
         
-            if(isset($data)){
+            if($data){
                 foreach ($data as $row){
                     
                     $bookid = $row->id;
@@ -68,8 +73,7 @@ Class Circulations extends Controller
 
             //print_r($arr);
             
-            $crumbs[] = ['Dashboard',''];
-            $crumbs[] = ['Circulation','circulations'];
+            $crumbs[] = ['Circulation',''];
     
             $this->view('circulations',[
                 'crumbs'=>$crumbs,
@@ -96,8 +100,7 @@ Class Circulations extends Controller
                 // print_r($data);
                 
 
-                    $crumbs[] = ['Dashboard',''];
-                $crumbs[] = ['Circulation','circulations'];
+                $crumbs[] = ['Circulation',''];
 
                     $this->view('circulations',[
                         'crumbs'=>$crumbs,
@@ -116,6 +119,7 @@ Class Circulations extends Controller
             $data = $circulation->findAll();
         //$memberid = $data['reservation_id'];
         //print_r($data);
+            if($data){
             foreach ($data as $row){
                 $memberid=$row->member_id;
                 $membername = $user->query("select firstname from users where id=$memberid");
@@ -127,11 +131,11 @@ Class Circulations extends Controller
                 $row->book_id= $bookname->title;
 
             }
+            }
             // print_r($data);
             
 
-                $crumbs[] = ['Dashboard',''];
-            $crumbs[] = ['Circulation','circulations'];
+            $crumbs[] = ['Circulation',''];
 
                 $this->view('circulations',[
                     'crumbs'=>$crumbs,
@@ -175,12 +179,19 @@ Class Circulations extends Controller
         {
             $this->redirect('landing');
         }
+
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');
+        }
+
         $reservation = new Reservation();
         $user = new User();
         $book = new Catalog();
         $data = $reservation->findAll();
         //$memberid = $data['reservation_id'];
         //print_r($data);
+        if($data){
         foreach ($data as $row){
             $memberid=$row->member_id;
             $membername = $user->query("select firstname from users where id=$memberid");
@@ -192,11 +203,11 @@ Class Circulations extends Controller
             $row->book_id= $bookname->title;
 
         }
+        }
 
         
         
-        $crumbs[] = ['Dashboard',''];
-        $crumbs[] = ['Circulation','circulations'];
+        $crumbs[] = ['Circulation',''];
         $crumbs[] = ['Reservation','reservations'];
 
 
@@ -231,6 +242,12 @@ Class Circulations extends Controller
         {
             $this->redirect('landing');
         }
+
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');
+        }
+        
         $errors = array();
 
         if(count($_POST) > 0)
@@ -239,42 +256,53 @@ Class Circulations extends Controller
             $user = new User();
             $book = new Catalog();
             $arr = array();
-            
-            $membername= $_POST['name'];
-            $query = "select id from users where firstname like '%".$membername."%'";
-            $memberid = $user->query($query);
-            $memberid = $memberid[0];
-            $arr['member_id'] = $memberid->id;
-            $arr['member_id'] = (int)$arr['member_id'];
-            
-            $bookISBN= $_POST['ISBN'];
-            $query = "select id from catalogs where ISBN like '%".$bookISBN."%'";
-            $bookid = $book->query($query);
-            $bookid = $bookid[0];
-            
-            $arr['book_id'] = $bookid->id;
-            $arr['book_id'] = (int)$arr['book_id'];
+            if($circulation->validate($_POST)){
 
-            // $bookISBN = $_POST['ISBN'];
-            // $bookid = $book->query("select id from catalogs where ISBN like $bookISBN");
-            // $bookid = $bookid[0];
-            // $arr['book_id']= $bookid->id;
-
-            // echo gettype($arr['member_id']);
-            // echo gettype($arr['book_id']);
-
-            $arr['issue_date'] = date("Y-m-d H:i:s");
-            $date = $arr['issue_date'];
-            $arr['deadline'] =  date('Y-m-d H:i:s', strtotime("+3 months", strtotime($date)));
             
-        //    print_r($arr);
-            $circulation->insert($arr);
-            $this->redirect('circulations');
+                $memberemail= $_POST['email'];
+                $query = "select id from users where email like '%".$memberemail."%'";
+                $memberid = $user->query($query);
+                $memberid = $memberid[0];
+                $arr['member_id'] = $memberid->id;
+                $arr['member_id'] = (int)$arr['member_id'];
+                
+                $bookISBN= $_POST['ISBN'];
+                $query = "select id from catalogs where ISBN like '%".$bookISBN."%'";
+                $bookid = $book->query($query);
+                $bookid = $bookid[0];
+                
+                $arr['book_id'] = $bookid->id;
+                $arr['book_id'] = (int)$arr['book_id'];
+                $bookid = $arr['book_id'];
+                // $bookISBN = $_POST['ISBN'];
+                // $bookid = $book->query("select id from catalogs where ISBN like $bookISBN");
+                // $bookid = $bookid[0];
+                // $arr['book_id']= $bookid->id;
+
+                // echo gettype($arr['member_id']);
+                // echo gettype($arr['book_id']);
+
+                $arr['issue_date'] = date("Y-m-d H:i:s");
+                $date = $arr['issue_date'];
+                $arr['deadline'] =  date('Y-m-d H:i:s', strtotime("+3 months", strtotime($date)));
+                
+            //    print_r($arr);
+                $circulation->insert($arr);
+                $_bookstatus['Status'] = "Borrowed";
+                $book->update($bookid,$_bookstatus);
+
+                $_bookstatus = array();
+               
+                $this->redirect('circulations');
+            }
+            else{
+                $errors = $circulation->errors;
+
+            }
            
         }
 
-        $crumbs[] = ['Dashboard',''];
-        $crumbs[] = ['Circulations','circulations'];
+        $crumbs[] = ['Circulation',''];
         $crumbs[] = ['Add','circulations/add'];
         //$data = $school ->findAll();
         $this->view('circulations.add',[

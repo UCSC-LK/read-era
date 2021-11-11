@@ -6,7 +6,21 @@
 
 
 <div class="home-content">
-        
+<div class="crumbs">
+                
+                <?php if(isset($crumbs)):?>
+                <?php $length = count($crumbs);$x=1?>
+                <?php foreach ($crumbs as $crumb):?>
+                    <?php if($x==$length):?>
+                        <a class="crumb_last" href="<?=$crumb[1]?>"><?=$crumb[0]?></a>
+                    <?php else:?>
+                        <a class="crumb_name" href="<?=$crumb[1]?>"><?=$crumb[0]?>/</a>
+                    <?php endif;$x++;?>
+                    
+                <?php endforeach;?>
+                <?php endif;?>
+                
+            </div>
 
         <div class="content-box">
             <div class="box1 box">
@@ -21,14 +35,12 @@
                 </form>
 
                 
-
+                <?php if($rows):?>
                 <table class="table table-striped table-hover">
-                    <tr><th>Member</th><th>Title</th><th>Reserved date</th><th>Expire date</th>
+                    <tr><th>Member</th><th>Title</th><th>Reserved date</th><th>Expire date</th><th>State</th>
                     </tr>
-            
-                    <?php if($rows):?>
                         <?php foreach ($rows as $row):?>
-                            <tr><td><?=$row->member_id?></td><td><?=$row->book_id?></td><td><?=$row->reserved_date?></td><td><?=$row->expire_date?></td>
+                            <tr><td><?=$row->member_id?></td><td><?=$row->book_id?></td><td><?=get_date($row->reserved_date)?></td><td><?=get_date($row->expire_date)?></td><td><?=$row->state?></td>
                             </tr>
                         
                         
@@ -37,7 +49,7 @@
                         <h4>No Reservations were found at this time</h4>
                     <?php endif;?>
                 </table>
-                <a class="cancel" href="<?=ROOT?>/circulations">Cancel</a>
+                <a class="cancel1" href="<?=ROOT?>/circulations">Cancel</a>
                 
                 
             

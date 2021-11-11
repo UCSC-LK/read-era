@@ -2,6 +2,12 @@
 
 class Controller
 {
+    public function controller_name()
+    {
+        return get_class($this);
+    }
+
+   
     public function view($view,$data = array())
     {
         extract($data);
@@ -32,4 +38,16 @@ class Controller
         header("Location: ". ROOT . "/".trim($link));
         die;
     }
+
+    // $user_rank = $_SESSION['USER']->rank;
+    // if($user_rank == 'librarystaff')
+    // {
+    //     $staff_id = Auth::id();
+    //     $staff = new Privilege;
+    //     $data = $staff->query("select from privileges where id=$id");
+    //     $data = $data[0];
+    //     $_SESSION['b_m'] = $data->book_management; 
+    //     $_SESSION['u_m'] = $data->user_management; 
+
+    // }
 }

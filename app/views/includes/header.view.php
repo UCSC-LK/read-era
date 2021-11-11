@@ -14,6 +14,6 @@
     
     <link rel="stylesheet" href="<?=ROOT?>/assets/index.css">
 
-    <title>Librarian Dashboard</title>
+    <title>ReadEra</title>
 </head>
 <body>

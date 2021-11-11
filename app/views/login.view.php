@@ -34,7 +34,19 @@
             <p class="sign" align="center">Log In</p>
             <form class="form1" method="post">
             <?php if(count($errors) > 0):?>
-                <div class="isa_error">
+                <span style="font-size: 18px;color:red;padding-left:47px;">
+            
+            <?php 
+                foreach ($errors as $err) {
+                    // code...
+                    echo $err . "<br>";
+                }
+            ?>
+           
+            </span>
+            <br>
+                
+                <!-- <div class="isa_error">
                 <strong> Errors</strong>
                 <?php foreach($errors as $error):?>
                     <br><?=$error?>
@@ -42,7 +54,7 @@
                 
                 <span type="button"></span>
                 </div>
-                <br>
+                <br> -->
                 <?php endif;?>
                 <input class="un" value="<?=get_var('email')?>" type="email" name="email" placeholder="Email">
 

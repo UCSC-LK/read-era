@@ -2,11 +2,25 @@
 <?php $this->view('includes/nav')?>
 <?php $this->view('includes/topbar')?>
 <div class="home-content">
-
+<div class="crumbs">
+                
+                <?php if(isset($crumbs)):?>
+                <?php $length = count($crumbs);$x=1?>
+                <?php foreach ($crumbs as $crumb):?>
+                    <?php if($x==$length):?>
+                        <a class="crumb_last" href="<?=$crumb[1]?>"><?=$crumb[0]?></a>
+                    <?php else:?>
+                        <a class="crumb_name" href="<?=$crumb[1]?>"><?=$crumb[0]?>/</a>
+                    <?php endif;$x++;?>
+                    
+                <?php endforeach;?>
+                <?php endif;?>
+                
+            </div>
     <div class="content-box">
         <div class="box1 box">
 
-            <h2 class="title">Change Password</h2>
+            <h2 class="title">Edit Profile</h2>
             <div class="container">
                 <?php
                     $image=get_image($row->image,$row->gender);
@@ -31,7 +45,7 @@
                         <label for="image_browser" class="browse_button1">Browse Image
                             <input id="image_browser" onchange="display_image_name(this.files[0].name)" class="change_btn" type="file" name="image"/>
                         </label>
-                        <small class="file_info text-muted"></small>
+                        <small class="file_info text-muted" style="margin:auto;"></small>
                     </div>
                     <br>
 

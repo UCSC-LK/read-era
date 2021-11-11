@@ -13,7 +13,22 @@ class Auth
         {
             unset($_SESSION['USER']);
             unset($_SESSION['new']);
+           
+
         }
+
+        if(isset($_SESSION['b_m'])){
+            unset($_SESSION['b_m']);
+
+
+        }
+
+        if(isset($_SESSION['u_m'])){
+            unset($_SESSION['u_m']);
+
+
+        }
+
     }
 
     public static function logged_in()

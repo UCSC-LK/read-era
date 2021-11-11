@@ -4,49 +4,38 @@
 
 
 <div class="home-content">
+
         <div class="overview-boxes">
             <div class="box">
                 <div class="right-side">
                     <div class="box-topic">Total Books</div>
-                    <div class="number">40,876</div>
-                    <div class="indicator">
-                        <i class='bx bx-up-arrow-alt'></i>
-                        <span class="text">Up from yesterday</span>
-                    </div>
+                    <div class="number"><?=$arr[0]?></div>
+                  
                 </div>
                 <i class="fas fa-book cart"></i>
             </div>
             <div class="box">
                 <div class="right-side">
                     <div class="box-topic">Total Members</div>
-                    <div class="number">38,876</div>
-                    <div class="indicator">
-                        <i class='bx bx-up-arrow-alt'></i>
-                        <span class="text">Up from yesterday</span>
-                    </div>
+                    <div class="number"><?=$arr[1]?></div>
+                   
                 </div>
                 <i class="fas fa-user cart two"></i>
             </div>
             <div class="box">
                 <div class="right-side">
                     <div class="box-topic">Borrowed Books</div>
-                    <div class="number">12,876</div>
-                    <div class="indicator">
-                        <i class='bx bx-up-arrow-alt'></i>
-                        <span class="text">Up from yesterday</span>
-                    </div>
+                    <div class="number"><?=$arr[2]?></div>
+                  
                 </div>
                 <i class="fas fa-book-reader cart three"></i>
 
             </div>
             <div class="box">
                 <div class="right-side">
-                    <div class="box-topic">Return Books</div>
-                    <div class="number">11,086</div>
-                    <div class="indicator">
-                        <i class='bx bx-down-arrow-alt down'></i>
-                        <span class="text">Down From Today</span>
-                    </div>
+                    <div class="box-topic">Reserved Books</div>
+                    <div class="number"><?=$arr[3]?></div>
+                    
                 </div>
                 <i class="fas fa-undo-alt cart four"></i>
             </div>
@@ -94,21 +83,21 @@
                 <ul class="details2">
                     <li>
                         <a href="#">
-                            <span class="category">Computer Science</span>
+                            <span class="category">Datastructure</span>
                         </a>
-                        <span class="quan">1107</span>
+                        <span class="quan"><?=$arr[4]?></span>
                     </li>
                     <li>
                         <a href="#">
-                            <span class="category">Information Technology </span>
+                            <span class="category">Programming</span>
                         </a>
-                        <span class="quan">1567</span>
+                        <span class="quan"><?=$arr[5]?></span>
                     </li>
                     <li>
                         <a href="#">
-                            <span class="category">DataBase</span>
+                            <span class="category">Database</span>
                         </a>
-                        <span class="quan">1234</span>
+                        <span class="quan"><?=$arr[6]?></span>
 
                 </ul>
             </div>

@@ -25,12 +25,27 @@
 
 
 <div class="home-content">
-        
+<div class="crumbs">
+                
+                <?php if(isset($crumbs)):?>
+                <?php $length = count($crumbs);$x=1?>
+                <?php foreach ($crumbs as $crumb):?>
+                    <?php if($x==$length):?>
+                        <a class="crumb_last" href="<?=$crumb[1]?>"><?=$crumb[0]?></a>
+                    <?php else:?>
+                        <a class="crumb_name" href="<?=$crumb[1]?>"><?=$crumb[0]?>/</a>
+                    <?php endif;$x++;?>
+                    
+                <?php endforeach;?>
+                <?php endif;?>
+                
+            </div>
 
         <div class="content-box">
             <div class="box1 box">
                 <div class="header">
-                    <div class="title">Profile</div>
+                    <div class="title">Profile Details</div>
+                    
                     
                 </div>
                 
@@ -71,7 +86,7 @@
                         </tr>
                         <tr>
                             <th>Date: </th>
-                            <td><?=$row->date?></td>
+                            <td><?=get_date($row->date)?></td>
                         </tr>
         
                        
@@ -85,6 +100,8 @@
 
 
             <a href="<?=ROOT?>/profile/edit" class="update_profile_button">Update</a>
+            <a href="<?=ROOT?>/profile/progress" class="update_profile_button">Progress</a>
+
             <?php else:?>
                 <h3>That profile not found</h3>
             <?php endif;?>

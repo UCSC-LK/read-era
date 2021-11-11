@@ -6,12 +6,27 @@
 
 
 <div class="home-content">
+<div class="crumbs">
+                
+                <?php if(isset($crumbs)):?>
+                <?php $length = count($crumbs);$x=1?>
+                <?php foreach ($crumbs as $crumb):?>
+                    <?php if($x==$length):?>
+                        <a class="crumb_last" href="<?=$crumb[1]?>"><?=$crumb[0]?></a>
+                    <?php else:?>
+                        <a class="crumb_name" href="<?=$crumb[1]?>"><?=$crumb[0]?>/</a>
+                    <?php endif;$x++;?>
+                    
+                <?php endforeach;?>
+                <?php endif;?>
+                
+            </div>
         
 
         <div class="content-box">
             <div class="box1 box">
                 <div class="header">
-                    <div class="title">Recent Issues</div>
+                    <div class="title">Issue Details</div>
                     <div>
                         
                         <a class="add-new-item1" href="<?=ROOT?>/circulations/show_reservations">Reservations</a>
@@ -26,12 +41,12 @@
                             <input name="find" value="<?=isset($_GET['find'])?$_GET['find']:'';?>" type="text" placeholder="search">
 
                 </form>
-
+ 
+                <?php if($rows):?>
                 <table class="table table-striped table-hover">
                     <tr><th>Title</th><th>Member</th><th>Issue date</th><th>Deadline</th>
                     </tr>
             
-                    <?php if($rows):?>
                         <?php foreach ($rows as $row):?>
                             <tr><td><?=$row->book_id?></td><td><?=$row->member_id?></td><td><?=get_date($row->issue_date)?></td><td><?=get_date($row->deadline)?></td></tr>
                         

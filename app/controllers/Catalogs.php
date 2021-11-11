@@ -4,17 +4,29 @@ class Catalogs extends Controller
 {
     public function index()
     {
+        
         if(!Auth::logged_in())
         {
             $this->redirect('landing');
         }
+
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');
+        }
+
+       
+        
         $catalog = new Catalog();
+        $limit = 8;
+        $pager = new Pager($limit);
+        $offset = $pager->offset;
 
         if(isset($_GET['find']))
         {
             
             $searchkey =  $_GET['find'];
-            $query = "select * from catalogs where Title like '%".$searchkey."%'";
+            $query = "select * from catalogs where Title like '%".$searchkey."%' limit $limit offset $offset";
             $data = $catalog->query($query);
 
            
@@ -22,17 +34,18 @@ class Catalogs extends Controller
         }
         else
         {
-            $data = $catalog->findAll();
+            $data = $catalog->query("select * from catalogs limit $limit offset $offset");
        
           
         }
 
-        $crumbs[] = ['Dashboard',''];
-            $crumbs[] = ['Catalogs','catalogs'];
+            $crumbs[] = ['Catalog',''];
     
             $this->view('catalogs',[
                 'crumbs'=>$crumbs,
                 'rows'=>$data,
+                'pager'=>$pager,
+
             ]);
 
 
@@ -56,6 +69,22 @@ class Catalogs extends Controller
             $this->redirect('landing');
         }
 
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');
+        }
+
+        if(isset($_SESSION['b_m']))
+        {
+            if($_SESSION['b_m'] != 'Yes')
+            {
+                $this->redirect('landing');
+
+
+            }
+        }
+
+
         $errors = array();
         if(count($_POST) > 0)
         {
@@ -74,8 +103,7 @@ class Catalogs extends Controller
             }
         }
 
-        $crumbs[] = ['Dashboard',''];
-        $crumbs[] = ['Catalogs','catalogs'];
+        $crumbs[] = ['Catalog',''];
         $crumbs[] = ['Add','catalogs/add'];
 
        
@@ -91,6 +119,21 @@ class Catalogs extends Controller
         if(!Auth::logged_in())
         {
             $this->redirect('landing');
+        }
+
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');
+        }
+
+        if(isset($_SESSION['b_m']))
+        {
+            if($_SESSION['b_m'] != 'Yes')
+            {
+                $this->redirect('landing');
+
+
+            }
         }
 
         
@@ -134,6 +177,8 @@ class Catalogs extends Controller
                         $data['URL']= $line[15];
                         $data['AddedEntry']= $line[16];
                         $data['Status']= $line[17];
+                        $data['Type']= $line[18];
+                        $data['Collection']= $line[19];
                         $data['date']= date("Y-m-d H:i:s");
                        
                         $catalog->insert($data);
@@ -149,8 +194,7 @@ class Catalogs extends Controller
            
         }
 
-        $crumbs[] = ['Dashboard',''];
-        $crumbs[] = ['Catalogs','catalogs'];
+        $crumbs[] = ['Catalog',''];
         $crumbs[] = ['CSV','catalogs/csv'];
 
        
@@ -169,12 +213,27 @@ class Catalogs extends Controller
         {
             $this->redirect('landing');
         }
+
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');
+        }
+
+        if(isset($_SESSION['b_m']))
+        {
+            if($_SESSION['b_m'] != 'Yes')
+            {
+                $this->redirect('landing');
+
+
+            }
+        }
         
         $catalog = new Catalog();
         $errors = array();
          if(count($_POST) > 0)
         {
-            if($catalog->validate($_POST))
+            if($catalog->validate2($_POST))
             {
 
                 $catalog->update($id,$_POST);
@@ -189,8 +248,7 @@ class Catalogs extends Controller
 
         $row = $catalog->where('id',$id);
      
-        $crumbs[] = ['Dashboard',''];
-        $crumbs[] = ['Catalogs','catalogs'];
+        $crumbs[] = ['Catalog',''];
         $crumbs[] = ['Edit','catalogs/edit'];
         
         $this->view('catalogs.edit',[
@@ -207,26 +265,57 @@ class Catalogs extends Controller
         {
             $this->redirect('landing');
         }
+
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');
+        }
         
+        if(isset($_SESSION['b_m']))
+        {
+            if($_SESSION['b_m'] != 'Yes')
+            {
+                $this->redirect('landing');
+
+
+            }
+        }
+
         $catalog = new Catalog();
-     
+        $error = array();
          if(count($_POST) > 0)
         {
            
 
-                $catalog->delete($id);
-                $this->redirect('catalogs');
+                $data = $catalog->where('id',$id);
+                $data = $data[0];
+                if($data->Status == 'Borrowed')
+                {
+                    $error['Status'] = "Can't delete this book because its already borrowed";
+
+                }
+                else if($data->Status == 'Reserved')
+                {
+                    $error['Status'] = "Can't delete this book because its already in reservation";
+
+
+                }
+                else{
+                    $catalog->delete($id);
+                    $this->redirect('catalogs');
+                }
+             
 
         }
 
         $row = $catalog->where('id',$id);
      
-        $crumbs[] = ['Dashboard',''];
-        $crumbs[] = ['Catalogs','catalogs'];
+        $crumbs[] = ['Catalog',''];
         $crumbs[] = ['Delete','catalogs/delete'];
 
         $this->view('catalogs.delete',[
             'row'=>$row,
+            'error'=>$error,
             'crumbs'=>$crumbs,
 
         ]);
@@ -238,13 +327,18 @@ class Catalogs extends Controller
         {
             $this->redirect('landing');
         }
+        
+
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');
+        }
         $catalog = new Catalog();
     
         $data = $catalog->where('id',$id);
        
        
-        $crumbs[] = ['Dashboard',''];
-        $crumbs[] = ['Catalogs','catalogs'];
+        $crumbs[] = ['Catalog',''];
         $crumbs[] = ['Show','catalogs/show'];
 
 

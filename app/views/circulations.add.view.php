@@ -1,24 +1,40 @@
 <?php  $this->view('includes/header') ?>
 <?php  $this->view('includes/nav') ?>
+
 <?php $this->view('includes/topbar')?>
 <div class="home-content">
+<div class="crumbs">
+                
+                <?php if(isset($crumbs)):?>
+                <?php $length = count($crumbs);$x=1?>
+                <?php foreach ($crumbs as $crumb):?>
+                    <?php if($x==$length):?>
+                        <a class="crumb_last" href="<?=$crumb[1]?>"><?=$crumb[0]?></a>
+                    <?php else:?>
+                        <a class="crumb_name" href="<?=$crumb[1]?>"><?=$crumb[0]?>/</a>
+                    <?php endif;$x++;?>
+                    
+                <?php endforeach;?>
+                <?php endif;?>
+                
+            </div>
 
     <div class="content-box">
+        
         <div class="box1 box">
 
             <h2 class="title">Add New Issue</h2>
             <div class="container">
                 <form method="post">
-                    <h3>Add New Issue</h3>
                     <?php if(count($errors) > 0):?>
                         <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <strong>Errors:</strong>
+                            <strong style="color:red;">Errors:</strong>
                             <?php foreach($errors as $error):?>
-                                <br><?=$error?>
+                                <div style="color:red;"><?=$error?></div>
                             <?php endforeach;?>
-                            <br> You should check in on some of those fields below.
+                            <br>You should check in on some of those fields below.
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
+                        </div><br>
                     <?php endif;?>
 
                     <div class="row">
@@ -30,13 +46,13 @@
                         </div>
 
                         <div class="col-25">
-                            <label for="">Member Name</label>
+                            <label for="">Member Email</label>
                         </div>
                         <div class="col-75">
-                            <input autofocus class="form-control" type="text" name="name" placeholder="Member Name" value="<?=get_var('member_name')?>"><br>
+                            <input autofocus class="form-control" type="text" name="email" placeholder="Member Email" value="<?=get_var('email')?>"><br>
                         </div>
                     </div>
-
+                    <br>
                     
 
                    
