@@ -37,8 +37,9 @@
                                     </td>
                                     <td>
                                         <a href="<?=ROOT?>/administration/PrivilageEdit/<?=$row->id?>">
-                                        <button class="btn-sm btn-info text-white"><i class="fa fa-edit"></i></button>
+                                        <i class="fa fa-edit carta"></i>
                                         </a>
+                                       
                                     </td>                                   
                                 </tr>
 

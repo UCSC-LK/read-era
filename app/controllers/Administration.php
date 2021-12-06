@@ -268,4 +268,69 @@ Class Administration extends Controller
 
         ]);
     }
+
+    public function userconfig()
+    {
+        if(!Auth::logged_in())
+        {
+            $this->redirect('landing');
+        }
+
+        if(Auth::rank()!='Librarian')
+        {
+            $this->redirect('landing');
+        }
+        $userconfig=new Userconfig;
+        $data = $userconfig->query("select * from userconfigs where rank='Undergraduate' OR rank='Lecture' OR rank='Senior Lecturer' OR rank='Assistant Lecturer' OR rank='Postgraduate' OR  rank='Non Academic'");
+        $arr = array();
+
+        
+
+        $crumbs[] = ['Administration',''];
+        $crumbs[] = ['Userconfig','administration/userconfig'];
+
+
+        $this->view('Administration.userconfig',[
+            'rows'=>$data,
+            'crumbs'=>$crumbs,
+            'arr'=>$arr,
+        ]);
+        
+        //$this->view('administration.userconf');
+    }
+
+    public function configedit($id=null)
+    {
+        if(!Auth::logged_in())
+        {
+            $this->redirect('landing');
+        }
+
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');
+        }
+
+        $userconfig=new Userconfig;
+        $errors = array();
+         
+        if(count($_POST) > 0)
+        {
+                //$_POST['date'] = date("Y-m-d H:i:s") ;
+                $userconfig->update($id,$_POST);
+                $this->redirect('administration/userconfig');
+        }
+
+        $row = $userconfig -> where('id',$id);
+        $crumbs[] = ['Administration',''];
+        $crumbs[] = ['User Configuration Edit','administration/configedit'];
+
+
+        $this->view('Administration.configedit',[
+            'row'=>$row,
+            'errors'=>$errors,
+            'crumbs'=>$crumbs,
+        ]);
+    }
+
 }
