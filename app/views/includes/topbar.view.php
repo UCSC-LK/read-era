@@ -22,7 +22,7 @@
                 
                ?>
             <img src="<?=$image?>">
-            <span class="admin_name"><?=Auth::getFirstname()?></span>
+            <span class="admin_name"><?=Auth::getFirstname()?> </span>
 
             <!--<i class='bx bx-chevron-down' ></i>-->
         </div>

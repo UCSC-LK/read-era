@@ -4,69 +4,65 @@
         <span class="logo_name">ReadEra</span>
     </div>
     <ul class="nav-links">
-        <?php if(Auth::rank() == "Librarian" || Auth::rank() == "Library Staff"):?>
-
-            <li>
-                <a href="<?=ROOT?>/home" <?=($this->controller_name() == 'Home') ? 'class="active" ':''?>>
-                    <i class="fas fa-border-all"></i>
-                    <span class="links_name">Dashboard</span>
-                </a>
-            </li>
-        <?php else:?>
-            <li>
-            <a href="<?=ROOT?>/memberhome" <?=($this->controller_name() == 'MemberHome') ? 'class="active" ':''?>>
+     
+        <li>
+            <a href="<?=ROOT?>/home" class="active">
                 <i class="fas fa-border-all"></i>
                 <span class="links_name">Dashboard</span>
             </a>
-            </li>
-        <?php endif;?>
+        </li>
 
         <li>
-            <a href="<?=ROOT?>/profile" <?=($this->controller_name() == 'Profile') ? 'class="active" ':''?>>
+            <a href="<?=ROOT?>/profile">
                 <i class="fas fa-user-circle"></i>
                 <span class="links_name">User Profile</span>
             </a>
         </li>
         <li>
-            <a href="<?=ROOT?>/opac" <?=($this->controller_name() == 'Opac') ? 'class="active" ':''?>>
+            <a href="<?=ROOT?>/opac">
                 <i class="fas fa-search"></i>
                 <span class="links_name">OPAC</span>
             </a>
         </li>
-        <?php if(Auth::rank() == "Librarian" || Auth::rank() == "Library Staff"):?>
+        <?php if(Auth::rank() == "librarian"):?>
         <li>
-            <a href="<?=ROOT?>/administration" <?=($this->controller_name() == 'Administration') ? 'class="active" ':''?>>
+            <a href="<?=ROOT?>/administration">
                 <i class="fas fa-user-cog"></i>
                 <span class="links_name">Administration</span>
             </a>
         </li>
         <li>
-            <a href="<?=ROOT?>/catalogs" <?=($this->controller_name() == 'Catalogs') ? 'class="active" ':''?>>
+            <a href="<?=ROOT?>/catalogs">
                 <i class="fas fa-swatchbook"></i>
                 <span class="links_name">Catalog</span>
             </a>
         </li>
         <li>
-            <a href="<?=ROOT?>/patrons" <?=($this->controller_name() == 'Patrons') ? 'class="active" ':''?>>
+            <a href="<?=ROOT?>/patrons">
                 <i class="fas fa-users"></i>
                 <span class="links_name">Patrons</span>
             </a>
         </li>
         <li>
-            <a href="<?=ROOT?>/reports" <?=($this->controller_name() == 'Reports') ? 'class="active" ':''?>>
+            <a href="#">
                 <i class="fas fa-file-alt"></i>
                 <span class="links_name">Reports</span>
             </a>
         </li>
         <li>
-            <a href="<?=ROOT?>/circulations" <?=($this->controller_name() == 'Circulations') ? 'class="active" ':''?>>
+            <a href="<?=ROOT?>/circulations">
                 <i class="fas fa-cog"></i>
                 <span class="links_name">Circulation</span>
             </a>
         </li>
         <?php endif;?>
 
-       
+        <li>
+            <a href="#">
+                <i class="fas fa-house-user"></i>
+                <span class="links_name">About Us</span>
+            </a>
+        </li>
         
         <li class="log_out">
             <a href="<?=ROOT?>/logout">
