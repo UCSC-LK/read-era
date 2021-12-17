@@ -29,7 +29,8 @@
                         </div>
                         <div class="col-75">
                             <select class="my-2 form-control" name="book_management">
-                                <option  <?=get_select('book_management','')?> value="">---Select the Privilege---</option>
+                                <option class="items" <?=get_select('book_management','')?> value="<?=get_var('book_management',$row[0]->book_management)?>"><?=get_var('book_management',$row[0]->book_management)?></option>
+                                <!-- <option  <?=get_select('book_management','')?> value="">---Select the Privilege---</option> -->
                                 <option  <?=get_select('book_management','Yes')?> value="Yes">Yes</option>
                                 <option  <?=get_select('book_management','No')?> value="No">No</option>
                             </select><br>
@@ -44,7 +45,8 @@
                         </div>
                         <div class="col-75">
                             <select class="my-2 form-control" name="user_management">
-                                <option  <?=get_select('user_management','')?> value="">---Select the Privilege---</option>
+                            <option class="items" <?=get_select('user_management','')?> value="<?=get_var('user_management',$row[0]->user_management)?>"><?=get_var('user_management',$row[0]->user_management)?></option>
+                                <!-- <option  <?=get_select('user_management','')?> value="">---Select the Privilege---</option> -->
                                 <option  <?=get_select('user_management','Yes')?> value="Yes">Yes</option>
                                 <option  <?=get_select('user_management','No')?> value="No">No</option>
                             </select><br>
