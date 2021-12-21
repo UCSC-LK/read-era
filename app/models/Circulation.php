@@ -10,6 +10,7 @@ class Circulation extends Model
         'deadline',
         'returned_date',
         'fine',
+        'status',
        
     ];
 

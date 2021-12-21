@@ -44,11 +44,26 @@
  
                 <?php if($rows):?>
                 <table class="table table-striped table-hover">
-                    <tr><th>Title</th><th>Member</th><th>Issue date</th><th>Deadline</th>
+                    <colgroup>
+                            <col span="1" style="width: 30%;">
+                            <col span="1" style="width: 20%;">
+                            <col span="1" style="width: 15%;">
+                            <col span="1" style="width: 15%;">
+                            <col span="1" style="width: 12%;">
+                          
+
+                        </colgroup>
+                    <tr><th>Title</th><th>Member</th><th>Issue date</th><th>Deadline</th><th>Actions</th>
                     </tr>
             
                         <?php foreach ($rows as $row):?>
-                            <tr><td><?=$row->book_id?></td><td><?=$row->member_id?></td><td><?=get_date($row->issue_date)?></td><td><?=get_date($row->deadline)?></td></tr>
+                            <tr><td><?=$row->book_id?></td><td><?=$row->member_id?></td><td><?=get_date($row->issue_date)?></td><td><?=get_date($row->deadline)?></td>
+                            <td> <div>
+                                <a class="return-btn" href="<?=ROOT?>/circulations/return/<?=$row->id?>">Return</a>
+                                <a class="renew-btn" href="<?=ROOT?>/circulations/renew/<?=$row->id?>"></i>Renew</a>
+                            </div>
+                        </td>
+                        </tr>
                         
                         
                     <?php endforeach;?>
@@ -56,6 +71,9 @@
                         <h4>No issues were found at this time</h4>
                     <?php endif;?>
                 </table>
+                <?php $pager->display()?>
+
+
 
                 
             
@@ -69,4 +87,3 @@
 
 
 <?php $this->view('includes/footer')?>
-
