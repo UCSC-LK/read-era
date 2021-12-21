@@ -24,27 +24,26 @@
             </div>
         <div class="content-box">
             <div class="box1 box">
-                <div class="title">Fine, Amount Of Books and Duration </div>
+                <div class="title">User Configurations</div><br>
 
                <table class="table table-striped table-hover">
-                        <colgroup>
-                                <col span="1" style="width: 15%;">
-                                <col span="1" style="width: 15%;">
-                                <col span="1" style="width: 15%;">
-                                <col span="1" style="width: 10%;">
-                                <col span="1" style="width: 5%;">
-
-                        </colgroup>
-                        <tr><th>Rank</th><th>Fine Amount(Rs)</th><th>Number of Books For Reserved</th><th>Time Period</th><th>Action</th>
+                        <tr>
+                            <th>Category</th>
+                            <th>Initial Fine(Rs.)</th>
+                            <th>Fine per hour(Rs.)</th>
+                            <th>Borrow period(Days)</th>
+                            <th>Action</th>
                             
                         </tr>
 
                         <?php if($rows):?>
                             <?php foreach ($rows as $row):?>
-                                <tr><td><?=$row->Rank?></td>
-                                    <td><?=$row->Fine?></td>
-                                    <td><?=$row->no_book?></td>
-                                    <td><?=$row->Due_date?></td>
+                                <tr><td><?=$row->category?></td>
+                                    <td><?=$row->initialFine?></td>
+                                    <td><?=$row->finePerHour?></td>
+                                    <td><?=$row->BorrowPeriod?></td>
+                                    
+                                    
                                     <td>
                                         <a href="<?=ROOT?>/administration/configedit/<?=$row->id?>">
                                         <i class="fa fa-edit carta"></i>

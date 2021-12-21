@@ -24,45 +24,39 @@
             <h2 class="title">Update User Configuration</h2>
             <div class="container">
                 <form method="post">
-                    <?php if(count($errors) > 0):?>
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                            <strong style="color:red;">Errors:</strong>
-                            <?php foreach($errors as $error):?>
-                                <div style="color:red;"><?=$error?></div>
-                            <?php endforeach;?>
-                            
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div><br>
-                    <?php endif;?>
+                    
 
                     <div class="row">
                         <div class="col-25">
-                            <label for="Fine">Fine Amount</label>
+                            <label for="initialFine">Initial Fine</label>
                         </div>
                         <div class="col-75">
-                            <input autofocus class="form-control" type="text" name="Fine" placeholder="Fine" value="<?=get_var('Fine',$row[0]->Fine)?>"><br>
+                            <input autofocus class="form-control" type="text" name="initialFine" placeholder="Intitial Fine" value="<?=get_var('initialFine',$row[0]->initialFine)?>"><br>
                         </div>
                         </div>
                         <div class="row">
                         <div class="col-25">
-                            <label for="Fine">Number Of Book For Reserved</label>
+                            <label for="finePerHour">Fine per hour</label>
                         </div>
                         <div class="col-75">
-                            <input autofocus class="form-control" type="text" name="no_book" placeholder="No of Books" value="<?=get_var('no_book',$row[0]->no_book)?>"><br>
+                            <input autofocus class="form-control" type="text" name="finePerHour" placeholder="Fine per hour" value="<?=get_var('finePerHour',$row[0]->finePerHour)?>"><br>
                         </div>
                     </div>
 
+                   
+                
                         <div class="row">
                             <div class="col-25">
-                            <label for="Fine">Due To Days</label>
+                            <label for="BorrowPeriod">Borrow Period</label>
                             </div>
                         <div class="col-75">
-                            <input autofocus class="form-control" type="text" name="Due_date" placeholder="Due Days" value="<?=get_var('Due_date',$row[0]->Due_date)?>"><br>
+                            <input autofocus class="form-control" type="text" name="BorrowPeriod" placeholder="Borrow Period" value="<?=get_var('BorrowPeriod',$row[0]->BorrowPeriod)?>"><br>
                         </div>
                         </div>
+                        
                     <div class="row">
                         <a href="<?=ROOT?>/administration/userconfig/"><input type="submit" value="Save">
-                            <a class="cancel" href="<?=ROOT?>/administration/userconfig/">Cancel</a>
+                            <a class="cancel" href="<?=ROOT?>/administration/configuration/">Cancel</a>
                 </form>
             </div>
 

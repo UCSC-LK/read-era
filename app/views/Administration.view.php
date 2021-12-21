@@ -26,7 +26,7 @@
                     <?php if(Auth::rank() == 'Librarian'):?>
                       <a class="add-new-item1" href="<?=ROOT?>/administration/add"><i class="fa fa-plus"></i> Add New Administrator</a>
                       <a class="add-new-item1" href="<?=ROOT?>/administration/privilage">Privilage Settings</a>
-                      <a class="add-new-item1" href="<?=ROOT?>/Administration/userconfig">User Configurations</a>
+                      <a class="add-new-item1" href="<?=ROOT?>/administration/configuration">User Configurations</a>
 
                     <?php endif;?>
 
