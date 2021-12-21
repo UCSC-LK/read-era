@@ -14,8 +14,6 @@
 
 
 <div class="home-content">
-
-
     <div class="content-box">
         <div class="box1 box">
             <div class="header">

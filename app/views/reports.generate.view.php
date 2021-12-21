@@ -19,17 +19,12 @@
     <table class="print-table">
         <tr><th>Title</th><th>Member</th><th>Issue date</th><th>Deadline</th>
         </tr>
-
-
-            <?php foreach ($rows as $row):?>
+        <?php foreach ($rows as $row):?>
                 <tr><td><?=$row->book_id?></td><td><?=$row->member_id?></td><td><?=get_date($row->issue_date)?></td><td><?=get_date($row->deadline)?></td></tr>
             <?php endforeach;?>
-
-
     </table>
 
-
-    <div>
+        <div>
         <button onclick="window.print();" class="update_profile_button">Print</button>
         <a class="update_profile_button" href="<?=ROOT?>/reports/issue">Cancel</a>
     </div>

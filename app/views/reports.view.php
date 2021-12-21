@@ -1,6 +1,3 @@
-
-
-
 <?php $this->view('includes/header')?>
 <?php $this->view('includes/nav')?>
 <?php $this->view('includes/topbar')?>
@@ -65,10 +62,10 @@
                         <a class="report-type" href="<?=ROOT?>/reports/issue">Issued Books</a>
                     </div>
                     <div class="col-75">
-                        <a class="report-type" href="<?=ROOT?>/catalogs/csv">Returned Books</a>
+                        <a class="report-type" href="<?=ROOT?>/reports/return">Returned Books</a>
                     </div>
                     <div class="col-75">
-                        <a class="report-type" href="<?=ROOT?>/catalogs/csv">TW and TWA</a>
+                        <a class="report-type" href="<?=ROOT?>/reports/tw">TW and TWA</a>
                     </div>
                 </div>
                 <div class="row">
@@ -93,17 +90,6 @@
                         <a class="report-type" href="<?=ROOT?>/reports/inventory">Inventory Report</a>
                     </div>
                 </div>
-                <!--<div class="row">
-                    <div class="col-75">
-                        <a class="report-type" href="<?=ROOT?>/reports/withdraw">Withdrawn Books</a>
-                    </div>
-                    <div class="col-75">
-                        <a class="report-type" href="<?=ROOT?>/catalogs/csv">Inventory Missing</a>
-                    </div>
-                    <div class="col-75">
-                        <a class="report-type" href="<?=ROOT?>/reports/inventory">Inventory Report</a>
-                    </div>
-                </div>-->
 
             </div>
         </div>
@@ -116,6 +102,5 @@
 
 
 <?php $this->view('includes/footer')?>
-
 
 

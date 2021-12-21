@@ -15,6 +15,7 @@
 </style>
 <form action="" method="post" style="width:90%;margin-left:auto;margin-right:auto;">
     <h3>Withdrawn Books</h3>
+    <?php if($rows):?>
     <table class="print-table">
         <tr><th>ISBN</th><th>Author</th><th>Title</th><th>Call Number</th><th>Language Code</th>
         </tr>
@@ -24,6 +25,9 @@
     </table>
     <button onclick="window.print();" class="update_profile_button">Print</button>
     <a class="update_profile_button" href="<?=ROOT?>/reports/withdraw">Cancel</a>
+    <?php else:?>
+        <h3>No results found</h3>
+    <?php endif;?>
 </form>
 
 
