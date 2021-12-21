@@ -81,14 +81,22 @@ Class Reports extends Controller
             $data1 = $data;
             
         }
+
+            
+
         }
         
         if(!isset($data))
         {
             $this->redirect("reports");
         }
+     
+        
+
+
         $crumbs[] = ['Dashboard', ''];
         $crumbs[] = ['Reports', 'reports'];
+
 
         $this->view('reports.generate', [
             'rows' => $data,
@@ -101,7 +109,7 @@ Class Reports extends Controller
             $this->redirect('landing');
         }
         $damaged = new Catalog();
-        $query = "select * from catalogs where status = 'damage'";
+        $query = "select * from catalogs where damageState = 'D'";
         $data = $damaged->query($query);
 
         $crumbs[] = ['Dashboard', ''];
@@ -120,7 +128,7 @@ Class Reports extends Controller
         }
 
         $damaged = new Catalog();
-        $query = "select * from catalogs where status = 'damage'";
+        $query = "select * from catalogs where damageState = 'D'";
         $data = $damaged->query($query);
 
         $crumbs[] = ['Dashboard', ''];
@@ -137,7 +145,7 @@ Class Reports extends Controller
             $this->redirect('landing');
         }
         $lost = new Catalog();
-        $query = "select * from catalogs where status = 'lost'";
+        $query = "select * from catalogs where damageState = 'L'";
         $data = $lost->query($query);
 
 
@@ -157,7 +165,7 @@ Class Reports extends Controller
         }
 
         $lost = new Catalog();
-        $query = "select * from catalogs where status = 'lost'";
+        $query = "select * from catalogs where damageState = 'L'";
         $data = $lost->query($query);
 
         $crumbs[] = ['Dashboard', ''];
@@ -174,7 +182,7 @@ Class Reports extends Controller
             $this->redirect('landing');
         }
         $lost = new Catalog();
-        $query = "select * from catalogs where status = 'withdrawn'";
+        $query = "select * from catalogs where damageState = 'W' ";
         $data = $lost->query($query);
 
 
@@ -194,7 +202,7 @@ Class Reports extends Controller
         }
 
         $lost = new Catalog();
-        $query = "select * from catalogs where status = 'withdrawn'";
+        $query = "select * from catalogs where damageState = 'W'";
         $data = $lost->query($query);
 
         $crumbs[] = ['Dashboard', ''];
@@ -227,12 +235,12 @@ Class Reports extends Controller
         $data2 = $data2->count;
         $arr[1] = $data2;
 
-        $data3 = $books->query("select count(id) as count from catalogs where status='lost' ");
+        $data3 = $books->query("select count(id) as count from catalogs where damageState = 'L' ");
         $data3 = $data3[0];
         $data3 = $data3->count;
         $arr[2] = $data3;
 
-        $data4 = $books->query("select count(id) as count from catalogs where status='damage'");
+        $data4 = $books->query("select count(id) as count from catalogs where damageState = 'D'");
         $data4 = $data4[0];
         $data4 = $data4->count;
         $arr[3] = $data4;
@@ -247,7 +255,7 @@ Class Reports extends Controller
         $data6 = $data6->count;
         $arr[5] = $data6;
 
-        $data7 = $books->query("select count(id) as count from catalogs where status='withdrawn'");
+        $data7 = $books->query("select count(id) as count from catalogs where damageState = 'W'");
         $data7 = $data7[0];
         $data7 = $data7->count;
         $arr[6] = $data7;
@@ -284,12 +292,12 @@ Class Reports extends Controller
         $data2 = $data2->count;
         $arr[1] = $data2;
 
-        $data3 = $books->query("select count(id) as count from catalogs where status='lost' ");
+        $data3 = $books->query("select count(id) as count from catalogs where damageState = 'L' ");
         $data3 = $data3[0];
         $data3 = $data3->count;
         $arr[2] = $data3;
 
-        $data4 = $books->query("select count(id) as count from catalogs where status='damage'");
+        $data4 = $books->query("select count(id) as count from catalogs where damageState = 'D'");
         $data4 = $data4[0];
         $data4 = $data4->count;
         $arr[3] = $data4;
@@ -304,7 +312,7 @@ Class Reports extends Controller
         $data6 = $data6->count;
         $arr[5] = $data6;
 
-        $data7 = $books->query("select count(id) as count from catalogs where status='withdrawn'");
+        $data7 = $books->query("select count(id) as count from catalogs where damageState = 'W'");
         $data7 = $data7[0];
         $data7 = $data7->count;
         $arr[6] = $data7;
@@ -318,4 +326,193 @@ Class Reports extends Controller
             'arr'=>$arr,
         ]);
     }
+    public function fine()
+    {
+        if (!Auth::logged_in()) {
+            $this->redirect('landing');
+        }
+        $circulation = new Circulation();
+        $user = new User();
+        $book = new Catalog();
+
+        //$data = $circulation->findAll();
+
+        $query = "select * from circulations WHERE fine>0";
+        $data = $circulation->query($query);
+
+        if($data)
+        {
+            foreach ($data as $row){
+                $memberid=$row->member_id;
+                $member = $user->query("select firstname,lastname from users where id=$memberid");
+                $member = $member[0];
+                $row->member_id = $member->firstname;
+
+                $bookid = $row->book_id;
+                $bookname = $book->query("select title from catalogs where id=$bookid");
+                $bookname = $bookname[0];
+                $row->book_id= $bookname->title;
+
+            }
+        }
+        $crumbs[] = ['Dashboard', ''];
+        $crumbs[] = ['Reports', 'reports'];
+
+
+        $this->view('reports.fine', [
+            'rows' => $data,
+            'crumbs' => $crumbs,
+        ]);
+    }
+    public function generatef()
+    {
+        if (!Auth::logged_in()) {
+            $this->redirect('landing');
+        }
+        $circulation = new Circulation();
+        $user = new User();
+        $book = new Catalog();
+        //$data = $circulation->findAll();
+
+        $query = "select * from circulations WHERE fine>0";
+        $data = $circulation->query($query);
+
+        if($data)
+        {
+            foreach ($data as $row){
+                $memberid=$row->member_id;
+                $member = $user->query("select firstname from users where id=$memberid");
+                $member = $member[0];
+                $row->member_id = $member->firstname;
+
+                $bookid = $row->book_id;
+                $bookname = $book->query("select title from catalogs where id=$bookid");
+                $bookname = $bookname[0];
+                $row->book_id= $bookname->title;
+            }
+        }
+        $crumbs[] = ['Dashboard', ''];
+        $crumbs[] = ['Reports', 'reports'];
+
+
+        $this->view('reports.generatef', [
+            'rows' => $data,
+            'crumbs' => $crumbs,
+        ]);
+    }
+    public function tw()
+    {
+        if (!Auth::logged_in()) {
+            $this->redirect('landing');
+        }
+        $tw = new Catalog();
+        $query = "select * from catalogs where damageState = 'TWA' OR damageState = 'TW'";
+        $data = $tw->query($query);
+
+
+        $crumbs[] = ['Dashboard', ''];
+        $crumbs[] = ['Reports', 'reports'];
+
+
+        $this->view('reports.tw', [
+            'rows' => $data,
+            'crumbs' => $crumbs,
+        ]);
+    }
+    public function generatetw()
+    {
+        if (!Auth::logged_in()) {
+            $this->redirect('landing');
+        }
+
+        $tw = new Catalog();
+        $query = "select * from catalogs where damageState = 'TWA' OR damageState = 'TW'";
+        $data = $tw->query($query);
+
+        $crumbs[] = ['Dashboard', ''];
+        $crumbs[] = ['Reports', 'reports'];
+
+        $this->view('reports.generatetw', [
+            'rows' => $data,
+            'crumbs' => $crumbs,
+        ]);
+    }
+    public function return()
+    {
+        if (!Auth::logged_in()) {
+            $this->redirect('landing');
+        }
+        $circulation = new Circulation();
+        $user = new User();
+        $book = new Catalog();
+
+        //$data = $circulation->findAll();
+
+        $query = "select * from circulations WHERE status='returned'";
+        $data = $circulation->query($query);
+
+        if($data)
+        {
+            foreach ($data as $row){
+                $memberid=$row->member_id;
+                $member = $user->query("select firstname,lastname from users where id=$memberid");
+                $member = $member[0];
+                $row->member_id = $member->firstname;
+
+                $bookid = $row->book_id;
+                $bookname = $book->query("select title from catalogs where id=$bookid");
+                $bookname = $bookname[0];
+                $row->book_id= $bookname->title;
+
+            }
+        }
+        $crumbs[] = ['Dashboard', ''];
+        $crumbs[] = ['Reports', 'reports'];
+
+
+        $this->view('reports.return', [
+            'rows' => $data,
+            'crumbs' => $crumbs,
+        ]);
+    }
+    public function generater()
+    {
+        if (!Auth::logged_in()) {
+            $this->redirect('landing');
+        }
+        $circulation = new Circulation();
+        $user = new User();
+        $book = new Catalog();
+
+        //$data = $circulation->findAll();
+
+        $query = "select * from circulations WHERE status='returned'";
+        $data = $circulation->query($query);
+
+        if($data)
+        {
+            foreach ($data as $row){
+                $memberid=$row->member_id;
+                $member = $user->query("select firstname from users where id=$memberid");
+                $member = $member[0];
+                $row->member_id = $member->firstname;
+
+                $bookid = $row->book_id;
+                $bookname = $book->query("select title from catalogs where id=$bookid");
+                $bookname = $bookname[0];
+                $row->book_id= $bookname->title;
+            }
+        }
+        $crumbs[] = ['Dashboard', ''];
+        $crumbs[] = ['Reports', 'reports'];
+
+
+        $this->view('reports.generater', [
+            'rows' => $data,
+            'crumbs' => $crumbs,
+        ]);
+    }
+
+
+
 }
