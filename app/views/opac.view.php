@@ -4,8 +4,8 @@
 
 
 
-
 <div class="home-content">
+
 <div class="crumbs">
                 
                 <?php if(isset($crumbs)):?>
@@ -45,7 +45,7 @@
                             <h3>Status: <?=$row->Status?></h3><br>
                             <br>
                             <?php if($row->Status == 'Available'):?>
-                                <a href="<?=ROOT?>/opac/add_reservation/<?=$row->id?>"><button class="opac-btn">Reserve Book</button></a>
+                                <a href="<?=ROOT?>/opac/add_reservation/<?=$row->id?>"><button id="submitbutton" onclick="loading();" class="opac-btn">Reserve Book</button></a>
                             <?php elseif(in_array($row->id, $check)):?>
                            
                                 <a href="<?=ROOT?>/opac/remove_reservation/<?=$row->id?>"><button class="opac-btn">Remove reservation</button></a>
@@ -67,6 +67,7 @@
     </div>
 </div>
 </section>
+
 
 
 

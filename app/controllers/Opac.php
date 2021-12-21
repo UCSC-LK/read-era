@@ -14,8 +14,8 @@ Class Opac extends Controller
         {
             $this->redirect('landing');
         }
-
-       
+      
+        $_SESSION['reserveBookID'] = -1;
         $opac = new Catalog();
         $roleid = Auth::id();
         $reservation = new Reservation();
@@ -70,13 +70,19 @@ Class Opac extends Controller
         {
             $this->redirect('landing');
         }
+
+        
       
         
         if($id)
         {
-            $reservation = new Reservation();
-
+               if($id != $_SESSION['reserveBookID'])
+               {
+               $_SESSION['reserveBookID'] = $id;
+               
             
+                $reservation = new Reservation();
+
                 $arr = array();
                 $arr['book_id']=$id;
                 $arr['member_id']=Auth::id();
@@ -96,6 +102,8 @@ Class Opac extends Controller
                 $bookname = $bookname[0];
                 $bookname= $bookname->title;
  
+           
+
                 
                 $send = send_mail($memberemail,'Reservation',"You have success fully reserved the book  " . $bookname . " on " . get_date($date) . " thank you.");
 
@@ -124,14 +132,20 @@ Class Opac extends Controller
                 }
                 else
                 {
+                    
+
                     $reservation->insert($arr);
                     $_bookstatus['Status'] = "Reserved";
                     $book->update($bookid,$_bookstatus);
                     $this->redirect('opac');
-                }
-                //print_r($arr);
+                  
 
-               
+                }
+                //print_r($arr); 
+                }
+                else{
+                    $this->redirect('opac');
+                }
            
         }
     }
@@ -169,6 +183,8 @@ Class Opac extends Controller
 
         if($id)
         {
+            $_SESSION['reserveBookID'] = -1;
+
             $bookid = $id;
             $reservation = new Reservation();
             $userid = Auth::id();

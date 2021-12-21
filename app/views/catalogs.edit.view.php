@@ -241,6 +241,35 @@
                 </div>
 
                 <div class="row">
+                <div class="col-25">
+                    <label for="price">Price(Rupees)</label>
+                </div>
+                <div class="col-75">
+                <input autofocus class="form-control" value="<?=get_var('price',$row[0]->price)?>" type="text" name="price" placeholder="Price (In rupees)"><br><br>
+
+                </div>
+                <div class="col-25">
+                    <label for="">Damage Status</label>
+                </div>
+                <div class="col-75">
+                    <select class="my-2 form-control" name="damageState">
+                        <option class="items" <?=get_select('damageState','')?> value="<?=get_var('damageState',$row[0]->damageState)?>"><?=get_var('damageState',$row[0]->damageState)?></option>
+                        <option class="items" <?=get_select('damageState','OK')?> value="D">OK</option>
+                        <option class="items" <?=get_select('damageState','D')?> value="D">D (Book is Damaged)</option>
+                        <option class="items" <?=get_select('damageState','L')?> value="L">L (Lost)</option>
+                        <option class="items" <?=get_select('damageState','W')?> value="W">W (Withdrawn)</option>
+                        <option class="items" <?=get_select('damageState','TW')?> value="TW">TW (Temporarily Withdrawn)</option>
+                        <option class="items" <?=get_select('damageState','TWA')?> value="TWA">TWA (Temporarily Withdrawn Archive)</option>
+                        <option class="items" <?=get_select('damageState','NR')?> value="NR">NR (Not Returned)</option>
+                        
+
+                    </select><br><br>
+                </div>
+
+               
+                </div>
+
+                <div class="row">
 
                 <a href="<?=ROOT?>/catalogs"><input type="submit" value="Save">
 

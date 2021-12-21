@@ -18,5 +18,13 @@ function display_image_name(file_name){
 }
 </script>
 
+
+<script>
+    function loading(){
+        document.getElementById('laodingpopup').style.display='';
+        document.getElementById('submitbutton').disabled = true;
+    }
+</script>
+
 </body>
 </html>

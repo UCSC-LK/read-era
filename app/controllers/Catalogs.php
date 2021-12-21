@@ -89,7 +89,7 @@ class Catalogs extends Controller
         if(count($_POST) > 0)
         {
             $catalog = new Catalog();
-
+            $_POST['damageState'] = "OK";
             if($catalog->validate($_POST))
             {
                 $_POST['date'] = date("Y-m-d H:i:s");
@@ -179,7 +179,9 @@ class Catalogs extends Controller
                         $data['Status']= $line[17];
                         $data['Type']= $line[18];
                         $data['Collection']= $line[19];
+                        $data['price'] = $line[20];
                         $data['date']= date("Y-m-d H:i:s");
+                        $data['damageState'] = "OK";
                        
                         $catalog->insert($data);
                     }

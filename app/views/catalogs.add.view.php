@@ -242,6 +242,18 @@
                 </div>
 
                 <div class="row">
+                <div class="col-25">
+                    <label for="price">Price(Rupees)</label>
+                </div>
+                <div class="col-75">
+                <input autofocus class="form-control" value="<?=get_var('price')?>" type="text" name="price" placeholder="Price (In rupees)"><br><br>
+
+                </div>
+
+               
+                </div>
+
+                <div class="row">
 
                 <a href="<?=ROOT?>/catalogs"><input type="submit" value="Add">
 

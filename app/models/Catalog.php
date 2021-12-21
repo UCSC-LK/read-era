@@ -24,6 +24,8 @@ class Catalog extends Model
         'Collection',
         'Status',
         'date',
+        'damageState',
+        'price',
        
     ];
 

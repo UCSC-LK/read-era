@@ -113,7 +113,15 @@
                               <th>Status: </th>
                                    <td><?=$row->Status?></td>
                               </tr>
+                              <th>Damage State: </th>
+                                   <td><?=$row->damageState?></td>
+                              </tr>
                               <tr>
+                              <th>Price(Rs.): </th>
+                                   <td><?=$row->price?></td>
+                              </tr>
+                              <tr>
+
                               <th>Date: </th>
                                    <td><?=get_date($row->date)?></td>
                               </tr>

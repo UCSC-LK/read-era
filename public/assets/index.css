@@ -1253,27 +1253,35 @@ tr:nth-child(even) {
   border-radius: 5px;
 }
 
-@media (max-width: 1000px) {
-  .overview-boxes2 .box {
-    width: calc(100% / 1 - 15px);
-    margin-bottom: 15px;
-  }
+/* .fa-spin {
+  visibility: hidden;
 }
-@media (max-width: 710px) {
-  .content-box .add-new-item1 {
-    width: calc(100% / 1 - 55px);
-    margin-bottom: 15px;
-  }
+
+.loading {
+  visibility: visible;
+} */
+
+.return-btn {
+  background-color: #0a2558;
+  color: white;
+  font-size: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: left;
+  text-decoration: none;
 }
-@media (max-width: 1000px) {
-  .content-box .box .table {
-    width: 100%;
-    font-size: 12px;
-  }
-  .content-box .box .table .carta {
-    margin-bottom: 12px;
-    height: 25px;
-    width: 25px;
-    font-size: 15px;
-  }
+
+.renew-btn {
+  background-color: #0a2558;
+  color: white;
+  font-size: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+
+  text-decoration: none;
 }

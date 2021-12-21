@@ -17,3 +17,6 @@
     <title>ReadEra</title>
 </head>
 <body>
+<div class="loadingcontainer" id="laodingpopup" style="position:fixed;top:50%;left:50%;transform: translate(-50%, -50%);z-index: 99999;display:none;">
+<img class="loadingimg" style="height:60px;width:60px;border: 1px solid #555;" src="<?=ROOT?>/assets/Spin-1s-200px.gif">
+</div>
