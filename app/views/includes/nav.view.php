@@ -65,7 +65,12 @@
             </a>
         </li>
         <?php endif;?>
-
+         <li>
+            <a href="<?=ROOT?>/calenders" <?=($this->controller_name() == 'Calenders') ? 'class="active" ':''?>>
+                <i class="fas fa-calendar"></i>
+                <span class="links_name">Calender</span>
+            </a>
+        </li>
        
         
         <li class="log_out">
