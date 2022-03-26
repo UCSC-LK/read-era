@@ -2,6 +2,31 @@
 <?php $this->view('includes/nav')?>
 <?php $this->view('includes/topbar')?>
 
+<style>
+table,
+th,
+td,
+tr {
+  border: 0px solid black;
+  border-collapse: collapse;
+}
+table {
+  width: 100%;
+}
+th {
+  height: 40px;
+}
+th,
+td {
+  padding: 10px;
+  text-align: left;
+}
+
+tr:nth-child(even) {
+  background-color: #fff;
+}
+
+</style>
 
 <div class="home-content">
 
@@ -41,63 +66,55 @@
             </div>
         </div>
 
-        <div class="content-box">
-            <div class="box1 box">
-                <div class="title">Recent Borrow Details</div>
-                <div class="details">
-                    <ul class="details1">
-                        <li class="topic">Date</li>
-                        <li><a href="#">02 Jan 2021</a></li>
-                        <li><a href="#">02 Jan 2021</a></li>
-                        <li><a href="#">02 Jan 2021</a></li>
-                  
-                    </ul>
-                    <ul class="details1">
-                        <li class="topic">Member</li>
-                        <li><a href="#">Alex Doe</a></li>
-                        <li><a href="#">David Mart</a></li>
-                        <li><a href="#">Roe Parter</a></li>
-                     
-                    </ul>
-                    <ul class="details1">
-                        <li class="topic">Type</li>
-                        <li><a href="#">Book</a></li>
-                        <li><a href="#">Thesis</a></li>
-                        <li><a href="#">Research Paper</a></li>
-                     
-                    </ul>
-                    <ul class="details1">
-                        <li class="topic">Total Books</li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#">5</a></li>
-                       
-                    </ul>
+        <div class="content-boxx">
+            <div class="box1x box">
+                <div class="titlex">Recent Borrow Details</div>
+                <div class="detailsx">
+                <?php if($rows):?>
+                <table>
+                        <colgroup>
+                            <col span="1" style="width: 50%;">
+                            <col span="1" style="width: 25%;">
+                            <col span="1" style="width: 25%;">
+                           
+                        </colgroup>
+                    <tr><th>Title</th><th>Member</th><th>Issue date</th>
+                    </tr>
+            
+                        <?php foreach ($rows as $row):?>
+                            <tr><td><?=$row->book_id?></td><td><?=$row->member_id?></td><td><?=get_date($row->issue_date)?></td></tr>
+                        <?php endforeach;?>
+                    <?php else:?>
+                        <h4>No issues were found at this time</h4>
+                    <?php endif;?>
+                </table>
+
+                    
                 </div>
                 <div class="button">
-                    <a href="#">See All</a>
+                    <a href="<?=ROOT?>/circulations">See All</a>
                 </div>
             </div>
-            <div class="box2 box">
-                <div class="title">Top Book Categories</div>
-                <ul class="details2">
+            <div class="box2x box">
+                <div class="titlex">Top Book Categories</div>
+                <ul class="details2x">
                     <li>
                         <a href="#">
-                            <span class="category">Datastructure</span>
+                            <span class="categoryx">Datastructure</span>
                         </a>
-                        <span class="quan"><?=$arr[4]?></span>
+                        <span class="quanx"><?=$arr[5]?></span>
                     </li>
                     <li>
                         <a href="#">
-                            <span class="category">Programming</span>
+                            <span class="categoryx">Programming</span>
                         </a>
-                        <span class="quan"><?=$arr[5]?></span>
+                        <span class="quanx"><?=$arr[4]?></span>
                     </li>
                     <li>
                         <a href="#">
-                            <span class="category">Database</span>
+                            <span class="categoryx">Database</span>
                         </a>
-                        <span class="quan"><?=$arr[6]?></span>
+                        <span class="quanx"><?=$arr[6]?></span>
 
                 </ul>
             </div>

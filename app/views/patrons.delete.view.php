@@ -23,7 +23,7 @@
     <?php if($row):?>
         <div class="card-group justify-content-center">
             <form method="post">
-                <h3>Are you Sure You Want To Delete This Patron?!</h3>
+                <h3>Are you Sure You Want To Delete This Patron?</h3>
                 <input disabled autofocus class="form-control" type="text" name="firstname,lastname" placeholder="First Name" value="<?=get_var('firstname',$row[0]->firstname)?> <?=get_var('lastname',$row[0]->lastname)?>"><br><br>
                 <input type="hidden" name="id">
                 <input class="btn btn-danger float-end" type="submit" value="Delete">

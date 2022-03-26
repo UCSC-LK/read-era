@@ -32,7 +32,7 @@
         </div>
     <?php else:?>
         <div style="text-align: center">
-            That School was not found!!!<br><br>
+            That Administrater was not found!!!<br><br>
             <br><br>
             <a class="delete-back" href="<?=ROOT?>/Administration">Cancel</a>
         </div>

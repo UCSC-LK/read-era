@@ -27,7 +27,7 @@
             <div class="box1 box">
                 <div class="title">Details</div>
                
-                <table style="table-layout: fixed" class="table table-striped table-hover">
+                <table style="table-layout: fixed" class="cataloging-table">
                
                     <body>
                
@@ -138,7 +138,7 @@
                 </table>
               
                
-                <a class="item-show-back" href="<?=ROOT?>/catalogs">Back</button>
+                <a class="item-show-back" href="<?=ROOT?>/cataloging">Back</button>
                 </a>
                 
             

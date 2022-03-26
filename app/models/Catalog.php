@@ -4,6 +4,7 @@ class Catalog extends Model
 {
     protected $allowedColumns = [
         'ISBN',
+        'copy_id',
         'CallNo',
         'LanguageCode',
         'Author',
@@ -41,10 +42,30 @@ class Catalog extends Model
             $this->errors['ISBN'] = "The Input given for ISBN is not valid";
         }
 
-        if($this->where('ISBN',$DATA['ISBN']))
+        $book = new Catalog;
+        $flag = false;
+        $query = "select copy_id from catalogs where ISBN like '%".$DATA['ISBN']."%'";
+        $bookdata = $book->query($query);
+        
+        if($bookdata)
         {
-            $this->errors['ISBN'] = "That ISBN is already in use";
+            foreach ($bookdata as $eachdata){
+                if($eachdata->copy_id == $DATA['copy_id']){
+                    $flag = true;
+                    break;
+                
+                }
+            }
         }
+
+        
+        if($flag)
+        {
+            $this->errors['copy_id'] = "That copy is already in use";
+        }
+        
+
+
 
         if(empty($DATA['CallNo']) || !preg_match('/^[A-Za-z0-9]+( [A-Za-z0-9\s]+)*$/', $DATA['CallNo']))
         {

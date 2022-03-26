@@ -8,6 +8,9 @@ class Configuration extends Model
         'initialFine',
         'finePerHour',
         'BorrowPeriod',
+        'ReservePeriod',
+        'max_borrow',
+        'max_reserve',
        
        
     ];

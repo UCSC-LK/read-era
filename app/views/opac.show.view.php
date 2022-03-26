@@ -26,7 +26,7 @@
             <div class="box1 box">
                 <div class="title">Details</div>
                
-                <table style="table-layout: fixed" class="table table-striped table-hover">
+                <table style="table-layout: fixed" class="opac-show-table">
                
                     <body>
                
@@ -35,6 +35,10 @@
                               <tr>
                               <th>ISBN: </th>
                               <td><?=$row->ISBN?></td>
+                              </tr>
+                              <tr>
+                              <th>CopyID: </th>
+                              <td><?=$row->copy_id?></td>
                               </tr>
                              
                               <tr>

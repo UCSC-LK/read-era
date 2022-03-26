@@ -32,17 +32,16 @@
     color: #fff;
     padding: 30px;
     width: 500px;
+
 }
 
-.book-preview a {
+.book-preview .all-detail {
     position: absolute;
     color: #fff;
     display: inline-block;
     font-size: 12px;
     opacity: 0.6;
     bottom: 10px;
-
-
     text-decoration: none;
 }
 
@@ -50,6 +49,7 @@
     padding: 30px;
     position: relative;
     width: 100%;
+    font-size: 15px;
 }
 
 
@@ -66,6 +66,38 @@
     right: 30px;
     letter-spacing: 1px;
 }
+
+.opac-btn2 {
+    background-color: #0ca5fc;
+    border: 0;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 10px;
+    padding: 6px 18px;
+    position: absolute;
+    right: 5px;
+    bottom: 10px;
+    letter-spacing: 1px;
+    display: none;
+    width: 40%;
+  }
+
+  .opac2-btn {
+    background-color: #19e3f1;
+    border: 0;
+    border-radius: 50px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    font-size: 16px;
+    padding: 12px 25px;
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    letter-spacing: 1px;
+  }
+  
+
+
 .col-35 {
     float: left;
     width: 550px;
@@ -93,4 +125,37 @@
     .floating-btn {
         right: 10px;
     }
+
+    .book {
+        font-size: 12px;
+      }
+    
+    .opac-btn2{
+        bottom:30px;
+        left: 25px;
+    }
+
+    .book-preview {
+       
+        min-width: 100%;
+    
+    }
+
+    .opac-show-table{
+        width: 1000px;
+
+    }
+
 }
+
+@media screen and (max-width: 900px) {
+    .opac-btn {
+      display: none;
+  
+    }
+  
+    .opac-btn2{
+      display: flex;
+    }
+   
+  }

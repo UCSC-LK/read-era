@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">-->
     <link rel="stylesheet" href="<?=ROOT?>/assets/index.css">
+    <link href="<?=ROOT?>/assets/Styles/css/all.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
     <title>ReadEra</title>
 </head>
@@ -36,7 +37,6 @@
                 related to relevant subjects and recreational books. There is a high demand for the theses
                 and dissertation collection of the library as many users are doing research.
             </p>
-            <button class="cta"><a href="<?=ROOT?>/signup"> Sign Up</a></button>
         </section>
         <section class="right">
             <img src="<?=ROOT?>/assets/img2.svg" alt="Langing image">

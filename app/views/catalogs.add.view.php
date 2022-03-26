@@ -34,8 +34,9 @@
 
             <form method="post">
                 <?php if(count($errors) > 0):?>
-                <div class="alert alert-warning alert-dismissible fade show p-1" role="alert">
-                    <strong style="color:red;">Errors</strong>
+                <div style="width:100%;border: 1px solid #D8D8D8;padding: 5px;border-radius: 5px;font-size: 15px;font-family: Arial;text-transform: uppercase;background-color: #f5f5f5;color: rgb(211, 0, 0);">
+                    <strong>Errors</strong>
+                    <br>
                     <?php foreach($errors as $error):?>
                         <div style="color:red;"><?=$error?></div>
                     <?php endforeach;?>
@@ -56,12 +57,13 @@
 
                 </div>
                 <div class="col-25">
-                    <label for="">CallNo</label>
+                    <label for="">CopyID</label>
                 </div>
                 <div class="col-75">
-                    <input autofocus class="form-control" value="<?=get_var('CallNo')?>" type="text" name="CallNo" placeholder="CallNo"><br><br>
+                    <input autofocus class="form-control" value="<?=get_var('copy_id')?>" type="text" name="copy_id" placeholder="CopyID"><br><br>
 
                 </div>
+                
                 </div>
 
                 <div class="row">
@@ -249,15 +251,22 @@
                 <input autofocus class="form-control" value="<?=get_var('price')?>" type="text" name="price" placeholder="Price (In rupees)"><br><br>
 
                 </div>
+                <div class="col-25">
+                    <label for="">CallNo</label>
+                </div>
+                <div class="col-75">
+                    <input autofocus class="form-control" value="<?=get_var('CallNo')?>" type="text" name="CallNo" placeholder="CallNo"><br><br>
+
+                </div>
 
                
                 </div>
 
                 <div class="row">
 
-                <a href="<?=ROOT?>/catalogs"><input type="submit" value="Add">
+                <a href="<?=ROOT?>/cataloging"><input type="submit" value="Add">
 
-                <a class="cancel" href="<?=ROOT?>/catalogs">Cancel</a>
+                <a class="cancel" href="<?=ROOT?>/cataloging">Cancel</a>
 
             </form>
             </div>

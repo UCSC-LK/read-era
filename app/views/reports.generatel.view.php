@@ -17,10 +17,10 @@
     <h3>Lost Books</h3>
     <?php if($rows):?>
     <table class="print-table">
-        <tr><th>ISBN</th><th>Author</th><th>Title</th><th>Call Number</th><th>Language Code</th>
+        <tr><th>ISBN</th><th>CopyID</th><th>Author</th><th>Title</th><th>Call Number</th><th>Language Code</th>
         </tr>
         <?php foreach ($rows as $row):?>
-            <tr><td><?=$row->ISBN?></td><td><?=$row->Author?></td><td><?=$row->Title?></td><td><?=$row->CallNo?></td><td><?=$row->LanguageCode?></td></tr>
+            <tr><td><?=$row->ISBN?></td><td><?=$row->copy_id?></td><td><?=$row->Author?></td><td><?=$row->Title?></td><td><?=$row->CallNo?></td><td><?=$row->LanguageCode?></td></tr>
         <?php endforeach;?>
     </table>
         <button onclick="window.print();" class="update_profile_button">Print</button>

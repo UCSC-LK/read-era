@@ -46,19 +46,34 @@
                         </div>
 
                         <div class="col-25">
-                            <label for="">Member Email</label>
+                            <label for="">Member NIC</label>
                         </div>
                         <div class="col-75">
-                            <input autofocus class="form-control" type="text" name="email" placeholder="Member Email" value="<?=get_var('email')?>"><br>
+                            <input autofocus class="form-control" id="nicresult" type="text" name="nic" placeholder="Member NIC" value="<?=get_var('nic')?>"><br>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="">CopyID</label>
+                        </div>
+                        <div class="col-75">
+                            <input autofocus class="form-control" type="text" name="copy_id" placeholder="CopyID" value="<?=get_var('copy_id')?>"><br>
+                        </div>
+
+                      
+                    </div>
+                    <br><br>
+                    
+                       <div id="camera"></div>
                     <br>
+                    
                     
 
                    
 
                     <div class="row">
-                        
+                        <input type="button" id="scan-btn" style="background-color: #0a2558;border: none;color: white;padding: 12px 30px;text-align: center;text-decoration: none;font-size: 16px;border-radius:5px;" value="Scan"/>
+
                         <a href="<?=ROOT?>/circulations"><input type="submit" value="Add">
                             <a class="cancel" href="<?=ROOT?>/circulations">Cancel</a>
                         
@@ -71,5 +86,49 @@
 </div>
 
 
+
+<script>
+        var _scannerIsRunning = false;
+        var sound = new Audio("https://localhost/readeracir/Read-era/public/assets/barcode.wav");
+
+        function startScanner() {
+        Quagga.init({
+            inputStream: {
+                name: "Live",
+                type: "LiveStream",
+                target: document.querySelector('#camera'),
+                        
+                },
+            decoder: {
+                readers: ["code_39_reader"]
+            }
+        }, function (err) {
+            if (err) {
+                console.log(err);
+                return
+            }
+            console.log("Initialization finished. Ready to start");
+            Quagga.start();
+
+            _scannerIsRunning = true;
+
+        });
+
+        Quagga.onDetected(function (data) {
+            sound.play();	
+            console.log(data.codeResult.code);
+            document.getElementById("nicresult").value = data.codeResult.code;
+
+        });
+
+        }
+        document.getElementById("scan-btn").addEventListener("click", function () {
+            if (_scannerIsRunning) {
+                Quagga.stop();
+            } else {
+                startScanner();
+            }
+        }, false);
+    </script>
 
 <?php  $this->view('includes/footer') ?>

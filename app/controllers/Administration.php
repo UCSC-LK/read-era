@@ -14,31 +14,67 @@ Class Administration extends Controller
             $this->redirect('landing');
         }
 
+        if($_SESSION['success'] == 13)
+        {
+            $_SESSION['success'] = 0;
+        }
+        elseif($_SESSION['success'] == 14){
+            $_SESSION['success'] = $_SESSION['success']-1;
+        }
+        elseif($_SESSION['success'] == 15)
+        {
+            $_SESSION['success'] = 0;
+
+        }
+
+        elseif($_SESSION['success'] == 16)
+        {
+            $_SESSION['success'] = $_SESSION['success']-1;
+
+        }
+        elseif($_SESSION['success'] == 17)
+        {
+            $_SESSION['success'] = 0;
+
+        }
+        elseif($_SESSION['success'] == 18)
+        {
+            $_SESSION['success'] = $_SESSION['success']-1;
+
+        }
+
+
         $patron = new User();
+        $limit = 8;
+        $pager = new Pager($limit);
+        $offset = $pager->offset;
+
         if(isset($_GET['find']))
         {
             
             $searchkey =  $_GET['find'];
-            $query = "select * from users where firstname like '%".$searchkey."%' AND rank='Librarian' OR rank='Library Staff'";
+            $query = "select * from users where firstname like '%".$searchkey."%' AND rank='Librarian' OR rank='Library Staff'  limit $limit offset $offset";
             $data = $patron->query($query);
 
            
 
         }
         else{
-            $data = $patron->query("select * from users where rank='Librarian' OR rank='Library Staff'");
+            $data = $patron->query("select * from users where rank='Librarian' OR rank='Library Staff'  limit $limit offset $offset");
 
 
         }
 
         
 
-        $crumbs[] = ['Administration',''];
+        $crumbs[] = ['Administration','administration'];
 
 
         $this->view('Administration',[
             'rows'=>$data,
             'crumbs'=>$crumbs,
+            'pager'=>$pager,
+
         ]);
     }
 
@@ -67,6 +103,8 @@ Class Administration extends Controller
                 $_POST['date'] = date("Y-m-d H:i:s") ;
 
                 $patron->insert($_POST);
+                $_SESSION['success'] = 14;
+
                 if($_POST['rank'] == 'Library Staff')
                 {
                     $fname = $_POST['firstname'];
@@ -78,6 +116,7 @@ Class Administration extends Controller
                     $arr['user_management'] = "No";
                     $priv->insert($arr);
 
+
                 }
                 
                 $this->redirect('Administration');
@@ -88,13 +127,11 @@ Class Administration extends Controller
             }
         }
 
-        $crumbs[] = ['Administration',''];
-        $crumbs[] = ['Add','Administration/add'];
-        //$data = $school ->findAll();
+        $crumbs[] = ['Administration','administration'];
+        $crumbs[] = ['Add',''];
         $this->view('Administration.add',[
             'errors'=>$errors,
             'crumbs'=>$crumbs,
-            //'rows'=>$data,
         ]);
     }
 
@@ -121,6 +158,8 @@ Class Administration extends Controller
             {
                 //$_POST['date'] = date("Y-m-d H:i:s") ;
                 $patron->update($id,$_POST);
+                $_SESSION['success'] = 16;
+
                 $this->redirect('Administration');
             }
             else
@@ -130,10 +169,9 @@ Class Administration extends Controller
         }
         $row = $patron -> where('id',$id);
 
-        $crumbs[] = ['Administration',''];
-        $crumbs[] = ['Edit','Administration/edit'];
+        $crumbs[] = ['Administration','administration'];
+        $crumbs[] = ['Edit',''];
 
-        //$data = $school ->findAll();
         $this->view('Administration.edit',[
             'errors'=>$errors,
             'row'=>$row,
@@ -158,12 +196,14 @@ Class Administration extends Controller
         if(count($_POST) > 0)
         {
             $patron->delete($id);
+            $_SESSION['success'] = 18;
+
             $this->redirect('Administration');
         }
         $row = $patron -> where('id',$id);
 
-        $crumbs[] = ['Administration',''];
-        $crumbs[] = ['Delete','Administration/delete'];
+        $crumbs[] = ['Administration','administration'];
+        $crumbs[] = ['Delete',''];
 
         $this->view('Administration.delete',[
             'errors'=>$errors,
@@ -188,8 +228,8 @@ Class Administration extends Controller
         $data = $patron->where('id',$id);
 
 
-        $crumbs[] = ['Administration',''];
-        $crumbs[] = ['Show','Administration/show'];
+        $crumbs[] = ['Administration','administration'];
+        $crumbs[] = ['Show',''];
 
 
         $this->view('Administration.show',[
@@ -225,8 +265,8 @@ Class Administration extends Controller
         
 
 
-        $crumbs[] = ['Administration',''];
-        $crumbs[] = ['Privileges','administration/privilage'];
+        $crumbs[] = ['Administration','administration'];
+        $crumbs[] = ['Privileges',''];
 
 
         $this->view('administration.privilage',[
@@ -257,8 +297,9 @@ Class Administration extends Controller
         }
 
         $row = $patron_priv->where('id',$id);
-        $crumbs[] = ['Administration',''];
-        $crumbs[] = ['Privileges_change','administration/privilageEdit'];
+        $crumbs[] = ['Administration','administration'];
+        $crumbs[] = ['Privileges','administration/privilege'];
+        $crumbs[] = ['Edit',''];
 
         
         $this->view('administration.privilageEdit',[
@@ -287,8 +328,8 @@ Class Administration extends Controller
 
         
 
-        $crumbs[] = ['Administration',''];
-        $crumbs[] = ['Configurations','administration/configuration'];
+        $crumbs[] = ['Administration','administration'];
+        $crumbs[] = ['Configurations',''];
 
 
         $this->view('Administration.configuration',[
@@ -297,7 +338,6 @@ Class Administration extends Controller
            
         ]);
         
-        //$this->view('administration.userconf');
     }
 
     public function configedit($id=null)
@@ -320,8 +360,9 @@ Class Administration extends Controller
                 $this->redirect('administration/configuration');
         }
 
-        $crumbs[] = ['Administration',''];
-        $crumbs[] = ['Configuration Edit','administration/configedit'];
+        $crumbs[] = ['Administration','administration'];
+        $crumbs[] = ['Configuration','administration/configuration'];
+        $crumbs[] = ['Edit',''];
 
 
         $this->view('Administration.configedit',[
@@ -329,96 +370,6 @@ Class Administration extends Controller
             'crumbs'=>$crumbs,
         ]);
     }
-
-    public function backup()
-    {
-        if(!Auth::logged_in())
-        {
-            $this->redirect('landing');
-        }
-
-        if(Auth::rank()!='Librarian')
-        {
-            $this->redirect('landing');
-        }
-        $backup=new backup;
-         //$data= $backup -> getbackup();
-
-         if(isset($_POST['BackupSubmit']))
-        {
-
-            $data= $backup -> getbackup();
-            $this->redirect('administration');
-        }
-
-
-
-        $message = '';
-        if(isset($_POST["import"]))
-        {
-         if($_FILES["database"]["name"] != '')
-         {
-          $array = explode(".", $_FILES["database"]["name"]);
-          $extension = end($array);
-          if($extension == 'sql')
-          {
-           $connect = mysqli_connect("localhost", "root", "", "test_db");
-           $output = '';
-           $count = 0;
-           $file_data = file($_FILES["database"]["tmp_name"]);
-           foreach($file_data as $row)
-           {
-            $start_character = substr(trim($row), 0, 2);
-            if($start_character != '--' || $start_character != '/*' || $start_character != '//' || $row != '')
-            {
-             $output = $output . $row;
-             $end_character = substr(trim($row), -1, 1);
-             if($end_character == ';')
-             {
-              if(!mysqli_query($connect, $output))
-              {
-               $count++;
-              }
-              $output = '';
-             }
-            }
-           }
-           if($count > 0)
-           {
-            $message = '<label class="text-danger">There is an error in Database Import</label>';
-           }
-           else
-           {
-            $message = '<label class="text-success">Database Successfully Imported</label>';
-           }
-          }
-          else
-          {
-           $message = '<label class="text-danger">Invalid File</label>';
-          }
-         }
-         else
-         {
-          $message = '<label>Please Select Sql File</label>';
-         }
-        }
-
-
-        $crumbs[] = ['Administration',''];
-        $crumbs[] = ['BackUp','administration/backup'];
-
-
-        $this->view('Administration.backup',[
-            //'row'=>$data,
-            'crumbs'=>$crumbs,
-            'message'=>$message,
-
-        ]);
-        
-
-    }
-
-
 
    
 }

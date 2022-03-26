@@ -24,11 +24,11 @@
             </div>
         <div class="content-box">
             <div class="box1 box">
-                <div class="title">Damaged Book penalty information</div><br>
+                <div class="title">Damaged Book Penalty Information</div><br>
                 
                 <div class="container">
                 <form method="post">
-                    <div class="title"><h5 style="color:black;">Penalty Information(Damaged book)</h5></div><br>
+                    <div class="title"><h5 style="color:black;">Penalty Information(Damaged Book)</h5></div><br>
                     <div class="row">
                     <div class="col-25">
                             <label for="fname">ISBN</label>
@@ -38,19 +38,29 @@
                         </div>
 
                         <div class="col-25">
-                            <label for="fname">Mail ID</label>
+                            <label for="">Member NIC</label>
                         </div>
                         <div class="col-75">
-                           <input autofocus class="form-control" value="<?=get_var('email',$row2[0]->email)?>" type="text" name="email" readonly><br><br>
+                           <input autofocus class="form-control" value="<?=get_var('nic',$row2[0]->nic)?>" type="text" name="nic" readonly><br><br>
                         </div>
                     </div>
 
-                    <br><br><div class="title"><h5 style="color:black;">Return Status..</h5></div><br>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="fname">CopyID</label>
+                        </div>
+                        <div class="col-75">
+                           <input autofocus class="form-control" value="<?=get_var('copy_id',$row3[0]->copy_id)?>" type="text" name="copy_id" readonly><br><br>
+                        </div>
+                    </div>
+
+
+                    <br><br><div class="title"><h5 style="color:black;">Penalty</h5></div><br>
 
 
                     <div class="row">
                     <div class="col-25">
-                            <label for="fname">Price of the book</label>
+                            <label for="fname">Price Of The Book</label>
                         </div>
                         <div class="col-75">
                            <input autofocus class="form-control" value="<?=get_var('price',$row3[0]->price)?>" type="text" name="price" readonly><br><br>

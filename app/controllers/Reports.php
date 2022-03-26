@@ -7,8 +7,12 @@ Class Reports extends Controller
             $this->redirect('landing');
         }
 
-        $crumbs[] = ['Dashboard', ''];
-        $crumbs[] = ['Reports', 'reports'];
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');           
+        }
+
+        $crumbs[] = ['Reports', ''];
 
 
         $this->view('reports', [
@@ -20,29 +24,38 @@ Class Reports extends Controller
         if (!Auth::logged_in()) {
             $this->redirect('landing');
         }
+
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');           
+        }
+
         $circulation = new Circulation();
         $user = new User();
         $book = new Catalog();
 
-        $data = $circulation->findAll();
+        $query = "select * from circulations WHERE status='borrowed' LIMIT 8";
+        $data = $circulation->query($query);
         if($data)
         {
             foreach ($data as $row){
                 $memberid=$row->member_id;
-                $member = $user->query("select email from users where id=$memberid");
+                $member = $user->query("select firstname from users where id=$memberid");
                 $member = $member[0];
-                $row->member_id = $member->email;
+                $row->member_id = $member->firstname;
                 $bookid = $row->book_id;
-                $bookname = $book->query("select title from catalogs where id=$bookid");
+                $bookname = $book->query("select title,copy_id from catalogs where id=$bookid");
                 $bookname = $bookname[0];
                 $row->book_id= $bookname->title;
+                $row->copy_id= $bookname->copy_id;
+
     
             }
 
         }
         
-        $crumbs[] = ['Dashboard', ''];
         $crumbs[] = ['Reports', 'reports'];
+        $crumbs[] = ['Issue', ''];
 
 
         $this->view('reports.issue', [
@@ -55,6 +68,13 @@ Class Reports extends Controller
         if (!Auth::logged_in()) {
             $this->redirect('landing');
         }
+
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');           
+        }
+
+
         $circulation = new Circulation();
         $user = new User();
         $book = new Catalog();
@@ -64,7 +84,7 @@ Class Reports extends Controller
             $fromdate = $_POST['fromdate'];
             $todate = $_POST['todate'];
 
-            $data = $circulation->query("select * from circulations where Date(issue_date) >= '$fromdate' AND Date(issue_date) <= '$todate'");
+            $data = $circulation->query("select * from circulations where Date(issue_date) >= '$fromdate' AND Date(issue_date) <= '$todate' AND status='borrowed'");
             if($data)
             {
                 foreach ($data as $row){
@@ -73,9 +93,11 @@ Class Reports extends Controller
                     $member = $member[0];
                     $row->member_id = $member->email;
                     $bookid = $row->book_id;
-                    $bookname = $book->query("select title from catalogs where id=$bookid");
+                    $bookname = $book->query("select title,copy_id from catalogs where id=$bookid");
                     $bookname = $bookname[0];
                     $row->book_id= $bookname->title;
+                    $row->copy_id= $bookname->copy_id;
+
             }
 
             $data1 = $data;
@@ -94,13 +116,9 @@ Class Reports extends Controller
         
 
 
-        $crumbs[] = ['Dashboard', ''];
-        $crumbs[] = ['Reports', 'reports'];
-
-
+     
         $this->view('reports.generate', [
             'rows' => $data,
-            'crumbs' => $crumbs,
         ]);
     }
     public function damage()
@@ -108,12 +126,20 @@ Class Reports extends Controller
         if (!Auth::logged_in()) {
             $this->redirect('landing');
         }
+
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');           
+        }
+
+
         $damaged = new Catalog();
         $query = "select * from catalogs where damageState = 'D'";
         $data = $damaged->query($query);
 
-        $crumbs[] = ['Dashboard', ''];
+       
         $crumbs[] = ['Reports', 'reports'];
+        $crumbs[] = ['Damaged Books', ''];
 
 
         $this->view('reports.damage', [
@@ -127,16 +153,20 @@ Class Reports extends Controller
             $this->redirect('landing');
         }
 
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');           
+        }
+
+
         $damaged = new Catalog();
         $query = "select * from catalogs where damageState = 'D'";
         $data = $damaged->query($query);
 
-        $crumbs[] = ['Dashboard', ''];
-        $crumbs[] = ['Reports', 'reports'];
+       
 
         $this->view('reports.generated', [
             'rows' => $data,
-            'crumbs' => $crumbs,
         ]);
     }
     public function lost()
@@ -144,13 +174,19 @@ Class Reports extends Controller
         if (!Auth::logged_in()) {
             $this->redirect('landing');
         }
+
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');           
+        }
+
         $lost = new Catalog();
         $query = "select * from catalogs where damageState = 'L'";
         $data = $lost->query($query);
 
 
-        $crumbs[] = ['Dashboard', ''];
         $crumbs[] = ['Reports', 'reports'];
+        $crumbs[] = ['Lost Books', ''];
 
 
         $this->view('reports.lost', [
@@ -164,16 +200,20 @@ Class Reports extends Controller
             $this->redirect('landing');
         }
 
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');           
+        }
+
+
         $lost = new Catalog();
         $query = "select * from catalogs where damageState = 'L'";
         $data = $lost->query($query);
 
-        $crumbs[] = ['Dashboard', ''];
-        $crumbs[] = ['Reports', 'reports'];
+       
 
         $this->view('reports.generatel', [
             'rows' => $data,
-            'crumbs' => $crumbs,
         ]);
     }
     public function withdraw()
@@ -181,13 +221,19 @@ Class Reports extends Controller
         if (!Auth::logged_in()) {
             $this->redirect('landing');
         }
+
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');           
+        }
+
         $lost = new Catalog();
         $query = "select * from catalogs where damageState = 'W' ";
         $data = $lost->query($query);
 
 
-        $crumbs[] = ['Dashboard', ''];
         $crumbs[] = ['Reports', 'reports'];
+        $crumbs[] = ['Withdrawn Books', ''];
 
 
         $this->view('reports.withdraw', [
@@ -201,16 +247,19 @@ Class Reports extends Controller
             $this->redirect('landing');
         }
 
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');           
+        }
+
+
         $lost = new Catalog();
         $query = "select * from catalogs where damageState = 'W'";
         $data = $lost->query($query);
 
-        $crumbs[] = ['Dashboard', ''];
-        $crumbs[] = ['Reports', 'reports'];
-
+       
         $this->view('reports.generatew', [
             'rows' => $data,
-            'crumbs' => $crumbs,
         ]);
     }
 
@@ -219,6 +268,13 @@ Class Reports extends Controller
         if (!Auth::logged_in()) {
             $this->redirect('landing');
         }
+
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');           
+        }
+
+
         $books = new Catalog();
         $query = "select * from catalogs";
         $data = $books->query($query);
@@ -261,8 +317,8 @@ Class Reports extends Controller
         $arr[6] = $data7;
 
 
-        $crumbs[] = ['Dashboard', ''];
         $crumbs[] = ['Reports', 'reports'];
+        $crumbs[] = ['Inventory', ''];
 
 
         $this->view('reports.inventory', [
@@ -276,6 +332,13 @@ Class Reports extends Controller
         if (!Auth::logged_in()) {
             $this->redirect('landing');
         }
+
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');           
+        }
+
+
         $books = new Catalog();
         $query = "select * from catalogs";
         $data = $books->query($query);
@@ -317,12 +380,10 @@ Class Reports extends Controller
         $data7 = $data7->count;
         $arr[6] = $data7;
 
-        $crumbs[] = ['Dashboard', ''];
-        $crumbs[] = ['Reports', 'reports'];
+      
 
         $this->view('reports.generatei', [
             'rows' => $data,
-            'crumbs' => $crumbs,
             'arr'=>$arr,
         ]);
     }
@@ -331,6 +392,13 @@ Class Reports extends Controller
         if (!Auth::logged_in()) {
             $this->redirect('landing');
         }
+
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');           
+        }
+
+
         $circulation = new Circulation();
         $user = new User();
         $book = new Catalog();
@@ -349,14 +417,16 @@ Class Reports extends Controller
                 $row->member_id = $member->firstname;
 
                 $bookid = $row->book_id;
-                $bookname = $book->query("select title from catalogs where id=$bookid");
+                $bookname = $book->query("select title,copy_id from catalogs where id=$bookid");
                 $bookname = $bookname[0];
                 $row->book_id= $bookname->title;
+                $row->copy_id= $bookname->copy_id;
+
 
             }
         }
-        $crumbs[] = ['Dashboard', ''];
         $crumbs[] = ['Reports', 'reports'];
+        $crumbs[] = ['Fine', ''];
 
 
         $this->view('reports.fine', [
@@ -369,6 +439,12 @@ Class Reports extends Controller
         if (!Auth::logged_in()) {
             $this->redirect('landing');
         }
+
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');           
+        }
+
         $circulation = new Circulation();
         $user = new User();
         $book = new Catalog();
@@ -386,18 +462,16 @@ Class Reports extends Controller
                 $row->member_id = $member->firstname;
 
                 $bookid = $row->book_id;
-                $bookname = $book->query("select title from catalogs where id=$bookid");
+                $bookname = $book->query("select title,copy_id from catalogs where id=$bookid");
                 $bookname = $bookname[0];
                 $row->book_id= $bookname->title;
+                $row->copy_id= $bookname->copy_id;
+
             }
         }
-        $crumbs[] = ['Dashboard', ''];
-        $crumbs[] = ['Reports', 'reports'];
-
-
+  
         $this->view('reports.generatef', [
             'rows' => $data,
-            'crumbs' => $crumbs,
         ]);
     }
     public function tw()
@@ -405,13 +479,19 @@ Class Reports extends Controller
         if (!Auth::logged_in()) {
             $this->redirect('landing');
         }
+
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');           
+        }
+
         $tw = new Catalog();
         $query = "select * from catalogs where damageState = 'TWA' OR damageState = 'TW'";
         $data = $tw->query($query);
 
 
-        $crumbs[] = ['Dashboard', ''];
         $crumbs[] = ['Reports', 'reports'];
+        $crumbs[] = ['TW', ''];
 
 
         $this->view('reports.tw', [
@@ -425,16 +505,19 @@ Class Reports extends Controller
             $this->redirect('landing');
         }
 
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');           
+        }
+
         $tw = new Catalog();
         $query = "select * from catalogs where damageState = 'TWA' OR damageState = 'TW'";
         $data = $tw->query($query);
 
-        $crumbs[] = ['Dashboard', ''];
-        $crumbs[] = ['Reports', 'reports'];
+        
 
         $this->view('reports.generatetw', [
             'rows' => $data,
-            'crumbs' => $crumbs,
         ]);
     }
     public function return()
@@ -442,13 +525,19 @@ Class Reports extends Controller
         if (!Auth::logged_in()) {
             $this->redirect('landing');
         }
+
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');           
+        }
+
         $circulation = new Circulation();
         $user = new User();
         $book = new Catalog();
 
         //$data = $circulation->findAll();
 
-        $query = "select * from circulations WHERE status='returned'";
+        $query = "select * from circulations WHERE status='returned' LIMIT 8";
         $data = $circulation->query($query);
 
         if($data)
@@ -460,14 +549,16 @@ Class Reports extends Controller
                 $row->member_id = $member->firstname;
 
                 $bookid = $row->book_id;
-                $bookname = $book->query("select title from catalogs where id=$bookid");
+                $bookname = $book->query("select title,copy_id from catalogs where id=$bookid");
                 $bookname = $bookname[0];
                 $row->book_id= $bookname->title;
+                $row->copy_id= $bookname->copy_id;
+
 
             }
         }
-        $crumbs[] = ['Dashboard', ''];
         $crumbs[] = ['Reports', 'reports'];
+        $crumbs[] = ['Return', ''];
 
 
         $this->view('reports.return', [
@@ -480,6 +571,12 @@ Class Reports extends Controller
         if (!Auth::logged_in()) {
             $this->redirect('landing');
         }
+
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');           
+        }
+
         $circulation = new Circulation();
         $user = new User();
         $book = new Catalog();
@@ -498,18 +595,17 @@ Class Reports extends Controller
                 $row->member_id = $member->firstname;
 
                 $bookid = $row->book_id;
-                $bookname = $book->query("select title from catalogs where id=$bookid");
+                $bookname = $book->query("select title,copy_id from catalogs where id=$bookid");
                 $bookname = $bookname[0];
                 $row->book_id= $bookname->title;
+                $row->copy_id= $bookname->copy_id;
+
             }
         }
-        $crumbs[] = ['Dashboard', ''];
-        $crumbs[] = ['Reports', 'reports'];
-
+     
 
         $this->view('reports.generater', [
             'rows' => $data,
-            'crumbs' => $crumbs,
         ]);
     }
 

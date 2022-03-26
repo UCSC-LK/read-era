@@ -13,7 +13,7 @@
 
     /* (B) CONTAINER */
     #cal-wrap {
-        max-width: 600px;
+        max-width: 100%;
 
     }
 

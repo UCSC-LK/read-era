@@ -28,6 +28,7 @@
                       <a class="add-new-item1" href="<?=ROOT?>/administration/privilage">Privilage Settings</a>
                       <a class="add-new-item1" href="<?=ROOT?>/administration/configuration">User Configurations</a>
 
+
                     <?php endif;?>
 
                     </div>
@@ -38,8 +39,19 @@
                             <input name="find" value="<?=isset($_GET['find'])?$_GET['find']:'';?>" type="text" placeholder="search">
 
                 </form>
+                <?php if($_SESSION['success'] == 13):?>
+                <div id="display-success" style="width: 100%;border: 1px solid #D8D8D8;padding: 10px;border-radius: 5px;font-family: Arial;font-size: 11px;text-transform: uppercase;background-color: rgb(236, 255, 216);color: green;text-align: center;margin-top: 10px;">Administrator details Added Successfully</div>
+                <br>
+                <?php elseif($_SESSION['success'] == 15):?>
+                <div id="display-success" style="width: 100%;border: 1px solid #D8D8D8;padding: 10px;border-radius: 5px;font-family: Arial;font-size: 11px;text-transform: uppercase;background-color: rgb(236, 255, 216);color: green;text-align: center;margin-top: 10px;">Administrator details Updated Successfully</div>
+                <br>
+                <?php elseif($_SESSION['success'] == 17):?>
+                <div id="display-success" style="width: 100%;border: 1px solid #D8D8D8;padding: 10px;border-radius: 5px;font-family: Arial;font-size: 11px;text-transform: uppercase;background-color: rgb(236, 255, 216);color: green;text-align: center;margin-top: 10px;">Administrator Removed Successfully</div>
+                <br>
+                <?php endif?>
 
-                
+                    <?php if($rows):?>
+
                     <table class="table table-striped table-hover">
                         <colgroup>
                                 <col span="1" style="width: 20%;">
@@ -49,18 +61,17 @@
                                 <col span="1" style="width: 10%;">
 
                         </colgroup>
-                        <tr><th>Administrator Name</th><th>Email</th><th>Rank</th><th>Date</th>
+                        <tr><th>Administrator Name</th><th>Email</th><th>NIC</th><th>Category</th>
                             <th>
                                Actions
                             </th>
                         </tr>
 
-                        <?php if($rows):?>
                             <?php foreach ($rows as $row):?>
                                 <tr><td><?=$row->firstname?> <?=$row->lastname?>
                                     <td><?=$row->email?></td>
+                                    <td><?=$row->nic?></td>
                                     <td><?=$row->rank?></td>
-                                    <td><?=get_date($row->date)?></td>
 
                                     <td>
                                         <?php if(Auth::rank() == 'Librarian'):?>
@@ -83,6 +94,8 @@
                             <h4>No Patrons were found at this time</h4>
                         <?php endif;?>
                     </table>
+                    <?php $pager->display()?>
+
 
                 
                 

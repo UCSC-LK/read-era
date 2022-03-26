@@ -37,10 +37,10 @@
                 
                 <?php if($rows):?>
                 <table class="table table-striped table-hover">
-                    <tr><th>Member</th><th>Title</th><th>Reserved date</th><th>Expire date</th><th>State</th>
+                    <tr><th>Member</th><th>Title</th><th>CopyID</th><th>Reserved date</th><th>Expire date</th><th>State</th>
                     </tr>
                         <?php foreach ($rows as $row):?>
-                            <tr><td><?=$row->member_id?></td><td><?=$row->book_id?></td><td><?=get_date($row->reserved_date)?></td><td><?=get_date($row->expire_date)?></td><td><?=$row->state?></td>
+                            <tr><td><?=$row->member_id?></td><td><?=$row->book_id?></td><td><?=$row->copy_id?></td><td><?=get_date($row->reserved_date)?></td><td><?=get_date($row->expire_date)?></td><td><?=$row->state?></td>
                             </tr>
                         
                         
@@ -49,7 +49,10 @@
                         <h4>No Reservations were found at this time</h4>
                     <?php endif;?>
                 </table>
+
                 <a class="cancel1" href="<?=ROOT?>/circulations">Cancel</a>
+                <?php $pager->display()?>
+
                 
                 
             

@@ -10,7 +10,12 @@ class User extends Model
         'gender',
         'rank',
         'date',
-        'image'
+        'image',
+        'address',
+        'nic',
+        'phone_num',
+        'borrowed_books',
+        'reserved_books',
     ];
 
     protected $beforeInsert = [
@@ -23,6 +28,7 @@ class User extends Model
     public function validate($DATA)
     {
         $this->errors=array();
+
         if(empty($DATA['firstname']) || !preg_match('/^[a-zA-Z]+$/', $DATA['firstname']))
         {
             $this->errors['firstname'] = "Only letters allowed in firstname";
@@ -73,6 +79,24 @@ class User extends Model
         if(strlen($DATA['password']) < 8)
         {
             $this->errors['password'] = "Password must be have at least 8 charecters";
+        }
+
+        $title = ['Mr.', 'Mrs.', 'Ms.', 'Dr.', 'Prof.', 'Ven.'];
+        if(empty($DATA['title']) || !in_array($DATA['title'], $title))
+        {
+            $this->errors['title'] = " Title is not valid";
+        }
+        if(empty($DATA['phone_num']) || !preg_match("/^[0-9]{10}$/", $DATA['phone_num']))
+        {
+            $this->errors['phone_num'] = " Only digits allowed in phone number";
+        }
+        if(empty($DATA['nic']) || !preg_match('/^(?:19|20)?\d{2}(?:[0-35-8]\d\d(?<!(?:000|500|36[7-9]|3[7-9]\d|86[7-9]|8[7-9]\d)))\d{4}(?i:v|x)$/', $DATA['nic']))
+        {
+            $this->errors['nic'] = "This NIC is not valid";
+        }
+        if(empty($DATA['address']) || !preg_match("/^[a-z0-9 s,.-]+$/i", $DATA['address']))
+        {
+            $this->errors['address'] = " This address is not valid";
         }
 
         

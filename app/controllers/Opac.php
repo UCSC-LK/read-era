@@ -1,6 +1,5 @@
 <?php
 
-// require '~/../assets/phpmailer/PHPMailerAutoload.php';
 require '../app/core/mail.php';
 
 /**
@@ -16,6 +15,28 @@ Class Opac extends Controller
         }
       
         $_SESSION['reserveBookID'] = -1;
+
+        $_SESSION['reserveBookID'] = -1;
+        if($_SESSION['success'] == 2){
+            $_SESSION['success'] = $_SESSION['success']-1;
+        }
+        elseif($_SESSION['success'] == 3)
+        {
+            $_SESSION['success'] = 0;
+
+            $_SESSION['success'] = $_SESSION['success']-1;
+        }
+
+        elseif($_SESSION['success'] == 1)
+        {
+            $_SESSION['success'] = 0;
+        }
+        elseif($_SESSION['success'] == 4)
+        {
+            $_SESSION['success'] = $_SESSION['success']-1;
+
+        }
+        
         $opac = new Catalog();
         $roleid = Auth::id();
         $reservation = new Reservation();
@@ -29,30 +50,25 @@ Class Opac extends Controller
             {
                 $arr[$count] = $check->book_id;
                 $count = $count+1;
-
             }
         }
-        
+
         if(isset($_GET['find']))
         {
-            
+            $search_name =  $_GET['search-name'];
             $searchkey =  $_GET['find'];
-            $query = "select * from catalogs where Title like '%".$searchkey."%' AND collection='lending'";
+            if($search_name == 'title'){
+            $query = "select * from catalogs where Title like '%".$searchkey."%' AND status!='Not Available'";}
+            elseif($search_name == 'author'){
+                $query = "select * from catalogs where Author like '%".$searchkey."%' AND status!='Not Available'";
+            }
             $data = $opac->query($query);
-
-           
-
         }
         else
         {
-            $data = $opac->query("select * from catalogs where collection='Lending'");
+            $data = $opac->query("select * from catalogs where status!='Not Available'");
        
-          
         }
-
-        
-
-
 
         $crumbs[] = ['OPAC',''];
 
@@ -63,6 +79,7 @@ Class Opac extends Controller
             'check'=>$arr,
         ]);
     }
+
 
     public function add_reservation($id = null)
     {
@@ -81,67 +98,78 @@ Class Opac extends Controller
                $_SESSION['reserveBookID'] = $id;
                
             
-                $reservation = new Reservation();
-
-                $arr = array();
-                $arr['book_id']=$id;
-                $arr['member_id']=Auth::id();
-                $arr['reserved_date'] = date("Y-m-d H:i:s") ;
-                $date = $arr['reserved_date'];
-                $arr['expire_date'] =  date('Y-m-d H:i:s', strtotime("+3 months", strtotime($date)));
-                $arr['state'] = "reserved";
                 $user = new User();
-                $book = new Catalog();
+                $config = new Configuration();
+                $data1 = array();
+                $data2 = array();
+                $user_id = Auth::id();
+                $data1 = $user->query("select reserved_books from users where id=$user_id");
 
-                $memberid=$arr['member_id'];
-                $memberemail = $user->query("select email from users where id=$memberid");
-                $memberemail = $memberemail[0];
-                $memberemail = $memberemail->email;
-                $bookid = $id;
-                $bookname = $book->query("select title from catalogs where id=$bookid");
-                $bookname = $bookname[0];
-                $bookname= $bookname->title;
- 
-           
+                $data1 = $data1[0];
+                $data1 = $data1->reserved_books;
+                $user_rank = Auth::rank();
+                $data2 = $user->query("select max_reserve from Configurations where category='$user_rank'");
+                $data2 = $data2[0];
+                $data2 = $data2->max_reserve;
+              
+                if($data1 < $data2){
 
-                
-                $send = send_mail($memberemail,'Reservation',"You have success fully reserved the book  " . $bookname . " on " . get_date($date) . " thank you.");
+            
 
-                // $mail = new PHPMailer;
+                    $reservation = new Reservation();
 
-                // $mail->isSMTP();
-                // $mail->Host= 'smtp.gmail.com';
-                // $mail->SMTPAuth = true;
-                // $mail->Username = "rajuakilan2@gmail.com";
-                // $mail->Password = "#CDab123";
-                // $mail->SMTPSecure = 'tls';
-                // $mail->Port = 587;
+                    $arr = array();
+                    $arr['book_id']=$id;
+                    $arr['member_id']=$user_id;
+                    $arr['reserved_date'] = date("Y-m-d H:i:s") ;
+                    $date = $arr['reserved_date'];
+                    $arr['expire_date'] =  date('Y-m-d H:i:s', strtotime("+3 months", strtotime($date)));
+                    $arr['state'] = "reserved";
+                    $book = new Catalog();
 
+                    $memberid=$arr['member_id'];
+                    $memberemail = $user->query("select email from users where id=$memberid");
+                    $memberemail = $memberemail[0];
+                    $memberemail = $memberemail->email;
+                    $bookid = $id;
+                    $bookname = $book->query("select title from catalogs where id=$bookid");
+                    $bookname = $bookname[0];
+                    $bookname= $bookname->title;
+    
+            
 
-                // $mail->setFrom('rajuakilan2@gmail.com','barath');
-                // $mail->addAddress($memberemail);
-                // $mail->addReplyTo($memberemail);
+                    
+                    $send = send_mail($memberemail,'Reservation',"You have successfully reserved the book  " . $bookname . " on " . get_date($date) . " thank you.");
+                    
+                    if(!$send)
+                    {
+                        echo "Message couldnot sent";
+                    }
+                    else
+                    {
+                        
 
-                // //content
-                // $mail->isHTML(true);
-                // $mail->Subject = "Reservation";
-                // $mail->Body = "Hello, you have successfully reserved the book $bookname on $date. Thank you";
-                if(!$send)
-                {
-                    echo "Message couldnot sent";
-                }
-                else
-                {
+                        $reservation->insert($arr);
+                        $_bookstatus['Status'] = "Reserved";
+                        $book->update($bookid,$_bookstatus);
+                        $data1 = $data1 + 1;
+                        $_userstatus['reserved_books'] = $data1;
+                        $user->update($user_id,$_userstatus);
+
+                        $_SESSION['success']=2;
+
+                        $this->redirect('opac');
                     
 
-                    $reservation->insert($arr);
-                    $_bookstatus['Status'] = "Reserved";
-                    $book->update($bookid,$_bookstatus);
-                    $this->redirect('opac');
-                  
-
+                    }
                 }
-                //print_r($arr); 
+
+                else{
+                    $_SESSION['fail'] = 1;
+                    $this->redirect('opac');
+                }
+                
+
                 }
                 else{
                     $this->redirect('opac');
@@ -149,6 +177,7 @@ Class Opac extends Controller
            
         }
     }
+
 
     public function show($id)
     {
@@ -194,13 +223,26 @@ Class Opac extends Controller
                 $reservation_id=$data->id;
                 $data2=array();
                 $data3=array();
+                $data4=array();
+
                 $data2['state'] = "removed";
                 $data3['status'] = "Available";
                 $reservation->update($reservation_id,$data2);
                 $book = new Catalog();
                 $book->update($bookid,$data3);
+                $user = new User();
+                
+                $data4 = $user->query("select reserved_books from users where id=$userid");
+                if($data4){
+                    $data4 = $data4[0];
+                    $data4 = $data4->reserved_books;
+                    $data5['reserved_books'] = $data4-1;
+                    $user->update($userid,$data5);
+                    $_SESSION['success'] = 4;
+
+                }
+
                 $this->redirect('opac');
-                echo '<script>alert("Book reservation removed successfully")</script>';
 
             }
 

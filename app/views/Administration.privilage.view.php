@@ -3,17 +3,27 @@
 <?php $this->view('includes/topbar')?>
 
 <div class="home-content">
+<div class="crumbs">
+                
+                <?php if(isset($crumbs)):?>
+                <?php $length = count($crumbs);$x=1?>
+                <?php foreach ($crumbs as $crumb):?>
+                    <?php if($x==$length):?>
+                        <a class="crumb_last" href="<?=$crumb[1]?>"><?=$crumb[0]?></a>
+                    <?php else:?>
+                        <a class="crumb_name" href="<?=$crumb[1]?>"><?=$crumb[0]?>/</a>
+                    <?php endif;$x++;?>
+                    
+                <?php endforeach;?>
+                <?php endif;?>
+                
+            </div>
         <div class="content-box">
             <div class="box1 box">
                 <div class="header">
                     <div class="title">Privileges</div>
                 </div>
-                <form class="search-form">
-                            
-                            <button><i class="fa fa-search"></i></button>
-                            <input name="find" value="<?=isset($_GET['find'])?$_GET['find']:'';?>" type="text" placeholder="Search">
-
-                </form>
+               
 
                 
                     <table class="table table-striped table-hover">
@@ -48,10 +58,11 @@
                             <h4>Unable to access the privilege settings</h4>
                         <?php endif;?>
                     </table>
+                    <a class="item-show-back" href="<?=ROOT?>/Administration">Back</button></a>
 
                 
-                
             </div>
+           
         
             
         </div>

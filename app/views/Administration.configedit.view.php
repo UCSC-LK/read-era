@@ -36,7 +36,7 @@
                         </div>
                         <div class="row">
                         <div class="col-25">
-                            <label for="finePerHour">Fine per hour</label>
+                            <label for="finePerHour">Fine Per Hour</label>
                         </div>
                         <div class="col-75">
                             <input autofocus class="form-control" type="text" name="finePerHour" placeholder="Fine per hour" value="<?=get_var('finePerHour',$row[0]->finePerHour)?>"><br>
@@ -51,6 +51,33 @@
                             </div>
                         <div class="col-75">
                             <input autofocus class="form-control" type="text" name="BorrowPeriod" placeholder="Borrow Period" value="<?=get_var('BorrowPeriod',$row[0]->BorrowPeriod)?>"><br>
+                        </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-25">
+                            <label for="ReservedPeriod">Reserve Period</label>
+                            </div>
+                        <div class="col-75">
+                            <input autofocus class="form-control" type="text" name="ReservedPeriod" placeholder="Reservation Period" value="<?=get_var('ReservedPeriod',$row[0]->ReservedPeriod)?>"><br>
+                        </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-25">
+                            <label for="max_borrow">Maximum Borrowings</label>
+                            </div>
+                        <div class="col-75">
+                            <input autofocus class="form-control" type="text" name="max_borrow" placeholder="Maximum Borrowings" value="<?=get_var('max_borrow',$row[0]->max_borrow)?>"><br>
+                        </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-25">
+                            <label for="max_reserve">Maximum Reservations</label>
+                            </div>
+                        <div class="col-75">
+                            <input autofocus class="form-control" type="text" name="max_reserve" placeholder="Maximum Reservations" value="<?=get_var('max_reserve',$row[0]->max_reserve)?>"><br>
                         </div>
                         </div>
                         

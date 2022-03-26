@@ -4,7 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="Styles/css/all.css" rel="stylesheet">
+  <link href="<?=ROOT?>/assets/Styles/css/all.css" rel="stylesheet">
+
   <link rel="stylesheet" href="<?=ROOT?>/assets/index.css">
   <link rel="stylesheet" href="<?=ROOT?>/assets/fogot.css">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">

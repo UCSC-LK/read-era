@@ -2,7 +2,7 @@
     <nav>
         <div class="sidebar-button">
             <!--<i class='bx bx-menu sidebarBtn'></i>-->
-            <i class="fas fa-align-justify sidebarBtn "></i>
+            <i class="fas fa-align-justify sidebarBtn" style="color: #081d45;font-size: 35px;"></i>
         </div>
        
         <div class="profile-details">

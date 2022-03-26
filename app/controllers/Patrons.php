@@ -17,19 +17,53 @@ Class Patrons extends Controller
             $this->redirect('landing');
         }
 
+        if($_SESSION['success'] == 7)
+        {
+            $_SESSION['success'] = 0;
+        }
+        elseif($_SESSION['success'] == 8){
+            $_SESSION['success'] = $_SESSION['success']-1;
+        }
+        elseif($_SESSION['success'] == 9)
+        {
+            $_SESSION['success'] = 0;
+
+        }
+
+        elseif($_SESSION['success'] == 10)
+        {
+            $_SESSION['success'] = $_SESSION['success']-1;
+
+        }
+        elseif($_SESSION['success'] == 11)
+        {
+            $_SESSION['success'] = 0;
+
+        }
+        elseif($_SESSION['success'] == 12)
+        {
+            $_SESSION['success'] = $_SESSION['success']-1;
+
+        }
+
+
         $patron = new User();
+        $limit = 8;
+        $pager = new Pager($limit);
+        $offset = $pager->offset;
+
         if(isset($_GET['find']))
         {
             
             $searchkey =  $_GET['find'];
-            $query = "select * from users where firstname like '%".$searchkey."%' AND rank != 'Librarian' AND rank != 'Library Staff'";
+            $query = "select * from users where firstname like '%".$searchkey."%' AND rank != 'Librarian' AND rank != 'Library Staff' limit $limit offset $offset";
             $data = $patron->query($query);
 
            
 
         }
         else{
-            $data = $patron->query("select * from users where rank='Undergraduate' OR rank='Postgraduate' OR rank='Senior Lecturer' OR rank='Lecturer' OR rank='Assistant Lecturer' OR rank='Instructor' OR rank='Non Academic'");
+            $data = $patron->query("select * from users where rank='Undergraduate' OR rank='Postgraduate' OR rank='Senior Lecturer' OR rank='Lecturer' OR rank='Assistant Lecturer' OR rank='Instructor' OR rank='Non Academic' limit $limit offset $offset");
 
         }
         
@@ -62,6 +96,8 @@ Class Patrons extends Controller
             'rows'=>$data,
             'crumbs'=>$crumbs,
             'arr'=>$arr,
+            'pager'=>$pager,
+
         ]);
     }
 
@@ -98,6 +134,7 @@ Class Patrons extends Controller
                 $_POST['date'] = date("Y-m-d H:i:s") ;
 
                 $patron->insert($_POST);
+                $_SESSION['success'] = 8;
                 $this->redirect('patrons');
             }
             else
@@ -115,6 +152,10 @@ Class Patrons extends Controller
             //'rows'=>$data,
         ]);
     }
+
+
+    
+
 
 
     public function csv()
@@ -139,63 +180,199 @@ Class Patrons extends Controller
             }
         }
 
-
+        $errors = array();
+        $patron = new User();
+        
         if(isset($_POST['importSubmit'])){
-
+            
 
             // Allowed mime types
             $csvMimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain');
             $data = array();
             // Validate whether selected file is a CSV file
             if(!empty($_FILES['file']['name']) && in_array($_FILES['file']['type'], $csvMimes)){
-
+                
                 // If the file is uploaded
                 if(is_uploaded_file($_FILES['file']['tmp_name'])){
-
+                    
                     // Open uploaded CSV file with read-only mode
                     $csvFile = fopen($_FILES['file']['tmp_name'], 'r');
-
+                    
                     // Skip the first line
                     fgetcsv($csvFile);
+                    $flag=0;
 
                     // Parse data from CSV file line by line
                     while(($line = fgetcsv($csvFile)) !== FALSE){
                         // Get row data
-                        $patron = new User();
-                        $data['firstname']= $line[0];
-                        //$data['middlename']= $line[1];
-                        $data['lastname']= $line[1];
-                        $data['email']= $line[2];
-                        //$data['nic']= $line[4];
-                        //$data['phone_num']= $line[5];
-                        $data['gender']= $line[3];
-                        $data['rank']= $line[4];
-                        $data['password']= $line[5];
+                        $patronpreview = new Patronpreview();
+                        $data['title']= $line[0];
+                        $data['firstname']= $line[1];
+                        $data['lastname']= $line[2];
+                        $data['email']= $line[3];
+                        $data['nic']= $line[4];
+                        $data['phone_num']= $line[5];
+                        $data['gender']= $line[6];
+                        $data['rank']= $line[7];
+                        $data['address'] = $line[8];
+                        $data['password']= $line[9];
+                        $data['password2']= $line[10];
                         $data['date']= date("Y-m-d H:i:s");
+                        if($patron->validate($data))
+                        {
+                            $patronpreview->insert($data);
 
-                        $patron->insert($data);
+
+                        }
+                        else{
+                            $errors = $patron->errors;
+                            $patronpreview->query("delete from Patronpreviews");
+                            $flag=1;
+                            break;
+                        }
+
+
+                       
                     }
 
                     fclose($csvFile);
-                    $this->redirect('patrons');
+                    //$_SESSION['success'] = 2;
+                    if($flag==0){
+                    $this->redirect('patrons/csv_preview');
+                    }
+ 
                 }
 
-
-
-            }
-
+           
+              
+                }
+           
         }
 
         $crumbs[] = ['Patrons',''];
         $crumbs[] = ['CSV','patrons/csv'];
 
-
-
+       
+       
         $this->view('patrons.csv',[
-
+            'errors'=>$errors,
             'crumbs'=>$crumbs,
         ]);
     }
+
+    public function csv_preview()
+    {
+        if(!Auth::logged_in())
+        {
+            $this->redirect('landing');
+        }
+
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');
+        }
+
+        if(isset($_SESSION['u_m']))
+        {
+            if($_SESSION['u_m'] != 'Yes')
+            {
+                $this->redirect('landing');
+
+
+            }
+        }
+
+        $patronpreview = new Patronpreview();
+        $data = $patronpreview->findall();
+        $this->view('patrons.csv.preview',[
+            'rows'=>$data,
+    
+        ]);
+
+    }
+
+    public function import()
+    {
+        if(!Auth::logged_in())
+        {
+            $this->redirect('landing');
+        }
+
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');
+        }
+
+        if(isset($_SESSION['u_m']))
+        {
+            if($_SESSION['u_m'] != 'Yes')
+            {
+                $this->redirect('landing');
+
+
+            }
+        }
+
+        $patronpreview = new Patronpreview();
+        $patron = new User();
+
+        $rows = $patronpreview->findall();
+        if($rows){
+            foreach ($rows as $row){
+                $data['title']= $row->title;
+                $data['firstname']= $row->firstname;
+                $data['lastname']= $row->lastname;
+                $data['email']= $row->email;
+                $data['nic']= $row->nic;
+                $data['phone_num']= $row->phone_num;
+                $data['gender']= $row->gender;
+                $data['rank']= $row->rank;
+                $data['address']= $row->address;
+                $data['password']= $row->password;
+                $data['date']= date("Y-m-d H:i:s");
+                $patron->insert($data);
+
+            }
+
+
+        }
+
+        $patronpreview->query("delete from Patronpreviews");
+        $this->redirect('patrons');
+
+    }
+
+    public function csv_cancel()
+    {
+        if(!Auth::logged_in())
+        {
+            $this->redirect('landing');
+        }
+
+        if(Auth::rank()!='Librarian' && Auth::rank()!='Library Staff')
+        {
+            $this->redirect('landing');
+        }
+
+        if(isset($_SESSION['u_m']))
+        {
+            if($_SESSION['u_m'] != 'Yes')
+            {
+                $this->redirect('landing');
+
+
+            }
+        }
+
+        $patronpreview = new Patronpreview();
+
+        
+        $patronpreview->query("delete from patronpreviews");
+        $this->redirect('patrons');
+
+    }
+
+
 
     
 
@@ -229,6 +406,8 @@ Class Patrons extends Controller
             {
                 //$_POST['date'] = date("Y-m-d H:i:s") ;
                 $patron->update($id,$_POST);
+                $_SESSION['success'] = 10;
+
                 $this->redirect('patrons');
             }
             else
@@ -276,6 +455,8 @@ Class Patrons extends Controller
         if(count($_POST) > 0)
         {
             $patron->delete($id);
+            $_SESSION['success'] = 12;
+
             $this->redirect('patrons');
         }
         $row = $patron -> where('id',$id);

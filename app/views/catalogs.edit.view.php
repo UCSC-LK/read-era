@@ -26,7 +26,7 @@
     <div class="content-box">
         <div class="box1 box">
 
-            <h2 class="title">Edit item</h2>
+            <h2 class="title">Edit Item</h2>
 
             <div class="container">
 
@@ -53,10 +53,10 @@
 
                 </div>
                 <div class="col-25">
-                    <label for="">CallNo</label>
+                    <label for="">CopyID</label>
                 </div>
                 <div class="col-75">
-                <input autofocus class="form-control" value="<?=get_var('CallNo',$row[0]->CallNo)?>" type="text" name="CallNo" placeholder="CallNo"><br><br>
+                <input autofocus class="form-control" value="<?=get_var('copy_id',$row[0]->copy_id)?>" type="text" name="copy_id" placeholder="CopyID"><br><br>
 
                 </div>
                 </div>
@@ -254,7 +254,7 @@
                 <div class="col-75">
                     <select class="my-2 form-control" name="damageState">
                         <option class="items" <?=get_select('damageState','')?> value="<?=get_var('damageState',$row[0]->damageState)?>"><?=get_var('damageState',$row[0]->damageState)?></option>
-                        <option class="items" <?=get_select('damageState','OK')?> value="D">OK</option>
+                        <option class="items" <?=get_select('damageState','OK')?> value="OK">OK</option>
                         <option class="items" <?=get_select('damageState','D')?> value="D">D (Book is Damaged)</option>
                         <option class="items" <?=get_select('damageState','L')?> value="L">L (Lost)</option>
                         <option class="items" <?=get_select('damageState','W')?> value="W">W (Withdrawn)</option>
@@ -270,10 +270,22 @@
                 </div>
 
                 <div class="row">
+                <div class="col-25">
+                    <label for="">CallNo</label>
+                </div>
+                <div class="col-75">
+                <input autofocus class="form-control" value="<?=get_var('CallNo',$row[0]->CallNo)?>" type="text" name="CallNo" placeholder="CallNo"><br><br>
 
-                <a href="<?=ROOT?>/catalogs"><input type="submit" value="Save">
+                </div>
 
-                <a class="cancel" href="<?=ROOT?>/catalogs">Cancel</a>
+               
+                </div>
+
+                <div class="row">
+
+                <a href="<?=ROOT?>/cataloging"><input type="submit" value="Save">
+
+                <a class="cancel" href="<?=ROOT?>/cataloging">Cancel</a>
                    
             </form>
             </div>

@@ -11,6 +11,14 @@ Class Profile extends Controller
             $this->redirect('landing');
         }
 
+        if($_SESSION['success'] == 19)
+        {
+            $_SESSION['success'] = 0;
+        }
+        elseif($_SESSION['success'] == 20){
+            $_SESSION['success'] = $_SESSION['success']-1;
+        }
+
         $user = new User;
         $id = Auth::id();
         
@@ -77,6 +85,7 @@ Class Profile extends Controller
                     unset($_POST['password2']);
                     $_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
                     $user->update($id,$_POST);
+                    $_SESSION['success'] = 20;
                     $this->redirect('profile');
                 
                 }
@@ -91,6 +100,7 @@ Class Profile extends Controller
             {
                 $id = Auth::id();
                 $user->update($id,$_POST);
+                $_SESSION['success'] = 20;
                 $this->redirect('profile');
 
 

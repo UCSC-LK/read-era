@@ -1,7 +1,5 @@
 <?php
-/**
- * OPAC
- */
+
 Class Circulations extends Controller
 {
     public function index()
@@ -30,53 +28,42 @@ Class Circulations extends Controller
             if(($_GET['find']) != "")
             {
                 $arr = array();
-            $count =0;
-            $searchkey =  $_GET['find'];
-            $query = "select id from catalogs where Title like '%".$searchkey."%' limit $limit offset $offset";
-        
-            $data = $book->query($query);
-            // print_r($data);
-        
-            if($data){
-                foreach ($data as $row){
-                    
-                    $bookid = $row->id;
-                    
-                    $try = $circulation->query("select * from circulations where book_id=$bookid && (status='borrowed' OR status='renewed')");
-                    foreach($try as $row2)
-                    {
-                        $bookid = $row2->book_id;
-                        $query = "select title from catalogs where id=$bookid";
-                        $result1 = $book->query($query);
-                        $result1 = $result1[0];
-                        $row2->book_id = $result1->title;
-                        $memberid = $row2->member_id;
-                        $query = "select firstname from users where id=$memberid";
-                        $result2 = $user->query($query);
-                        $result2 = $result2[0];
-                        $row2->member_id = $result2->firstname;
-                        $arr[$count] = $row2;
+                $count =0;
+                $searchkey =  $_GET['find'];
+                $query = "select id from users where nic like '%".$searchkey."%'";
+            
+                $data = $book->query($query);
+            
+                if($data){
+                    foreach ($data as $row){
+                        $memberid = $row->id;
+                        $try = $circulation->query("select * from circulations where member_id=$memberid && (status='borrowed' OR status='renewed')");
+                        if($try){
+                        foreach($try as $row2)
+                        {
+
+                            $bookid = $row2->book_id;
+                            $query = "select title,copy_id from catalogs where id=$bookid";
+                            $result1 = $book->query($query);
+                            $result1 = $result1[0];
+                            $row2->book_id = $result1->title;
+                            $row2->copy_id = $result1->copy_id;
+                            $memberid = $row2->member_id;
+                            $query = "select firstname from users where id=$memberid";
+                            $result2 = $user->query($query);
+                            $result2 = $result2[0];
+                            $row2->member_id = $result2->firstname;
+                            $arr[$count] = $row2;
+                            $count = $count +1;
+
+                        }
                     }
-                    $count = $count +1;
-                // $count = $count +1;
-                // $crumbs[] = ['Dashboard',''];
-                // $crumbs[] = ['Circulation','circulations'];
-        
-                // $this->view('circulations',[
-                //     'crumbs'=>$crumbs,
-                //     'rows'=>$arr,
-                // ]);
+                
                
-            
+                }
             }
-            }
-            //print_r($arr);
-
-            
-
-            //print_r($arr);
-            
-            $crumbs[] = ['Circulation',''];
+           
+            $crumbs[] = ['Circulation','circulations'];
     
             $this->view('circulations',[
                 'crumbs'=>$crumbs,
@@ -88,11 +75,7 @@ Class Circulations extends Controller
             }
 
             else{
-                $data = $circulation->query("select * from circulations limit $limit offset $offset && (status='borrowed' OR status='renewed')");
-
-                    // $data = $circulation->findAll();
-            //$memberid = $data['reservation_id'];
-            //print_r($data);
+                $data = $circulation->query("select * from circulations where status='borrowed' OR status='renewed' limit $limit offset $offset");
                 if($data){
                     foreach ($data as $row){
                         $memberid=$row->member_id;
@@ -100,16 +83,15 @@ Class Circulations extends Controller
                         $membername = $membername[0];
                         $row->member_id = $membername->firstname;
                         $bookid = $row->book_id;
-                        $bookname = $book->query("select title from catalogs where id=$bookid");
+                        $bookname = $book->query("select title,copy_id from catalogs where id=$bookid");
                         $bookname = $bookname[0];
                         $row->book_id= $bookname->title;
-
+                        $row->copy_id= $bookname->copy_id;
                     }
                 }
-                // print_r($data);
                 
 
-                $crumbs[] = ['Circulation',''];
+                $crumbs[] = ['Circulation','circulations'];
 
                     $this->view('circulations',[
                         'crumbs'=>$crumbs,
@@ -125,29 +107,28 @@ Class Circulations extends Controller
 
         }
 
-         else
-         {
+        else
+        {
             $data = $circulation->query("select * from circulations where status='borrowed' OR status='renewed' limit $limit offset $offset");
 
-        //$memberid = $data['reservation_id'];
-        //print_r($data);
+        
             if($data){
-            foreach ($data as $row){
-                $memberid=$row->member_id;
-                $membername = $user->query("select firstname from users where id=$memberid");
-                $membername = $membername[0];
-                $row->member_id = $membername->firstname;
-                $bookid = $row->book_id;
-                $bookname = $book->query("select title from catalogs where id=$bookid");
-                $bookname = $bookname[0];
-                $row->book_id= $bookname->title;
+                foreach ($data as $row){
+                    $memberid=$row->member_id;
+                    $membername = $user->query("select firstname from users where id=$memberid");
+                    $membername = $membername[0];
+                    $row->member_id = $membername->firstname;
+                    $bookid = $row->book_id;
+                    $bookname = $book->query("select title,copy_id from catalogs where id=$bookid");
+                    $bookname = $bookname[0];
+                    $row->book_id= $bookname->title;
+                    $row->copy_id= $bookname->copy_id;
 
             }
             }
-            // print_r($data);
             
 
-            $crumbs[] = ['Circulation',''];
+            $crumbs[] = ['Circulation','circulations'];
 
                 $this->view('circulations',[
                     'crumbs'=>$crumbs,
@@ -158,33 +139,6 @@ Class Circulations extends Controller
         }
 
        
-        
-
-        
-        // $data = $circulation->findAll();
-        // //$memberid = $data['reservation_id'];
-        // //print_r($data);
-        // foreach ($data as $row){
-        //     $memberid=$row->member_id;
-        //     $membername = $user->query("select firstname from users where id=$memberid");
-        //     $membername = $membername[0];
-        //     $row->member_id = $membername->firstname;
-        //     $bookid = $row->book_id;
-        //     $bookname = $book->query("select title from catalogs where id=$bookid");
-        //     $bookname = $bookname[0];
-        //     $row->book_id= $bookname->title;
-
-        // }
-
-        // $crumbs[] = ['Dashboard',''];
-        // $crumbs[] = ['Circulation','circulations'];
-
-        // $this->view('circulations',[
-        //     'crumbs'=>$crumbs,
-        //     'rows'=>$data,
-        // ]);
-
-    
     }
 
     public function show_reservations()
@@ -202,32 +156,38 @@ Class Circulations extends Controller
         $reservation = new Reservation();
         $user = new User();
         $book = new Catalog();
-        $data = $reservation->findAll();
-        //$memberid = $data['reservation_id'];
-        //print_r($data);
+        $limit = 7;
+        $pager = new Pager($limit);
+        $offset = $pager->offset;
+        $data = $reservation->query("select * from reservations limit $limit offset $offset");
+       
         if($data){
-        foreach ($data as $row){
-            $memberid=$row->member_id;
-            $membername = $user->query("select firstname from users where id=$memberid");
-            $membername = $membername[0];
-            $row->member_id = $membername->firstname;
-            $bookid = $row->book_id;
-            $bookname = $book->query("select title from catalogs where id=$bookid");
-            $bookname = $bookname[0];
-            $row->book_id= $bookname->title;
+            foreach ($data as $row){
+                $memberid=$row->member_id;
+                $membername = $user->query("select firstname from users where id=$memberid");
+                $membername = $membername[0];
+                $row->member_id = $membername->firstname;
+                $bookid = $row->book_id;
+                $bookname = $book->query("select title,copy_id from catalogs where id=$bookid");
+                $bookname = $bookname[0];
+                $row->book_id= $bookname->title;
+                $row->copy_id= $bookname->copy_id;
 
-        }
+
+            }
         }
 
         
         
-        $crumbs[] = ['Circulation',''];
-        $crumbs[] = ['Reservation','reservations'];
+        $crumbs[] = ['Circulation','circulations'];
+        $crumbs[] = ['Reservation',''];
 
 
         $this->view('reservations',[
             'rows'=>$data,
             'crumbs'=>$crumbs,
+            'pager'=>$pager,
+
         ]);
 
 
@@ -272,101 +232,118 @@ Class Circulations extends Controller
             $config = new Configuration();
             $arr = array();
             if($circulation->validate($_POST)){
-
-            
-                $memberemail= $_POST['email'];
-                $query = "select id from users where email like '%".$memberemail."%'";
+                
+                $data1 = array();
+                $data2 = array();
+                $membernic= $_POST['nic'];
+                $query = "select id,rank from users where nic like '%".$membernic."%'";
                 $memberid = $user->query($query);
                 $memberid = $memberid[0];
-                
+                $user_rank = $memberid->rank;
                 $arr['member_id'] = $memberid->id;
                 $arr['member_id'] = (int)$arr['member_id'];
                 
-                $bookISBN= $_POST['ISBN'];
-                $query = "select id from catalogs where ISBN like '%".$bookISBN."%'";
-                $bookid = $book->query($query);
-                $bookid = $bookid[0];
-                
-                $arr['book_id'] = $bookid->id;
-                $arr['book_id'] = (int)$arr['book_id'];
-                $bookid = $arr['book_id'];
-                // $bookISBN = $_POST['ISBN'];
-                // $bookid = $book->query("select id from catalogs where ISBN like $bookISBN");
-                // $bookid = $bookid[0];
-                // $arr['book_id']= $bookid->id;
+                $user_id = $arr['member_id'];
+                $data1 = $user->query("select borrowed_books from users where id=$user_id");
 
-                // echo gettype($arr['member_id']);
-                // echo gettype($arr['book_id']);
-
-                $arr['issue_date'] = new DateTime("now", new DateTimeZone('Asia/Colombo'));
-                $arr['issue_date'] =   $arr['issue_date']->format('Y-m-d H:i:s');
-                $arr['status'] = "borrowed";
-                $date = $arr['issue_date'];
-                $query2 = "select rank from users where email like '%".$memberemail."%'";
-                $rank = $user->query($query2);
-                $rank = $rank[0]->rank;
-                $timeperiod = $config->where('category',$rank);
-                $timeperiod = $timeperiod[0]->BorrowPeriod;
-
-                if($rank == 'Senior Lecturer')
-                {
-                    $arr['deadline'] =  date('Y-m-d H:i:s', strtotime("+{$timeperiod} day", strtotime($date)));
-                }
-                else if($rank == 'Lecturer')
-                {
-                    $arr['deadline'] =  date('Y-m-d H:i:s', strtotime("+{$timeperiod} day", strtotime($date)));
-                }
-
-                else if($rank == 'Assistant Lecturer')
-                {
-                    $arr['deadline'] =  date('Y-m-d H:i:s', strtotime("+{$timeperiod} day", strtotime($date)));
-                }
-                
-                else if($rank == 'Instructor')
-                {
-                    $arr['deadline'] =  date('Y-m-d H:i:s', strtotime("+{$timeperiod} day", strtotime($date)));
-                }
-                
-                else if($rank == 'Undergraduate')
-                {
-                    $arr['deadline'] =  date('Y-m-d H:i:s', strtotime("+{$timeperiod} day", strtotime($date)));
-                }
-                
-                else if($rank == 'Postgraduate')
-                {
-                    $arr['deadline'] =  date('Y-m-d H:i:s', strtotime("+{$timeperiod} day", strtotime($date)));
-                }
-                
-                else if($rank == 'Non Academic')
-                {
-                    $arr['deadline'] =  date('Y-m-d H:i:s', strtotime("+{$timeperiod} day", strtotime($date)));
-                }
-
-                else if($rank == "Librarian")
-                {
-                    $arr['deadline'] =  date('Y-m-d H:i:s', strtotime("+{$timeperiod} day", strtotime($date)));
-                }
-
-                else if($rank == 'Library Staff')
-                {
-                    $arr['deadline'] =  date('Y-m-d H:i:s', strtotime("+{$timeperiod} day", strtotime($date)));
-                }
-                
-
-
-
-                // $arr['deadline'] =  date('Y-m-d H:i:s', strtotime("+1 months", strtotime($date)));
-                
-            //    print_r($arr);
-                $circulation->insert($arr);
-                $_bookstatus['Status'] = "Borrowed";
-                print_r($_bookstatus);
-                $book->update($bookid,$_bookstatus);
-
-                $_bookstatus = array();
+                $data1 = $data1[0];
+                $data1 = $data1->borrowed_books;
+                $data2 = $user->query("select max_borrow from Configurations where category='$user_rank'");
+                $data2 = $data2[0];
+                $data2 = $data2->max_borrow;
+              
+                if($data1 < $data2){
+            
                
-                $this->redirect('circulations');
+            
+                
+                    $bookISBN= $_POST['ISBN'];
+                    $bookCopy =  $_POST['copy_id'];
+
+                    $query = "select id from catalogs where ISBN like '%".$bookISBN."%' and copy_id like '%".$bookCopy."%'";
+                    $bookid = $book->query($query);
+                    $bookid = $bookid[0];
+                    
+                    $arr['book_id'] = $bookid->id;
+                    $arr['book_id'] = (int)$arr['book_id'];
+                    $bookid = $arr['book_id'];
+                    
+                    $arr['issue_date'] = new DateTime("now", new DateTimeZone('Asia/Colombo'));
+                    $arr['issue_date'] =   $arr['issue_date']->format('Y-m-d H:i:s');
+                    $arr['status'] = "borrowed";
+                    $date = $arr['issue_date'];
+                    $query2 = "select rank from users where nic like '%".$membernic."%'";
+                    $rank = $user->query($query2);
+                    $rank = $rank[0]->rank;
+                    $timeperiod = $config->where('category',$rank);
+                    $timeperiod = $timeperiod[0]->BorrowPeriod;
+
+                    if($rank == 'Senior Lecturer')
+                    {
+                        $arr['deadline'] =  date('Y-m-d H:i:s', strtotime("+{$timeperiod} day", strtotime($date)));
+                    }
+                    else if($rank == 'Lecturer')
+                    {
+                        $arr['deadline'] =  date('Y-m-d H:i:s', strtotime("+{$timeperiod} day", strtotime($date)));
+                    }
+
+                    else if($rank == 'Assistant Lecturer')
+                    {
+                        $arr['deadline'] =  date('Y-m-d H:i:s', strtotime("+{$timeperiod} day", strtotime($date)));
+                    }
+                    
+                    else if($rank == 'Instructor')
+                    {
+                        $arr['deadline'] =  date('Y-m-d H:i:s', strtotime("+{$timeperiod} day", strtotime($date)));
+                    }
+                    
+                    else if($rank == 'Undergraduate')
+                    {
+                        $arr['deadline'] =  date('Y-m-d H:i:s', strtotime("+{$timeperiod} day", strtotime($date)));
+                    }
+                    
+                    else if($rank == 'Postgraduate')
+                    {
+                        $arr['deadline'] =  date('Y-m-d H:i:s', strtotime("+{$timeperiod} day", strtotime($date)));
+                    }
+                    
+                    else if($rank == 'Non Academic')
+                    {
+                        $arr['deadline'] =  date('Y-m-d H:i:s', strtotime("+{$timeperiod} day", strtotime($date)));
+                    }
+
+                    else if($rank == "Librarian")
+                    {
+                        $arr['deadline'] =  date('Y-m-d H:i:s', strtotime("+{$timeperiod} day", strtotime($date)));
+                    }
+
+                    else if($rank == 'Library Staff')
+                    {
+                        $arr['deadline'] =  date('Y-m-d H:i:s', strtotime("+{$timeperiod} day", strtotime($date)));
+                    }
+                    
+
+
+                    $circulation->insert($arr);
+                    $_bookstatus = array();
+
+                    $_bookstatus['Status'] = "Borrowed";
+                    print_r($_bookstatus);
+                    $book->update($bookid,$_bookstatus);
+                    $data1=$data1+1;
+                    $_userstatus['borrowed_books'] = $data1;
+                    $user->update($user_id,$_userstatus);               
+                    $this->redirect('circulations');
+            
+                }
+                
+                else{
+                    $circulation->errors['No_exceed'] = "This user can't borrow this book, because maximum borrowing limit reached!";
+                    $errors = $circulation->errors;
+
+                }
             }
+            
             else{
                 $errors = $circulation->errors;
 
@@ -374,13 +351,11 @@ Class Circulations extends Controller
            
         }
 
-        $crumbs[] = ['Circulation',''];
-        $crumbs[] = ['Add','circulations/add'];
-        //$data = $school ->findAll();
+        $crumbs[] = ['Circulation','circulations'];
+        $crumbs[] = ['Add',''];
         $this->view('circulations.add',[
             'errors'=>$errors,
             'crumbs'=>$crumbs,
-            //'rows'=>$data,
         ]);
         
     }
@@ -425,16 +400,14 @@ Class Circulations extends Controller
             else if($_POST['status'] =="L")
             {
                 header("Location: ".ROOT . "/circulations/Lost_Penalty/".$id);
-
-
             }
 
            
         }
        
       
-        $crumbs[] = ['circulation',''];
-        $crumbs[] = ['return','circulations/return'];
+        $crumbs[] = ['circulation','circulations'];
+        $crumbs[] = ['return',''];
         $now =  $row1[0]->id;
         
         $this->view('circulations.return',[
@@ -472,7 +445,6 @@ Class Circulations extends Controller
         $row1 = $circulation->where('id',$id);
         $row2 = $user->where('id',$row1[0]->member_id);
         $row3 = $book->where('id',$row1[0]->book_id);
-
         $rank = $row2[0]->rank;
         $fineAmount = $config->where('category',$rank);
         $initial_fine = $fineAmount[0]->initialFine;
@@ -513,7 +485,13 @@ Class Circulations extends Controller
             $book->update($row3[0]->id,$_bookstatus);
             $_cirstatus['Status'] = "Returned";
             $_cirstatus['fine'] = $row1[0]->fine;
+            $_cirstatus['returned_date'] = new DateTime("now", new DateTimeZone('Asia/Colombo'));
+            $_cirstatus['returned_date'] = $_cirstatus['returned_date']->format('Y-m-d H:i:s');
             $circulation->update($id,$_cirstatus);
+            $borrowed_books = $row2[0]->borrowed_books;
+            $borrowed_books = $borrowed_books-1;
+            $_userstatus['borrowed_books'] = $borrowed_books;
+            $user->update($row1[0]->member_id,$_userstatus);
             $this->redirect('circulations');
         }
 
@@ -560,14 +538,18 @@ Class Circulations extends Controller
             $_POST['date'] = date("Y-m-d H:i:s");
             $_POST['bookName'] = $row3[0]->Title;
             $_POST['bookISBN'] = $row3[0]->ISBN;
+            $_POST['copy_id'] = $row3[0]->copy_id;
             $_POST['memberName'] = $row2[0]->firstname;
             $_POST['memberEmail'] = $row2[0]->email;
             $_POST['method'] = "Damaged";
             $pen->insert($_POST);
 
             $_bookstatus['damageState'] = "D";
+            $_bookstatus['Status'] = "Not Available";
             $book->update($row3[0]->id,$_bookstatus);
             $_cirstatus['status'] = "Damaged";
+            $_cirstatus['returned_date'] = new DateTime("now", new DateTimeZone('Asia/Colombo'));
+            $_cirstatus['returned_date'] = $_cirstatus['returned_date']->format('Y-m-d H:i:s');
             $circulation->update($row1[0]->id,$_cirstatus);
             $this->redirect('circulations');
 
@@ -615,13 +597,17 @@ Class Circulations extends Controller
             $_POST['bookName'] = $row3[0]->Title;
             $_POST['bookISBN'] = $row3[0]->ISBN;
             $_POST['memberName'] = $row2[0]->firstname;
+            $_POST['copy_id'] = $row3[0]->copy_id;
             $_POST['memberEmail'] = $row2[0]->email;
             $_POST['method'] = "Lost";
             $pen->insert($_POST);
 
             $_bookstatus['damageState'] = "L";
+            $_bookstatus['Status'] = "Not Available";
             $book->update($row3[0]->id,$_bookstatus);
             $_cirstatus['status'] = "Lost";
+            $_cirstatus['returned_date'] = new DateTime("now", new DateTimeZone('Asia/Colombo'));
+            $_cirstatus['returned_date'] = $_cirstatus['returned_date']->format('Y-m-d H:i:s');
             $circulation->update($row1[0]->id,$_cirstatus);
             $this->redirect('circulations');
 
@@ -773,8 +759,8 @@ Class Circulations extends Controller
 
        
       
-        $crumbs[] = ['circulation',''];
-        $crumbs[] = ['return','circulations/return'];
+        $crumbs[] = ['Circulation','circulations'];
+        $crumbs[] = ['Renew',''];
         $now =  $row1[0]->id;
         
         $this->view('circulations.renew',[

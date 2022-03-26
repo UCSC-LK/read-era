@@ -25,14 +25,27 @@
         <div class="content-box">
             <div class="box1 box">
              <div class="row">
+             <?php if(count($errors) > 0):?>
+                <div style="width:100%;border: 1px solid #D8D8D8;padding: 5px;border-radius: 5px;font-size: 15px;font-family: Arial;text-transform: uppercase;background-color: #f5f5f5;color: rgb(211, 0, 0);">
+                    <strong>Errors</strong>
+                    <br>
+                    <?php foreach($errors as $error):?>
+                        <div style="color:red;"><?=$error?></div>
+                    <?php endforeach;?>
+                    <br>You should check the CSV file again.
+                    
+                </div>
+                    <br><br>
+                <?php endif;?>
+            
             
             
 
             <div class="col-md-12" id="importFrm">
                 <form method="post" enctype="multipart/form-data">
                     <div style="font-size:20px;">Please select the csv file.</div><br><input type="file" name="file" />
-                    <input type="submit" class="btn btn-primary" name="importSubmit" value="IMPORT">
-                    <a class="delete-back" href="<?=ROOT?>/catalogs">Cancel</a>
+                    <input type="submit" class="btn btn-primary" name="importSubmit" value="Import">
+                    <a class="delete-back" href="<?=ROOT?>/cataloging">Cancel</a>
 
                 </form>
             </div>

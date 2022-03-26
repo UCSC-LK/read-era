@@ -30,8 +30,11 @@
                         <tr>
                             <th>Category</th>
                             <th>Initial Fine(Rs.)</th>
-                            <th>Fine per hour(Rs.)</th>
-                            <th>Borrow period(Days)</th>
+                            <th>Fine Per Hour(Rs.)</th>
+                            <th>Borrow Period(Days)</th>
+                            <th>Reserve Period(Days)</th>
+                            <th>Max_Borrow</th>
+                            <th>Max_Reserve</th>
                             <th>Action</th>
                             
                         </tr>
@@ -42,8 +45,10 @@
                                     <td><?=$row->initialFine?></td>
                                     <td><?=$row->finePerHour?></td>
                                     <td><?=$row->BorrowPeriod?></td>
-                                    
-                                    
+                                    <td><?=$row->ReservedPeriod?></td>
+                                    <td><?=$row->max_borrow?></td>
+                                    <td><?=$row->max_reserve?></td>
+
                                     <td>
                                         <a href="<?=ROOT?>/administration/configedit/<?=$row->id?>">
                                         <i class="fa fa-edit carta"></i>

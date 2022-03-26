@@ -34,7 +34,7 @@ class Home extends Controller
         $data2 = $data2[0];
         $data2 = $data2->count;
         $arr[1] = $data2;
-        $data3 = $circulation->query("select count(id) as count from circulations");
+        $data3 = $circulation->query("select count(id) as count from circulations where status='borrowed' OR status='renewed'");
         $data3 = $data3[0];
         $data3 = $data3->count;
         $arr[2] = $data3;
@@ -54,10 +54,30 @@ class Home extends Controller
         $data7 = $data7[0];
         $data7 = $data7->count;
         $arr[6] = $data7;
+
+        $data = $circulation->query("select * from circulations where status='borrowed' OR status='renewed' order by issue_date DESC limit 3");
+        if($data){
+            foreach ($data as $row){
+                $memberid=$row->member_id;
+                $membername = $user->query("select firstname from users where id=$memberid");
+                $membername = $membername[0];
+                $row->member_id = $membername->firstname;
+                $bookid = $row->book_id;
+                $bookname = $catalog->query("select title from catalogs where id=$bookid");
+                $bookname = $bookname[0];
+                $row->book_id= $bookname->title;
+
+            }
+        }
+
+        $_SESSION['success'] = 0;
+        $_SESSION['fail'] = 0;
+
        
 
         $this->view('home',[
             'arr'=>$arr,
+            'rows'=>$data,
         ]);
     }
 }

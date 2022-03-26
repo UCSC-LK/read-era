@@ -10,23 +10,24 @@ class Login extends Controller
 
         if(count($_POST) > 0)
         {
-            $user = new user();
-            if($row = $user->where('email',$_POST['email']))
+            $user = new user();                         //initialize user model object
+            if($row = $user->where('email',$_POST['email']))         
             {
                 $row = $row[0];
-                if(password_verify($_POST['password'], $row->password))
+                if(password_verify($_POST['password'], $row->password))        //verify the given password is correct
                 {
-                    Auth::authenticate($row);
-                    $rank = Auth::rank();
-                    if($rank == 'Librarian' || $rank == 'Library Staff')
+                    Auth::authenticate($row);                             
+                    $rank = Auth::rank();                               //get the category/rank of the user
+                    if($rank == 'Librarian' || $rank == 'Library Staff')             
                     {
-                        $this->redirect('home');
+                        $this->redirect('home');                       //if the user is an administrater the redirected to administrater dashboard
+
 
 
                     }
                     else
                     {
-                        $this->redirect('memberhome');
+                        $this->redirect('memberhome');                     //else redirected to member dashboard
                     }
                    
                 }
@@ -37,7 +38,7 @@ class Login extends Controller
             
         }
 
-        $this->view('login',[
+        $this->view('login',[                    //call the login view 
             'errors'=>$errors,
         ]);
     }
@@ -48,42 +49,42 @@ class Login extends Controller
         
         if(count($_POST)> 0)
         {
-            $email = $_POST['email'];
+            $email = $_POST['email'];               //set the value of $email variable to email given by user
             $flag=0;
-            $email = addslashes($email);
+            $email = addslashes($email);         
             $user = new User;
-            $query = "select * from users where email = '$email' limit 1";	
-            $result = $user->query($query);	
+            $query = "select * from users where email = '$email' limit 1";	   
+            $result = $user->query($query);	                                  //fetch the record where the given email is found 
         
-            if($result){
+            if($result){                               //check the email exist in the system database
 
                  $flag=1;
                 
             }
 
-            if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
+            if(!filter_var($email,FILTER_VALIDATE_EMAIL)){                //check the email is valid
                 $error[] = "Please enter a valid email";
             
-            }elseif(!$flag){
+            }elseif(!$flag){                                      
                 $error[] = "That email was not found";
             }
             else{
 
                 $_SESSION['forgot']['email'] = $email;
                 $expire = time() + (60 * 1);
-                $code = rand(10000,99999);
-                $email = addslashes($email);
-                $codes = new Code;
-                $arr = array();
-                $arr['email'] = $email;
+                $code = rand(10000,99999);                   //get a random number between 10000 and 99999
+                $email = addslashes($email);           //this return the string with backslashes in front of predefined charecters
+                $codes = new Code;                         //initialize new code model object
+                $arr = array();                            
+                $arr['email'] = $email;                     
                 $arr['code'] = $code;
                 $arr['expire'] = $expire;
                 
                 
-                $codes->insert($arr);
+                $codes->insert($arr);                           //insert the data into database
                 //send email here
-                send_mail($email,'Password reset',"Your code is " . $code);
-                $this->redirect('login/get_code');
+                send_mail($email,'Password reset',"Your code is " . $code);           //send mail which includes the code to relavant user
+                $this->redirect('login/get_code');                             //redirect to get_code function
             
             }
         }
@@ -103,21 +104,21 @@ class Login extends Controller
         {
             $code = $_POST['code'];
     
-            $code = addslashes($code);
-            $expire = time();
-            $email = addslashes($_SESSION['forgot']['email']);
+            $code = addslashes($code);                 //return the string with backslashes in front of predefined charecters
+            $expire = time();                          //get current time and set to $expire variable
+            $email = addslashes($_SESSION['forgot']['email']);      
             $codes = new Code;
-            $query = "select * from codes where code = '$code' && email = '$email' order by id desc limit 1";
+            $query = "select * from codes where code = '$code' && email = '$email' order by id desc limit 1";       
             $result = $codes->query($query);
             
-            if($result){
+            if($result){                         //check the given code is correct 
                 $result = $result[0];
                 
                 
-                if($result->expire > $expire){
+                if($result->expire > $expire){                     //check the time is expired
     
-                    $_SESSION['forgot']['code'] = $code;
-                    $this->redirect('login/set_password');
+                    $_SESSION['forgot']['code'] = $code;            
+                    $this->redirect('login/set_password');              //go to next step
             
                 }else{
                     $error[]= "the code is expired";
@@ -147,32 +148,27 @@ class Login extends Controller
             $password = $_POST['password'];
 			$password2 = $_POST['password2'];
 
-				if($password !== $password2){
-					$error[] = "Passwords do not match";
-				}elseif(!isset($_SESSION['forgot']['email']) || !isset($_SESSION['forgot']['code'])){
+				if($password !== $password2){                    //check both passwords are same
+					$error[] = "Passwords do not match";               
+				}elseif(!isset($_SESSION['forgot']['email']) || !isset($_SESSION['forgot']['code'])){       //check the user directly access this method using url
 					$this->redirect("login/ask_mail");
 					
 				}else{
 					
-                    $password = password_hash($password, PASSWORD_DEFAULT);
-                    $email = addslashes($_SESSION['forgot']['email']);
-                    $user = new User;
+                    $password = password_hash($password, PASSWORD_DEFAULT);         //hash the password
+                    $email = addslashes($_SESSION['forgot']['email']);                //add backslashes in front of predefined charecters
+                    $user = new User;                                               //initialize new user model object
 
-                    $query = "update users set password = '$password' where email = '$email' limit 1";
-                    $result = $user->query($query);
+                    $query = "update users set password = '$password' where email = '$email' limit 1";   
+                    $result = $user->query($query);                                 //update the users table with new password
                    
                     
                     if(isset($_SESSION['forgot'])){
-                        unset($_SESSION['forgot']);
+                        unset($_SESSION['forgot']);              //unset the session variable
                     }
-                    $this->redirect("login");
+                    $this->redirect("login");                     //go to login again
 
-
-            
-                    
-					
-					
-				}
+                }
 
         }
         $this->view('login.set_password',[

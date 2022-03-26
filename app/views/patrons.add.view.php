@@ -20,7 +20,7 @@
     <div class="content-box">
         <div class="box1 box">
 
-            <h2 class="title">Add New Patron</h2>
+            <h2 class="title">Add Member</h2>
             <div class="container">
                 <form method="post">
                     <?php if(count($errors) > 0):?>
@@ -36,10 +36,35 @@
 
                     <div class="row">
                         <div class="col-25">
+                            <label for="">Title</label>
+                        </div>
+                        <div class="col-75">
+                            <select class="my-2 form-control" name="title">
+                                <option  <?=get_select('title','')?> value="">---Select a Title---</option>
+                                <option  <?=get_select('title','Mr.')?> value="Mr.">Mr.</option>
+                                <option  <?=get_select('title','Mrs.')?> value="Mrs.">Mrs.</option>
+                                <option  <?=get_select('title','Ms.')?> value="Mr.">Ms.</option>
+                                <option  <?=get_select('title','Dr.')?> value="Mrs.">Dr.</option>
+                                <option  <?=get_select('title','Prof.')?> value="Mr.">Prof.</option>
+                                <option  <?=get_select('title','Ven.')?> value="Mrs.">Ven.</option>
+                            </select><br>
+                        </div>
+
+                        <div class="col-25">
                             <label for="fname">First Name</label>
                         </div>
                         <div class="col-75">
                             <input autofocus class="form-control" type="text" name="firstname" placeholder="First Name" value="<?=get_var('firstname')?>"><br>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="lname">Last Name</label>
+                        </div>
+                        <div class="col-75">
+                            <input autofocus class="form-control" type="text" name="lastname" placeholder="Last Name" value="<?=get_var('lastname')?>"><br>
                         </div>
                         <div class="col-25">
                             <label for="">Gender</label>
@@ -52,33 +77,22 @@
                             </select><br>
                         </div>
 
-                        <!--<div class="col-25">
-                            <label for="">Middle Name</label>
-                        </div>
-                        <div class="col-75">
-                            <input autofocus class="form-control" type="text" name="middlename" placeholder="Middle Name" value="<?=get_var('middlename')?>"><br>
-                        </div>-->
                     </div>
 
                     <div class="row">
                         <div class="col-25">
-                            <label for="fname">Last Name</label>
+                            <label for="add">Address</label>
                         </div>
                         <div class="col-75">
-                            <input autofocus class="form-control" type="text" name="lastname" placeholder="Last Name" value="<?=get_var('lastname')?>"><br>
+                            <input autofocus class="form-control" type="text" name="address" placeholder="Address" value="<?=get_var('address')?>"><br>
                         </div>
-                        <!--<div class="col-25">
-                            <label for="">Email Address</label>
-                        </div>
-                        <div class="col-75">
-                            <input autofocus class="form-control" type="text" name="email" placeholder="Email Address" value="<?=get_var('email')?>"><br>
-                        </div>-->
+
                         <div class="col-25">
-                            <label for="">Rank</label>
+                            <label for="">Category</label>
                         </div>
                         <div class="col-75">
                             <select class="my-2 form-control" name="rank">
-                                <option class="items" <?=get_select('rank','')?> value="">--Select a Rank--</option>
+                                <option class="items" <?=get_select('rank','')?> value="">--Select a Category--</option>
                                 <option class="items" <?=get_select('rank','Senior Lecture')?> value="Senior Lecturer">Senior Lecturer</option>
                                 <option class="items" <?=get_select('rank','Lecture')?> value="Lecturer">Lecturer</option>
                                 <option class="items" <?=get_select('rank','Assistant Lecturer')?> value="Assistant Lecturer">Assistant Lecturer</option>
@@ -93,7 +107,7 @@
                     </div>
 
 
-                    <!--<div class="row">
+                    <div class="row">
                         <div class="col-25">
                             <label for="lname">NIC</label>
                         </div>
@@ -105,9 +119,25 @@
                             <label for="">Phone Number</label>
                         </div>
                         <div class="col-75">
-                            <input autofocus class="form-control" type="text" name="phone_num" placeholder="Phone Number" value="<?=get_var('phone_num')?>"><br>
+                            <input autofocus class="form-control" type="text" name="phone_num" placeholder="0000000000" value="<?=get_var('phone_num')?>"><br>
                         </div>
-                    </div>-->
+                    </div>
+
+<!--                    <div class="row">-->
+<!--                        <div class="col-25">-->
+<!--                            <label for="reg_no">Registration Number</label>-->
+<!--                        </div>-->
+<!--                        <div class="col-75">-->
+<!--                            <input autofocus class="form-control" type="text" name="reg_no" placeholder="Reg. No" value="--><?//=get_var('reg_no')?><!--"><br>-->
+<!--                        </div>-->
+<!---->
+<!--                        <div class="col-25">-->
+<!--                            <label for="index_no">Index Number</label>-->
+<!--                        </div>-->
+<!--                        <div class="col-75">-->
+<!--                            <input autofocus class="form-control" type="text" name="index_no" placeholder="Index No." value="--><?//=get_var('index_no')?><!--"><br>-->
+<!--                        </div>-->
+<!--                    </div>-->
 
                     <div class="row">
                         <div class="col-25">
@@ -131,13 +161,6 @@
                         <div class="col-75">
                             <input autofocus class="form-control" type="text" name="password" placeholder="Password" value="<?=get_var('password')?>"><br>
                         </div>
-
-                        <!--<div class="col-25">
-                            <label for="">Retype Password</label>
-                        </div>
-                        <div class="col-75">
-                            <input autofocus class="form-control" type="text" name="password2" placeholder="Retype Password" value="<?=get_var('password2')?>"><br>
-                        </div>-->
                     </div>
 
                     <div class="row">

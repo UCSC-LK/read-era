@@ -41,9 +41,9 @@
             </a>
         </li>
         <li>
-            <a href="<?=ROOT?>/catalogs" <?=($this->controller_name() == 'Catalogs') ? 'class="active" ':''?>>
+            <a href="<?=ROOT?>/cataloging" <?=($this->controller_name() == 'Cataloging') ? 'class="active" ':''?>>
                 <i class="fas fa-swatchbook"></i>
-                <span class="links_name">Catalog</span>
+                <span class="links_name">Cataloging</span>
             </a>
         </li>
         <li>
@@ -76,7 +76,7 @@
         <li class="log_out">
             <a href="<?=ROOT?>/logout">
                 <i class="fas fa-sign-out-alt"></i>
-                <span class="links_name">Log out</span>
+                <span class="links_name">Logout</span>
             </a>
         </li>
     </ul>

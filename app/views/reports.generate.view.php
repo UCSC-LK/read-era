@@ -17,10 +17,10 @@
     <h3>Issued Book Details</h3>
     <?php if($rows):?>
     <table class="print-table">
-        <tr><th>Title</th><th>Member</th><th>Issue date</th><th>Deadline</th>
+        <tr><th>Title</th><th>CopyID</th><th>Member</th><th>Issue date</th><th>Deadline</th>
         </tr>
         <?php foreach ($rows as $row):?>
-                <tr><td><?=$row->book_id?></td><td><?=$row->member_id?></td><td><?=get_date($row->issue_date)?></td><td><?=get_date($row->deadline)?></td></tr>
+                <tr><td><?=$row->book_id?></td><td><?=$row->copy_id?></td><td><?=$row->member_id?></td><td><?=get_date($row->issue_date)?></td><td><?=get_date($row->deadline)?></td></tr>
             <?php endforeach;?>
     </table>
 

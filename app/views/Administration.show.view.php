@@ -22,41 +22,44 @@
     <div class="box1 box">
         <div class="title">Administrator Details</div>
        
-            <table class="table">
+        <table class="table">
                 <body>
 
                 <?php if($rows):?>
                     <?php foreach ($rows as $row):?>
                         <tr>
-                            <th>First Name: </th>
-                            <td><?=$row->firstname?></td>
+                            <th>Full Name: </th>
+                            <td><?=$row->title?> <?=$row->firstname?> <?=$row->lastname?></td>
                         </tr>
-                        <!--<tr>
-                            <th>Middle Name: </th>
-                            <td><?=$row->middlename?></td>
-                        </tr>-->
-                        <tr>
-                            <th>Last Name: </th>
-                            <td><?=$row->lastname?></td>
-                        </tr>
-
                         <tr>
                             <th>Email Address: </th>
                             <td><?=$row->email?></td>
                         </tr>
                         <tr>
-                            <th>Rank: </th>
+                            <th>Category: </th>
                             <td><?=$row->rank?></td>
                         </tr>
-                       
+                        <tr>
+                            <th>NIC: </th>
+                            <td><?=$row->nic?></td>
+                        </tr>
+                        <tr>
+                            <th>Phone Number: </th>
+                            <td><?=$row->phone_num?></td>
+                        </tr>
                         <tr>
                             <th>Gender: </th>
                             <td><?=$row->gender?></td>
                         </tr>
+
+                            <th>Address: </th>
+                            <td><?=$row->address?></td>
+                        </tr>
                         <tr>
-                            <th>Date: </th>
+                            <th>Added Date: </th>
                             <td><?=get_date($row->date)?></td>
                         </tr>
+
                     <?php endforeach;?>
                 <?php endif;?>
                 </body>

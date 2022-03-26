@@ -4,7 +4,7 @@
     <nav>
         <div class="sidebar-button">
             <!--<i class='bx bx-menu sidebarBtn'></i>-->
-            <i class="fas fa-align-justify sidebarBtn "></i>
+            <i class="fas fa-align-justify sidebarBtn" style="color: #081d45;font-size: 35px;"></i>
         </div>
        
         <div class="profile-details">
@@ -48,6 +48,10 @@
                     
                     
                 </div>
+                <?php if($_SESSION['success'] == 19):?>
+                <div id="display-success" style="width: 100%;border: 1px solid #D8D8D8;padding: 10px;border-radius: 5px;font-family: Arial;font-size: 11px;text-transform: uppercase;background-color: rgb(236, 255, 216);color: green;text-align: center;margin-top: 10px;">Profile updated Successfully</div>
+                <br>
+                <?php endif?>
                 
               
                   
@@ -75,18 +79,22 @@
                             <th>Email: </th>
                             <td><?=$row->email?></td>
                         </tr>
+                        <tr>
+                            <th>NIC: </th>
+                            <td><?=$row->nic?></td>
+                        </tr>
 
                         <tr>
                             <th>Gender: </th>
                             <td><?=$row->gender?></td>
                         </tr>
                         <tr>
-                            <th>Rank: </th>
+                            <th>Category: </th>
                             <td><?=$row->rank?></td>
                         </tr>
                         <tr>
-                            <th>Date: </th>
-                            <td><?=get_date($row->date)?></td>
+                            <th>Phone Number: </th>
+                            <td><?=$row->phone_num?></td>
                         </tr>
         
                        
@@ -100,7 +108,7 @@
 
 
             <a href="<?=ROOT?>/profile/edit" class="update_profile_button">Update</a>
-            <a href="<?=ROOT?>/profile/progress" class="update_profile_button">Progress</a>
+            <a href="<?=ROOT?>/profile/progress" class="update_profile_button">Check My Activities</a>
 
             <?php else:?>
                 <h3>That profile not found</h3>

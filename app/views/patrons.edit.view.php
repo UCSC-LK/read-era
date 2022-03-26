@@ -21,10 +21,9 @@
     <div class="content-box">
         <div class="box1 box">
 
-            <h2 class="title">Edit Member</h2>
+            <h2 class="title">Edit Member Detail</h2>
             <div class="container">
                 <form method="post">
-                    
                     <?php if(count($errors) > 0):?>
                         <div class="alert alert-warning alert-dismissible fade show" role="alert">
                             <strong style="color:red;">Errors:</strong>
@@ -44,11 +43,6 @@
                             <input autofocus class="form-control" type="text" name="firstname" placeholder="First Name" value="<?=get_var('firstname',$row[0]->firstname)?>"><br>
                         </div>
 
-                        <!--<div class="col-25">
-                            <label for="">Middle Name</label>
-                        </div>
-                        <div class="col-75">
-                        </div>-->
                         <div class="col-25">
                             <label for="">Gender</label>
                         </div>
@@ -70,7 +64,7 @@
                             <input autofocus class="form-control" type="text" name="lastname" placeholder="Last Name" value="<?=get_var('lastname',$row[0]->lastname)?>"><br>
                         </div>
                         <div class="col-25">
-                            <label for="">Rank</label>
+                            <label for="">Category</label>
                         </div>
                         <div class="col-75">
                             <select class="my-2 form-control" name="rank">
@@ -84,23 +78,42 @@
                                 <option class="items" <?=get_select('rank','Non Academic')?> value="Non Academic">Non Academic</option>
                             </select>
                         </div>
-
                     </div>
-
-
-                    <!--<div class="row">
+                    <div class="row">
                         <div class="col-25">
-                            <label for="lname">NIC</label>
+                            <label for="nic">NIC</label>
                         </div>
                         <div class="col-75">
                             <input autofocus class="form-control" type="text" name="nic" placeholder="NIC" value="<?=get_var('nic',$row[0]->nic)?>"><br>
                         </div>
-
                         <div class="col-25">
-                            <label for="">Phone Number</label>
+                            <label for="address">Address</label>
+                        </div>
+                        <div class="col-75">
+                            <input autofocus class="form-control" type="text" name="address" placeholder="Address" value="<?=get_var('address',$row[0]->address)?>"><br>
+                        </div>
+
+                        <!--<div class="col-25">
+                            <label for="phone_num">Phone Number</label>
                         </div>
                         <div class="col-75">
                             <input autofocus class="form-control" type="text" name="phone_num" placeholder="Phone Number" value="<?=get_var('phone_num',$row[0]->phone_num)?>"><br>
+                        </div>-->
+                    </div>
+
+                    <!--<div class="row">
+                        <div class="col-25">
+                            <label for="reg_no">Registration Number</label>
+                        </div>
+                        <div class="col-75">
+                            <input autofocus class="form-control" type="text" name="reg_no" placeholder="Reg No" value="<?=get_var('reg_no',$row[0]->reg_no)?>"><br>
+                        </div>
+
+                        <div class="col-25">
+                            <label for="index_no">Index Number</label>
+                        </div>
+                        <div class="col-75">
+                            <input autofocus class="form-control" type="text" name="index_no" placeholder="Index No" value="<?=get_var('index_no',$row[0]->index_no)?>"><br>
                         </div>
                     </div>-->
                     <br><br>

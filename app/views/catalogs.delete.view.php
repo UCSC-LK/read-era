@@ -46,7 +46,7 @@
             <input disabled autofocus class="form-control" value="<?=get_var('ISBN',$row[0]->ISBN)?>" type="text" name="ISBN" placeholder="ISBN"><br><br>
             <input type="hidden" name="id">
             <input class="btn btn-danger float-end" type="submit" value="Delete">
-            <a class="delete-back" href="<?=ROOT?>/catalogs">Cancel</a>
+            <a class="delete-back" href="<?=ROOT?>/cataloging">Cancel</a>
             </a>
         </form>
 
@@ -57,7 +57,7 @@
                 <h3>That items was not found!</h3>
                 <div class="clearfix"></div>
                 <br><br>
-                <a class="delete-back" href="<?=ROOT?>/catalogs">Cancel</a>
+                <a class="delete-back" href="<?=ROOT?>/cataloging">Cancel</a>
             </div>
         <?php endif;?>
 

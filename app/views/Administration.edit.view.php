@@ -24,7 +24,6 @@
             <h2 class="title">Edit Administrator</h2>
             <div class="container">
                 <form method="post">
-                    <h3>Edit Patron</h3>
                     <?php if(count($errors) > 0):?>
                         <div class="alert alert-warning alert-dismissible fade show" role="alert">
                             <strong>Errors:</strong>
@@ -70,7 +69,7 @@
                             <input autofocus class="form-control" type="text" name="lastname" placeholder="Last Name" value="<?=get_var('lastname',$row[0]->lastname)?>"><br>
                         </div>
                         <div class="col-25">
-                            <label for="">Rank</label>
+                            <label for="">Category</label>
                         </div>
                         <div class="col-75">
                             <select class="my-2 form-control" name="rank">

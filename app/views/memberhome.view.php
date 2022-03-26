@@ -4,7 +4,7 @@
 
 
 <div class="home-content">
-        <div style="margin-left:18px;">Your progress</div>
+        <div style="margin-left:18px;font-size:20px;">Your progress</div>
         <div class="overview-boxes">
             <div class="box">
                 <div class="right-side">
@@ -43,36 +43,38 @@
             
         </div>
 
-        <div class="content-box">
-            <div class="box1 box">
-                <div class="title">Library policies</div><br>
-                <div style="font-size: 17px;">Maximum Reservations : 2</div>
-                <div style="font-size:17px;">Maximum Borrowings : 2</div>
-                <div style="font-size:17px;">Borrow time period: 2 weeks</div>
-                <div style="font-size:17px;">Reservation valid time period: 2 weeks</div>
+        <div class="content-boxx">
+            <div class="box1x box">
+                <div class="titlex">Library Policies</div><br>
+                <div class="policy-details">Maximum Reservations : <?=$arr[8]?></div>
+                <div class="policy-details">Maximum Borrowings : <?=$arr[7]?></div>
+                <div class="policy-details">Borrow Time Period: <?=$arr[5]?> days</div>
+                <div class="policy-details">Reservation Time Period: <?=$arr[6]?> days</div>
                 
             </div>
-            <div class="box2 box">
-                <div class="title">Top Book Categories</div>
-                <ul class="details2">
+            <div class="box2x box">
+                <div class="titlex">Top Book Categories</div>
+                <ul class="details2x">
                     <li>
                         <a href="#">
-                            <span class="category">Datastructure</span>
+                            <span class="categoryx">Datastructure</span>
                         </a>
                         <span class="quan"><?=$arr[3]?></span>
                     </li>
+                    
                     <li>
                         <a href="#">
-                            <span class="category">Programming</span>
+                            <span class="categoryx">Programming</span>
                         </a>
                         <span class="quan"><?=$arr[2]?></span>
                     </li>
                     <li>
                         <a href="#">
-                            <span class="category">Database</span>
+                            <span class="categoryx">Database</span>
                         </a>
                         <span class="quan"><?=$arr[3]?></span>
                     <li>
+                  
                    
                     
                 </ul>

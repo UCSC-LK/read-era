@@ -19,7 +19,22 @@ class Circulation extends Model
     {
         $catalog = new Catalog;
         $user = new User;
+        $reservation = new Reservation;
         $ISBN = $DATA['ISBN'];
+        $copy = $DATA['copy_id'];
+
+        $flag = false;
+        $query = "select copy_id from catalogs where ISBN like '%".$DATA['ISBN']."%'";
+        $bookdata = $catalog->query($query);
+        
+        foreach ($bookdata as $eachdata){
+            if($eachdata->copy_id == $DATA['copy_id']){
+                $flag = true;
+                break;
+            
+            }
+        }
+
         
         if(empty($DATA['ISBN'])){
             $this->errors['ISBN'] = "ISBN can't be empty";
@@ -27,27 +42,57 @@ class Circulation extends Model
 
         else if(!($catalog->where('ISBN',$DATA['ISBN'])))
         {
-            $this->errors['ISBN'] = " That Book does not exist in catalog";
+            $this->errors['ISBN'] = "That Book does not exist";
         }
+
+        else if(empty($DATA['copy_id'])){
+            $this->errors['copy_id'] = "CopyID can't be empty";
+        }
+
+        else if(!$flag)
+        {
+            $this->errors['copy_id'] = "That Book does not exist";
+        }
+
+        
+
 
         else{
 
-            $bookdata = $catalog->query("select Status from catalogs where ISBN ='$ISBN'");
+            $bookdata = $catalog->query("select id,Status from catalogs where ISBN ='$ISBN' && copy_id='$copy'");
             $bookdata = $bookdata[0];
+            $bookid = $bookdata->id;
             $bookdata = $bookdata->Status;
-            if(($bookdata != "Available"))
+            $nic = $DATA['nic'];
+
+            if($bookdata != "Available")
             {
-                $this->errors['ISBN'] = " That Book is already borrowed or reserved";
+                if($bookdata == "Not Available")
+                {
+                    $this->errors['ISBN'] = " This Book is not currently available";
+                }
+                else{
+                $memberdata = $catalog->query("select id from users where nic ='$nic'");
+                $memberdata = $memberdata[0];
+                $memberid =  $memberdata->id;
+
+                $resdata = $reservation->query("select * from reservations where book_id='$bookid' && member_id='$memberid' && state='reserved'");
+                if(!$resdata){
+                    $this->errors['ISBN'] = " That Book is already borrowed or reserved";
+                }
+                }
+
             }
         }
         
-        if(empty($DATA['email'])){
-            $this->errors['email'] = "User mail can't be empty";
+        
+        if(empty($DATA['nic'])){
+            $this->errors['nic'] = "User NIC can't be empty";
         }
         
-        else if(!($user->where('email',$DATA['email'])))
+        else if(!($user->where('nic',$DATA['nic'])))
         {
-            $this->errors['email'] = "That patron does not exist";
+            $this->errors['nic'] = "That patron does not exist";
         }
         
         
