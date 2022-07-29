@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
+
+.book {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    max-width: 100%;
+    overflow: hidden;
+    width: 100%;
+    margin-bottom: 25px;
+    height: 200px;
+    max-height: 250px;
+
+}
+
+.book h6 {
+    opacity: 0.6;
+    margin: 0;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.book h3 {
+    letter-spacing: 1px;
+    margin: 10px 0;
+}
+
+.book-preview {
+    position: relative;
+    background-color:#1261A0;
+    color: #fff;
+    padding: 30px;
+    width: 500px;
+
+}
+
+.book-preview .all-detail {
+    position: absolute;
+    color: #fff;
+    display: inline-block;
+    font-size: 12px;
+    opacity: 0.6;
+    bottom: 10px;
+    text-decoration: none;
+}
+
+.book-info {
+    padding: 30px;
+    position: relative;
+    width: 100%;
+    font-size: 15px;
+}
+
+
+.opac-btn {
+    background-color: #1261A0;
+    border: 0;
+    border-radius: 50px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    font-size: 16px;
+    padding: 12px 25px;
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    letter-spacing: 1px;
+}
+
+.opac-btn2 {
+    background-color: #0ca5fc;
+    border: 0;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 10px;
+    padding: 6px 18px;
+    position: absolute;
+    right: 5px;
+    bottom: 10px;
+    letter-spacing: 1px;
+    display: none;
+    width: 40%;
+  }
+
+  .opac2-btn {
+    background-color: #19e3f1;
+    border: 0;
+    border-radius: 50px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    font-size: 16px;
+    padding: 12px 25px;
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    letter-spacing: 1px;
+  }
+  
+
+
+.col-35 {
+    float: left;
+    width: 550px;
+    margin-top: 6px;
+    margin-right:20px ;
+}
+
+/* Floating column for inputs: 75% width */
+.col-55 {
+    float: left;
+    width: 25%;
+    margin-top: 6px;
+    margin-right: 20px;
+
+}
+
+
+
+@media screen and (max-width: 480px) {
+
+    .social-panel-container.visible {
+        transform: translateX(0px);
+    }
+
+    .floating-btn {
+        right: 10px;
+    }
+
+    .book {
+        font-size: 12px;
+      }
+    
+    .opac-btn2{
+        bottom:30px;
+        left: 25px;
+    }
+
+    .book-preview {
+       
+        min-width: 100%;
+    
+    }
+
+    .opac-show-table{
+        width: 1000px;
+
+    }
+
+}
+
+@media screen and (max-width: 900px) {
+    .opac-btn {
+      display: none;
+  
+    }
+  
+    .opac-btn2{
+      display: flex;
+    }
+   
+  }
